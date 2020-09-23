@@ -11,10 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::view('/', 'home');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::middleware('auth')->prefix('backend')->group(function () {
+
+    Route::view('/', 'backend.dashboard')->name('dashboard');
+});
