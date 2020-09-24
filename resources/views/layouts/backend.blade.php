@@ -16,7 +16,7 @@
                 <ul class="navbar-nav">
                     <li class="nav-item @if (Route::is('backend.dashboard')) active @endif">
                         <a class="nav-link" href="{{ route('backend.dashboard') }}">
-                            <i class="fas fa-solar-panel fa-fw mr-1"></i> {{ __('Home') }}
+                            <i class="fas fa-columns fa-fw mr-1"></i> {{ __('Dashboard') }}
                         </a>
                     </li>
                     <li class="nav-item @if (Route::is('backend.users.*')) active @endif">

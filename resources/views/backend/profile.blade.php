@@ -66,7 +66,7 @@
                                     @enderror
                                     @if ($unverified)
                                         <small class="form-text text-muted">
-                                            <i class="fas fa-exclamation-triangle text-warning"></i>
+                                            <i class="fas fa-exclamation-triangle text-warning mr-1"></i>
                                             {{ __('Please check your email for a verification link to verify your email address.') }}
                                             {{ __('If you did not receive the email') }}, <a href="{{ route('verification.resend') }}" onclick="resend(event)">{{ __('click here to request another one') }}</a>.
                                         </small>

@@ -13,7 +13,7 @@
 
 Route::view('/', 'home');
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
 Route::middleware(['auth', 'can:access-backend'])->namespace('Backend')->prefix('backend')->group(function () {
 
