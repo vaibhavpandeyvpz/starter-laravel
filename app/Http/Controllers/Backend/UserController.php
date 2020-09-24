@@ -62,7 +62,7 @@ class UserController extends Controller
     {
         if ($user->id === Auth::id()) {
             flash()->warning(__('You must not delete yourself from system.'));
-            return redirect()->route('backend.users.show', $user);
+            return redirect()->back();
         } else {
             $user->delete();
             flash()->info(__('User ":name" was delete from system.', ['name' => $user->name]));
