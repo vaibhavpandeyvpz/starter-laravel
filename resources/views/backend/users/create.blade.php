@@ -1,7 +1,7 @@
 @extends('layouts.backend')
 
 @section('meta')
-    <title>{{ __('Users') }} &raquo; {{ __('Create') }} - {{ __('Backend') }} | {{ config('app.name', 'Laravel') }}</title>
+    <title>{{ __('Users') }} - {{ __('Create') }} | {{ __('Backend') }} | {{ config('app.name', 'Laravel') }}</title>
 @endsection
 
 @section('content')

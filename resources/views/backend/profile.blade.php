@@ -1,7 +1,7 @@
 @extends('layouts.backend')
 
 @section('meta')
-    <title>{{ __('Profile') }} - {{ __('Backend') }} | {{ config('app.name') }}</title>
+    <title>{{ __('Profile') }} | {{ __('Backend') }} | {{ config('app.name') }}</title>
 @endsection
 
 @php

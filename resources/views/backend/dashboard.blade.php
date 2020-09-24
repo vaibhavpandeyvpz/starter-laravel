@@ -1,5 +1,9 @@
 @extends('layouts.backend')
 
+@section('meta')
+    <title>{{ __('Dashboard') }} | {{ __('Backend') }} | {{ config('app.name') }}</title>
+@endsection
+
 @section('content')
     <main class="container my-3">
         <nav aria-label="breadcrumb">
