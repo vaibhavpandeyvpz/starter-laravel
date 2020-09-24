@@ -20,4 +20,7 @@ Route::middleware(['auth', 'can:access-backend'])->namespace('Backend')->prefix(
     Route::view('/', 'backend.dashboard')->name('backend.dashboard');
 
     Route::resource('users', 'UserController', ['as' => 'backend']);
+
+    Route::get('profile', 'ProfileController@show')->name('backend.profile');
+    Route::put('profile', 'ProfileController@update');
 });

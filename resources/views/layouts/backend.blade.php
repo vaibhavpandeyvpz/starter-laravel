@@ -8,7 +8,7 @@
 @section('body')
     <header class="sticky-top mb-3">
         <nav class="navbar navbar-expand-md navbar-dark bg-primary">
-            <a class="navbar-brand" href="{{ url('/') }}">{{ config('app.name') }}</a>
+            <a class="navbar-brand" href="{{ route('backend.dashboard') }}">{{ config('app.name') }}</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-main" aria-controls="navbar-main" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -31,6 +31,7 @@
                             <i class="fas fa-cog fa-fw mr-1"></i> {{ __('Hi, :name', ['name' => Auth::user()->name]) }}
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-account">
+                            <a class="dropdown-item" href="{{ route('backend.profile') }}">{{ __('Profile') }}</a>
                             <a class="dropdown-item" href="{{ route('logout') }}" onclick="logout(event)">{{ __('Logout') }}</a>
                         </div>
                     </li>
