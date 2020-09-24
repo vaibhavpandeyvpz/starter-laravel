@@ -15,7 +15,9 @@ Route::view('/', 'home');
 
 Auth::routes();
 
-Route::middleware(['auth', 'can:access-backend'])->prefix('backend')->group(function () {
+Route::middleware(['auth', 'can:access-backend'])->namespace('Backend')->prefix('backend')->group(function () {
 
-    Route::view('/', 'backend.dashboard')->name('dashboard');
+    Route::view('/', 'backend.dashboard')->name('backend.dashboard');
+
+    Route::resource('users', 'UserController', ['as' => 'backend']);
 });

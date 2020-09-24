@@ -1,2 +1,16 @@
 @import 'variables';
 @import '~bootstrap/scss/bootstrap';
+
+.card-body .pagination {
+    margin-bottom: 0;
+}
+
+.table-responsive .table {
+    tbody tr td,
+    tbody tr th,
+    thead tr td,
+    thead tr th {
+        vertical-align: middle;
+        white-space: nowrap;
+    }
+}

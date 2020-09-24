@@ -4,34 +4,49 @@ require('bootstrap');
 
 $.ajaxSetup({
     headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
     }
 });
 
-$('form :submit').click(function() {
-    const $input = $(this);
-    $input.parents('form').find(':submit').data('clicked', false);
-    $input.data('clicked', true)
-});
+$('.alert:not(.alert-important)').delay(5 * 1000).fadeOut(350);
 
-$('form').on('submit', function () {
-    const $input = $(':submit', this)
-        .prop('disabled', true)
-        .filter(function() {
-            return $(this).data('clicked') === true
-        })
-        .first();
-    if ($input.attr('name')) {
-        $input.parents('form')
-            .append(
-                $('<input type="hidden">')
-                    .attr('name', $input.attr('name'))
-                    .val($input.val())
-            )
-    }
-    const $icon = $input.find('i');
-    if ($icon.length > 0) {
-        const margin = $icon.hasClass('ml-1') ? 'ml-1' : 'mr-1';
-        $icon.attr('class', `fas fa-circle-notch fa-spin ${margin}`)
-    }
-});
+$('body')
+    .on('click', 'form :submit', function() {
+        const $input = $(this);
+        $input.parents('form').find(':submit').data('clicked', false);
+        $input.data('clicked', true)
+    })
+    .on('submit', 'form', function () {
+        const $input = $(':submit', this)
+            .prop('disabled', true)
+            .filter(function() {
+                return $(this).data('clicked') === true
+            })
+            .first();
+        if ($input.attr('name')) {
+            $input.parents('form')
+                .append(
+                    $('<input type="hidden">')
+                        .attr('name', $input.attr('name'))
+                        .val($input.val())
+                )
+        }
+        const $icon = $input.find('i');
+        if ($icon.length > 0) {
+            const margin = $icon.hasClass('ml-1') ? 'ml-1' : 'mr-1';
+            $icon.attr('class', `fas fa-circle-notch fa-spin ${margin}`)
+        }
+    })
+    .on('click', '[data-dismiss="popover"]', function() {
+        $(this).closest('.popover').popover('hide')
+    })
+    .popover({
+        container: 'body',
+        html: true,
+        sanitize: false,
+        selector: '[data-toggle="popover"]',
+        content() {
+            const target = $(this).data('target');
+            return $(target).html()
+        }
+    });
