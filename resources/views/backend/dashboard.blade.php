@@ -15,7 +15,7 @@
         <div class="card shadow-sm">
             <div class="card-body">
                 <h5 class="card-title text-primary">{{ __('Dashboard') }}</h5>
-                <p class="card-text">{{ __('Looks like you are logged in. Is it?') }}</p>
+                <p class="card-text">{{ __('Looks like you are logged in. Isn\'t it?') }}</p>
             </div>
         </div>
     </main>
