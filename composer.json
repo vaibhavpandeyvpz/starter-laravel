@@ -10,6 +10,7 @@
     "require": {
         "php": "^7.2",
         "fideloper/proxy": "^4.0",
+        "jamesmills/laravel-timezone": "^1.9",
         "laracasts/flash": "^3.2",
         "laravel/framework": "^6.18.35",
         "laravel/tinker": "^2.0",

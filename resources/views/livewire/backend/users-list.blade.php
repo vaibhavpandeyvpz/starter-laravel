@@ -82,7 +82,7 @@
                             <span class="text-muted">{{ __('None') }}</span>
                         @endif
                     </td>
-                    <td>{{ $user->created_at->format('d/m/Y H:i:s') }}</td>
+                    <td>{{ Timezone::convertToLocal($user->created_at) }}</td>
                     <td>
                         @can('view', $user)
                             <a class="btn btn-outline-dark btn-sm" href="{{ route('backend.users.show', $user) }}">

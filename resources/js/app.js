@@ -1,6 +1,7 @@
 window.Popper = require('popper.js').default;
 window.$ = window.jQuery = require('jquery');
 require('bootstrap');
+require('select2');
 
 $.ajaxSetup({
     headers: {
@@ -50,3 +51,8 @@ $('body')
             return $(target).html()
         }
     });
+
+$('select[data-widget="select2"]').select2({
+    theme: 'bootstrap4',
+    width: '100%',
+});

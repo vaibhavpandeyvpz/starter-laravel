@@ -29,6 +29,7 @@ class ProfileRequest extends FormRequest
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $this->user()->id],
             'password' => ['nullable', 'required_with:new_password', 'string', 'min:8', 'max:32', new UserPassword],
             'new_password' => ['nullable', 'string', 'min:8', 'max:32', 'confirmed'],
+            'timezone' => ['required', 'string', 'timezone'],
         ];
     }
 }

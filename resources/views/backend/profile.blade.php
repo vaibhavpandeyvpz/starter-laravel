@@ -97,6 +97,22 @@
                                     <input class="form-control" id="profile-new-password-confirmation" name="new_password_confirmation" type="password">
                                 </div>
                             </div>
+                            @php
+                                $old_timezone = old('timezone', $user->timezone);
+                            @endphp
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label" for="profile-timezone">{{ __('Timezone') }} <span class="text-danger">&ast;</span></label>
+                                <div class="col-sm-8">
+                                    <select class="form-control @error('timezone') is-invalid @enderror" data-widget="select2" id="profile-timezone" name="timezone" required>
+                                        @foreach(timezone_identifiers_list() as $timezone)
+                                            <option value="{{ $timezone }}" @if ($old_timezone === $timezone) selected @endif>{{ $timezone }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('timezone')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="col-sm-8 offset-sm-4">
                                     <button class="btn btn-success">

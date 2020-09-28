@@ -81,14 +81,18 @@
                             @endif
                         </td>
                     </tr>
+                    <tr>
+                        <th class="bg-light">{{ __('Timezone') }}</th>
+                        <td class="w-100">{{ $user->timezone }}</td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
             <div class="card-footer">
-                <span class="text-muted">{{ __('Created at') }}</span> {{ $user->created_at->format('d/m/Y H:i') }}
+                <span class="text-muted">{{ __('Created at') }}</span> {{ Timezone::convertToLocal($user->created_at) }}
                 <span class="d-none d-md-inline">
                     &bull;
-                    <span class="text-muted">{{ __('Updated at') }}</span> {{ $user->updated_at->format('d/m/Y H:i') }}
+                    <span class="text-muted">{{ __('Updated at') }}</span> {{ Timezone::convertToLocal($user->updated_at) }}
                 </span>
             </div>
         </div>
