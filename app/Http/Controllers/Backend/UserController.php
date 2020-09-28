@@ -60,7 +60,14 @@ class UserController extends Controller
                 'enabled' => __('You must not disable yourself.'),
             ]);
         }
+        $could = $user->can('administer');
         $user->fill($data);
+        $can = $user->can('administer');
+        if ($user->id === Auth::id() && $could && !$can) {
+            throw ValidationException::withMessages([
+                'role' => __('You must not remove "admin" role from yourself.'),
+            ]);
+        }
         $user->save();
         flash()->success(__('User ":name" information has been updated.', ['name' => $user->name]));
         return redirect()->route('backend.users.show', $user);

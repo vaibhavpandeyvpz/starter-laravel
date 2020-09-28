@@ -94,7 +94,7 @@
                             <button class="btn btn-danger btn-sm" data-toggle="popover" data-title="{{ __('Delete') }}" data-target="#delete-confirmation-{{ $user->id }}">
                                 <i class="fas fa-trash mr-1"></i> {{ __('Delete') }}
                             </button>
-                            <div id="delete-confirmation-{{ $user->id }}" style="display: none">
+                            <div id="delete-confirmation-{{ $user->id }}" style="display: none;">
                                 <p>{{ __('This action cannot be undone. Are you sure?') }}</p>
                                 <form action="{{ route('backend.users.destroy', $user) }}" method="post">
                                     @csrf

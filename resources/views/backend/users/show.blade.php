@@ -26,7 +26,7 @@
                 </button>
             @endcan
         </div>
-        <div id="delete-confirmation" style="display: none">
+        <div id="delete-confirmation" style="display: none;">
             <p>{{ __('This action cannot be undone. Are you sure?') }}</p>
             <form action="{{ route('backend.users.destroy', $user) }}" method="post">
                 @csrf
