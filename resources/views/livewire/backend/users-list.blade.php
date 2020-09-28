@@ -84,13 +84,17 @@
                     </td>
                     <td>{{ $user->created_at->format('d/m/Y H:i:s') }}</td>
                     <td>
-                        <a class="btn btn-outline-dark btn-sm" href="{{ route('backend.users.show', $user) }}">
-                            <i class="fas fa-eye mr-1"></i> {{ __('Details') }}
-                        </a>
-                        <a class="btn btn-info btn-sm" href="{{ route('backend.users.edit', $user) }}">
-                            <i class="fas fa-feather mr-1"></i> {{ __('Edit') }}
-                        </a>
-                        @can('administer')
+                        @can('view', $user)
+                            <a class="btn btn-outline-dark btn-sm" href="{{ route('backend.users.show', $user) }}">
+                                <i class="fas fa-eye mr-1"></i> {{ __('Details') }}
+                            </a>
+                        @endcan
+                        @can('update', $user)
+                            <a class="btn btn-info btn-sm" href="{{ route('backend.users.edit', $user) }}">
+                                <i class="fas fa-feather mr-1"></i> {{ __('Edit') }}
+                            </a>
+                        @endcan
+                        @can('delete', $user)
                             <button class="btn btn-danger btn-sm" data-toggle="popover" data-title="{{ __('Delete') }}" data-target="#delete-confirmation-{{ $user->id }}">
                                 <i class="fas fa-trash mr-1"></i> {{ __('Delete') }}
                             </button>

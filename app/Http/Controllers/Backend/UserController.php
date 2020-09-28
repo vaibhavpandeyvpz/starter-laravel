@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
 use App\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
@@ -37,6 +38,11 @@ class UserController extends Controller
                 'email' => __('validation.unique', ['attribute' => 'email']),
             ]);
         }
+        if ($data['role'] === 'admin' && !Gate::check('administer')) {
+            throw ValidationException::withMessages([
+                'role' => __('Only existing administrator may assign "admin" role.'),
+            ]);
+        }
         $data['password'] = Hash::make($data['password']);
         $data['enabled'] = $data['enabled'] ?? false;
         $user = User::query()->create($data);
@@ -66,6 +72,11 @@ class UserController extends Controller
                 'email' => __('validation.unique', ['attribute' => 'email']),
             ]);
         }
+        if ($data['role'] === 'admin' && !Gate::check('administer')) {
+            throw ValidationException::withMessages([
+                'role' => __('Only existing administrator may assign "admin" role.'),
+            ]);
+        }
         if (empty($data['password'])) {
             unset($data['password']);
         } else {
@@ -77,10 +88,8 @@ class UserController extends Controller
                 'enabled' => __('You must not disable yourself.'),
             ]);
         }
-        $could = $user->can('administer');
         $user->fill($data);
-        $can = $user->can('administer');
-        if ($user->id === Auth::id() && $could && !$can) {
+        if ($user->id === Auth::id() && Gate::check('administer') && !$user->can('administer')) {
             throw ValidationException::withMessages([
                 'role' => __('You must not remove "admin" role from yourself.'),
             ]);

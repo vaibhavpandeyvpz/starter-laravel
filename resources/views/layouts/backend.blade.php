@@ -19,11 +19,13 @@
                             <i class="fas fa-columns fa-fw mr-1"></i> {{ __('Dashboard') }}
                         </a>
                     </li>
-                    <li class="nav-item @if (Route::is('backend.users.*')) active @endif">
-                        <a class="nav-link" href="{{ route('backend.users.index') }}">
-                            <i class="fas fa-user-friends fa-fw mr-1"></i> {{ __('Users') }}
-                        </a>
-                    </li>
+                    @can('viewAny', App\User::class)
+                        <li class="nav-item @if (Route::is('backend.users.*')) active @endif">
+                            <a class="nav-link" href="{{ route('backend.users.index') }}">
+                                <i class="fas fa-user-friends fa-fw mr-1"></i> {{ __('Users') }}
+                            </a>
+                        </li>
+                    @endcan
                 </ul>
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item dropdown">

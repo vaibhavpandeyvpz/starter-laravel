@@ -59,7 +59,7 @@ class UserPolicy
      */
     public function update(User $user, User $model)
     {
-        return true;
+        return !$model->can('administer');
     }
 
     /**

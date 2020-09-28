@@ -14,13 +14,17 @@
             </ol>
         </nav>
         <div class="btn-toolbar mb-3">
-            <a class="btn btn-outline-dark" href="{{ route('backend.users.index') }}">
-                <i class="fas fa-arrow-left mr-1"></i> {{ __('Users') }}
-            </a>
-            <a class="btn btn-info ml-auto" href="{{ route('backend.users.edit', $user) }}">
-                <i class="fas fa-feather mr-1"></i> {{ __('Edit') }}
-            </a>
-            @can('administer')
+            @can('viewAny', App\User::class)
+                <a class="btn btn-outline-dark" href="{{ route('backend.users.index') }}">
+                    <i class="fas fa-arrow-left mr-1"></i> {{ __('Users') }}
+                </a>
+            @endcan
+            @can('update', $user)
+                <a class="btn btn-info ml-auto" href="{{ route('backend.users.edit', $user) }}">
+                    <i class="fas fa-feather mr-1"></i> {{ __('Edit') }}
+                </a>
+            @endcan
+            @can('delete', $user)
                 <button class="btn btn-danger ml-1" data-toggle="popover" data-title="{{ __('Delete') }}" data-target="#delete-confirmation">
                     <i class="fas fa-trash mr-1"></i> {{ __('Delete') }}
                 </button>
