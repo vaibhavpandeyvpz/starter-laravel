@@ -7,6 +7,7 @@ use App\Http\Requests\UserRequest;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
@@ -29,6 +30,7 @@ class UserController extends Controller
     {
         $data = $request->validated();
         $data['password'] = Hash::make($data['password']);
+        $data['enabled'] = $data['enabled'] ?? false;
         $user = User::query()->create($data);
         flash()->success(__('User ":name" has been added to system.', ['name' => $user->name]));
         return redirect()->route('backend.users.show', $user);
@@ -51,6 +53,12 @@ class UserController extends Controller
             unset($data['password']);
         } else {
             $data['password'] = Hash::make($data['password']);
+        }
+        $data['enabled'] = $data['enabled'] ?? false;
+        if ($user->id === Auth::id() && !$data['enabled']) {
+            throw ValidationException::withMessages([
+                'enabled' => __('You must not disable yourself.'),
+            ]);
         }
         $user->fill($data);
         $user->save();

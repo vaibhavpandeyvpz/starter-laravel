@@ -33,6 +33,7 @@ class UserRequest extends FormRequest
                 'string',
                 Rule::in(array_keys(config('fixtures.roles'))),
             ],
+            'enabled' => ['sometimes', 'boolean'],
         ];
     }
 }

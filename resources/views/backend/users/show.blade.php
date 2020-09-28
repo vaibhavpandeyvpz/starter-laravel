@@ -67,6 +67,16 @@
                             @endif
                         </td>
                     </tr>
+                    <tr>
+                        <th class="bg-light">{{ __('Enabled?') }}</th>
+                        <td class="w-100">
+                            @if ($user->enabled)
+                                <i class="fas fa-toggle-on text-primary mr-1"></i>
+                            @else
+                                <i class="fas fa-toggle-off text-muted mr-1"></i>
+                            @endif
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
             </div>

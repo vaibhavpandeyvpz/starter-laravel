@@ -2,10 +2,12 @@
     if (empty($user)) {
         $user = new App\User([
             'role' => 'staff',
+            'enabled' => true,
         ]);
     }
 @endphp
 
+<input type="hidden" name="form" value="user">
 <div class="form-group row">
     <label class="col-sm-4 col-form-label" for="user-name">{{ __('Name') }} <span class="text-danger">&ast;</span></label>
     <div class="col-sm-8">
@@ -65,5 +67,20 @@
                 <label class="custom-control-label" for="user-role-{{ $id }}">{{ $name }}</label>
             </div>
         @endforeach
+    </div>
+</div>
+@php
+    $old_enabled = old('form') === 'user' ? old('enabled') : $user->enabled;
+@endphp
+<div class="form-group row">
+    <label class="col-sm-4 col-form-label" for="user-enabled">{{ __('Enabled?') }}</label>
+    <div class="col-sm-8">
+        <div class="custom-control custom-switch mt-sm-2">
+            <input class="custom-control-input @error('enabled') is-invalid @enderror" id="user-enabled" type="checkbox" name="enabled" value="1" @if ($old_enabled) checked @endif>
+            <label class="custom-control-label" for="user-enabled">{{ __('Yes') }}</label>
+            @error('enabled')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
     </div>
 </div>
