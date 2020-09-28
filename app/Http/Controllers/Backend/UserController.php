@@ -29,6 +29,14 @@ class UserController extends Controller
     public function store(UserRequest $request)
     {
         $data = $request->validated();
+        $exists = User::query()
+            ->where('email', $data['email'])
+            ->exists();
+        if ($exists) {
+            throw ValidationException::withMessages([
+                'email' => __('validation.unique', ['attribute' => 'email']),
+            ]);
+        }
         $data['password'] = Hash::make($data['password']);
         $data['enabled'] = $data['enabled'] ?? false;
         $user = User::query()->create($data);
@@ -49,6 +57,15 @@ class UserController extends Controller
     public function update(UserRequest $request, User $user)
     {
         $data = $request->validated();
+        $exists = User::query()
+            ->where('email', $data['email'])
+            ->whereKeyNot($user->getKey())
+            ->exists();
+        if ($exists) {
+            throw ValidationException::withMessages([
+                'email' => __('validation.unique', ['attribute' => 'email']),
+            ]);
+        }
         if (empty($data['password'])) {
             unset($data['password']);
         } else {
