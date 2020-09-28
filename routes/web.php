@@ -13,6 +13,8 @@
 
 Route::view('/', 'home')->name('home');
 
+Route::redirect('/admin', '/backend');
+
 Auth::routes(['verify' => true]);
 
 Route::middleware(['auth', 'can:access-backend'])->namespace('Backend')->prefix('backend')->group(function () {
