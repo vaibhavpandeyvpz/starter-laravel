@@ -11,6 +11,7 @@
     <link href="https://use.fontawesome.com/releases/v5.13.0/css/all.css" rel="stylesheet">
     @section('styles')
         <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+        <link href="{{ mix('css/flatpickr.css') }}" rel="stylesheet">
     @show
     @auth
         <script>

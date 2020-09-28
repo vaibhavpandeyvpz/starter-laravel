@@ -82,6 +82,16 @@
                         </td>
                     </tr>
                     <tr>
+                        <th class="bg-light">{{ __('Birthday') }}</th>
+                        <td class="w-100">
+                            @if ($user->birthday)
+                                {{ $user->birthday->format('d/m/Y') }}
+                            @else
+                                <span class="text-muted">{{ __('Not set') }}</span>
+                            @endif
+                        </td>
+                    </tr>
+                    <tr>
                         <th class="bg-light">{{ __('Timezone') }}</th>
                         <td class="w-100">{{ $user->timezone }}</td>
                     </tr>

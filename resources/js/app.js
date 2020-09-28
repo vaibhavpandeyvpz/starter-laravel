@@ -1,6 +1,7 @@
 window.Popper = require('popper.js').default;
 window.$ = window.jQuery = require('jquery');
 require('bootstrap');
+require('flatpickr');
 require('select2');
 
 $.ajaxSetup({
@@ -52,7 +53,30 @@ $('body')
         }
     });
 
-$('select[data-widget="select2"]').select2({
+$('[data-widget="datepicker"]').flatpickr({
+    allowInput: true,
+    altInput: true,
+    altFormat: 'd/m/Y',
+    enableTime: false,
+    dateFormat: 'Y-m-d',
+});
+
+$('[data-widget="datetimepicker"]').flatpickr({
+    allowInput: true,
+    altInput: true,
+    altFormat: 'd/m/Y H:i:00',
+    enableTime: true,
+    dateFormat: 'Y-m-d H:i:00',
+});
+
+$('[data-widget="timepicker"]').flatpickr({
+    allowInput: true,
+    enableTime: true,
+    noCalendar: true,
+    dateFormat: 'H:i:00',
+});
+
+$('[data-widget="select2"]').select2({
     theme: 'bootstrap4',
     width: '100%',
 });

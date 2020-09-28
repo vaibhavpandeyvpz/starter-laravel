@@ -98,6 +98,21 @@
                                 </div>
                             </div>
                             @php
+                                $old_birthday = old('birthday', $user->birthday);
+                                if ($old_birthday instanceof DateTime) {
+                                    $old_birthday = $old_birthday->format('Y-m-d');
+                                }
+                            @endphp
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label" for="profile-birthday">{{ __('Birthday') }}</label>
+                                <div class="col-sm-8">
+                                    <input autocomplete="off" autofocus class="form-control @error('birthday') is-invalid @enderror" data-widget="datepicker" id="profile-birthday" name="birthday" value="{{ $old_birthday }}">
+                                    @error('birthday')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            @php
                                 $old_timezone = old('timezone', $user->timezone);
                             @endphp
                             <div class="form-group row">
