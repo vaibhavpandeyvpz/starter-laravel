@@ -6,6 +6,9 @@
 @endsection
 
 @section('body')
+    @php
+        $user = Auth::user();
+    @endphp
     <header class="sticky-top mb-3">
         <nav class="navbar navbar-expand-md navbar-dark bg-primary">
             <a class="navbar-brand" href="{{ route('backend.dashboard') }}">{{ config('app.name') }}</a>

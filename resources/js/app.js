@@ -53,6 +53,11 @@ $('body')
         }
     });
 
+$('.custom-file-input').on('change', function (e) {
+    const name = e.target.files[0].name;
+    $(this).next('.custom-file-label').text(name)
+});
+
 $('[data-widget="datepicker"]').flatpickr({
     allowInput: true,
     altInput: true,

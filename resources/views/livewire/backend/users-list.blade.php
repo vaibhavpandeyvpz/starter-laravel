@@ -32,6 +32,7 @@
             <thead class="thead-light">
             <tr>
                 <th>#</th>
+                <th></th>
                 <th>
                     @if (($order['name'] ?? null) === 'asc')
                         <a class="text-body" href="" wire:click.prevent="sort('name', 'desc')">{{ __('Name') }}</a>
@@ -73,6 +74,17 @@
             @forelse ($users as $user)
                 <tr>
                     <td>{{ $user->id }}</td>
+                    <td>
+                        @if ($user->photo)
+                            <img alt="{{ $user->name }}" class="rounded" height="32" src="{{ $user->photo_url }}">
+                        @else
+                            @include('partials.placeholder', [
+                                'class' => 'rounded',
+                                'width' => 32,
+                                'height' => 32,
+                            ])
+                        @endif
+                    </td>
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
                     <td>
@@ -114,7 +126,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td class="text-center text-muted" colspan="6">{{ __('Could not find any users to show.') }}</td>
+                    <td class="text-center text-muted" colspan="7">{{ __('Could not find any users to show.') }}</td>
                 </tr>
             @endforelse
             </tbody>

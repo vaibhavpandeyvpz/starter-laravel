@@ -45,7 +45,7 @@
                 @endphp
                 <div class="row">
                     <div class="col-lg-10 col-xl-8">
-                        <form action="" method="post">
+                        <form action="" enctype="multipart/form-data" method="post">
                             @csrf
                             @method('put')
                             <div class="form-group row">
@@ -95,6 +95,25 @@
                                 <label class="col-sm-4 col-form-label" for="profile-new-password-confirmation">{{ __('Confirm password') }}</label>
                                 <div class="col-sm-8">
                                     <input class="form-control" id="profile-new-password-confirmation" name="new_password_confirmation" type="password">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-4 col-form-label" for="profile-photo">{{ __('Photo') }}</label>
+                                <div class="col-sm-8">
+                                    <div class="custom-file @if ($user->photo) mb-3 @endif">
+                                        <input accept="image/jpeg,image/png" class="custom-file-input @error('photo') is-invalid @enderror" id="profile-photo" name="photo" type="file">
+                                        <label class="custom-file-label" for="profile-photo"></label>
+                                        @error('photo')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    @if ($user->photo)
+                                        <img alt="{{ $user->name }}" class="rounded" height="32" src="{{ $user->photo_url }}">
+                                        <div class="custom-control custom-checkbox mt-sm-2">
+                                            <input class="custom-control-input @error('photo_remove') is-invalid @enderror" id="profile-photo-remove" type="checkbox" name="photo_remove" value="1" @if (old('photo_remove')) checked @endif>
+                                            <label class="custom-control-label" for="profile-photo-remove">{{ __('Remove') }}?</label>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                             @php

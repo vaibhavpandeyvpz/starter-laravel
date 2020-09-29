@@ -37,6 +37,14 @@ class ProfileRequest extends FormRequest
     public function rules()
     {
         return [
+            'photo' => [
+                'nullable',
+                'image',
+                'mimes:jpeg,png',
+                'max:1024',
+                'dimensions:min_width=256,min_height=256,max_width:1024,min_width:1024',
+            ],
+            'photo_remove' => ['sometimes', 'boolean'],
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $this->user()->id],
             'password' => ['nullable', 'required_with:new_password', 'string', 'min:8', 'max:32', new UserPassword],

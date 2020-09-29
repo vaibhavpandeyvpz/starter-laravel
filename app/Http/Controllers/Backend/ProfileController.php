@@ -5,7 +5,11 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProfileRequest;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Intervention\Image\Facades\Image;
 
 class ProfileController extends Controller
 {
@@ -18,6 +22,21 @@ class ProfileController extends Controller
     {
         $user = $request->user();
         $data = $request->validated();
+        if ($data['photo_remove'] ?? false) {
+            $data['photo'] = null;
+            $old_photo = $user->photo;
+        } else if (empty($data['photo'])) {
+            unset($data['photo']);
+        } else {
+            /** @var UploadedFile $photo */
+            $photo = $data['photo'];
+            $image = Image::make($photo)->fit(256)->encode('webp');
+            $name = sprintf('users/%d/photos/%s.webp', $user->id, Str::random(10));
+            Storage::disk('public')->put($name, (string) $image);
+            $data['photo'] = $name;
+            unlink($photo->getRealPath());
+            $old_photo = $user->photo;
+        }
         if (empty($data['new_password'])) {
             unset($data['password']);
         } else {
@@ -28,6 +47,9 @@ class ProfileController extends Controller
             $user->email_verified_at = null;
         }
         $user->save();
+        if (isset($old_photo)) {
+            Storage::disk('public')->delete($old_photo);
+        }
         if ($changed && $user instanceof MustVerifyEmail) {
             $user->sendEmailVerificationNotification();
         }

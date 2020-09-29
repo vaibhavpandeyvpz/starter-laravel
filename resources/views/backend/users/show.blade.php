@@ -72,6 +72,20 @@
                         </td>
                     </tr>
                     <tr>
+                        <th class="bg-light align-middle">{{ __('Photo') }}</th>
+                        <td class="w-100">
+                            @if ($user->photo)
+                                <img alt="{{ $user->name }}" class="rounded" height="32" src="{{ $user->photo_url }}">
+                            @else
+                                @include('partials.placeholder', [
+                                    'class' => 'rounded',
+                                    'width' => 32,
+                                    'height' => 32,
+                                ])
+                            @endif
+                        </td>
+                    </tr>
+                    <tr>
                         <th class="bg-light">{{ __('Enabled?') }}</th>
                         <td class="w-100">
                             @if ($user->enabled)

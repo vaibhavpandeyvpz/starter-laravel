@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 
 class User extends Authenticatable
 {
@@ -27,7 +28,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'role', 'enabled', 'birthday', 'timezone',
+        'name', 'email', 'password', 'role', 'enabled', 'photo', 'birthday', 'timezone',
     ];
 
     /**
@@ -38,4 +39,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function getPhotoUrlAttribute()
+    {
+        return $this->photo ? Storage::disk('public')->url($this->photo) : null;
+    }
 }
