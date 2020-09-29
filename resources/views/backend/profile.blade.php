@@ -84,17 +84,19 @@
                             </div>
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label" for="profile-new-password">{{ __('New password') }}</label>
-                                <div class="col-sm-8">
-                                    <input class="form-control @error('new_password') is-invalid @enderror" id="profile-new-password" name="new_password" type="password">
-                                    @error('new_password')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
+                                <div class="col-sm-8 col-md-4">
+                                    <div class="mb-3 mb-md-0">
+                                        <input class="form-control @error('new_password') is-invalid @enderror" id="profile-new-password" name="new_password" type="password">
+                                        @error('new_password')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                        <small class="form-text text-muted">{{ __('Choose a strong and secure one.') }}</small>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-4 col-form-label" for="profile-new-password-confirmation">{{ __('Confirm password') }}</label>
-                                <div class="col-sm-8">
+                                <div class="col-sm-8 col-md-4 offset-sm-4 offset-md-0">
+                                    <!--suppress HtmlFormInputWithoutLabel -->
                                     <input class="form-control" id="profile-new-password-confirmation" name="new_password_confirmation" type="password">
+                                    <small class="form-text text-muted">{{ __('The new password, once more.') }}</small>
                                 </div>
                             </div>
                             <div class="form-group row">
