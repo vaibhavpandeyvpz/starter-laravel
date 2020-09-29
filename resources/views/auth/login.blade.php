@@ -50,9 +50,15 @@
                         <label class="custom-control-label" for="login-remember">{{ __('Do not ask again?') }}</label>
                     </div>
                 </div>
-                <button class="btn btn-secondary">
-                    {{ __('Login') }} <i class="fas fa-arrow-right ml-1"></i>
-                </button>
+                <div class="btn-toolbar">
+                    <button class="btn btn-secondary">
+                        {{ __('Login') }} <i class="fas fa-arrow-right ml-1"></i>
+                    </button>
+                    <a class="btn btn-light ml-1" href="{{ route('login.socialite', ['provider' => 'google']) }}" role="button">
+                        <img alt="{{ __('Google') }}" src="{{ mix('images/logo-google.svg') }}" style="height: 1em;">
+                        {{ __('Login with Google') }}
+                    </a>
+                </div>
             </form>
         </div>
     </div>

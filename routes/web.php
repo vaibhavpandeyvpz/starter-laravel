@@ -17,6 +17,9 @@ Route::redirect('/admin', '/backend');
 
 Auth::routes(['verify' => true]);
 
+Route::get('login/{provider}', 'Auth\LoginController@redirect')->name('login.socialite');
+Route::get('login/{provider}/callback', 'Auth\LoginController@callback');
+
 Route::middleware(['auth', 'can:access-backend'])->namespace('Backend')->prefix('backend')->group(function () {
 
     Route::view('/', 'backend.dashboard')->name('backend.dashboard');
