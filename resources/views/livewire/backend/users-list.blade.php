@@ -9,12 +9,23 @@
     <div class="card-body border-top">
         <div class="row">
             <div class="col-sm-6 col-md-4 col-lg-3">
-                <div class="form-group mb-sm-0">
+                <div class="form-group mb-md-0">
                     <label for="filter-search">{{ __('Search') }}</label>
                     <input id="filter-search" class="form-control" placeholder="{{ __('Enter name or email') }}&hellip;" wire:model.debounce.500ms="q" value="{{ $q }}">
                 </div>
             </div>
-            <div class="col-sm-6 col-md-4 col-lg-3 offset-md-4 offset-lg-6">
+            <div class="col-sm-6 col-md-4 col-lg-3">
+                <div class="form-group mb-md-0">
+                    <label for="filter-role">{{ __('Role') }}</label>
+                    <select id="filter-role" class="custom-select" wire:model="role">
+                        <option value="">{{ __('Any') }}</option>
+                        @foreach (config('fixtures.roles') as $id => $name)
+                            <option value="{{ $id }}">{{ $name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-3 offset-lg-3">
                 <div class="form-group mb-0">
                     <label for="filter-length">{{ __('Length') }}</label>
                     <select id="filter-length" class="form-control" wire:model="length">

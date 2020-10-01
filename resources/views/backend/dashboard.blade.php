@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <main class="container my-3">
+    <main class="container">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('backend.dashboard') }}">{{ config('app.name') }}</a></li>
@@ -15,7 +15,7 @@
         <div class="card shadow-sm">
             <div class="card-body">
                 <h5 class="card-title text-primary">{{ __('Dashboard') }}</h5>
-                <p class="card-text">{{ __('Looks like you are logged in. Isn\'t it?') }}</p>
+                <p class="card-text">{{ Illuminate\Foundation\Inspiring::quote() }}</p>
             </div>
         </div>
     </main>

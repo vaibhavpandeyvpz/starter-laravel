@@ -13,9 +13,11 @@ class UsersList extends Component
 
     public $length = '10';
 
-    public $order = ['created_at' => 'asc'];
+    public $order = ['created_at' => 'desc'];
 
     public $q;
+
+    public $role;
 
     public function render()
     {
@@ -25,6 +27,10 @@ class UsersList extends Component
                 $query->where('name', 'like', "%$this->q%")
                     ->orWhere('email', 'like', "%$this->q%");
             });
+        }
+
+        if ($this->role) {
+            $users->where('role', $this->role);
         }
 
         foreach ($this->order as $column => $direction) {
@@ -46,6 +52,11 @@ class UsersList extends Component
     }
 
     public function updatingLength()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingRole()
     {
         $this->resetPage();
     }

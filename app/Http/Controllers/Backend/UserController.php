@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UserRequest;
+use App\Http\Requests\Backend\UserRequest;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -106,7 +106,7 @@ class UserController extends Controller
             return redirect()->back();
         } else {
             $user->delete();
-            flash()->info(__('User ":name" was delete from system.', ['name' => $user->name]));
+            flash()->info(__('User ":name" was deleted from system.', ['name' => $user->name]));
             return redirect()->route('backend.users.index');
         }
     }

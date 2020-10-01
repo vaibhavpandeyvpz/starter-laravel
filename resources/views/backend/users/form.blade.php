@@ -58,7 +58,7 @@
     <label class="col-sm-4 col-form-label" for="user-role-admin">{{ __('Role') }} <span class="text-danger">&ast;</span></label>
     <div class="col-sm-8">
         <div class="custom-control custom-radio">
-            <input class="custom-control-input @error('role') is-invalid @enderror" id="user-role-none" name="role" type="radio" value="" @if (empty($old_role)) checked @endif>
+            <input class="custom-control-input @error('role') is-invalid @enderror" id="user-role-none" name="role" type="radio" value="" @empty($old_role) checked @endempty>
             <label class="custom-control-label" for="user-role-none">{{ __('None') }}</label>
         </div>
         @foreach(config('fixtures.roles') as $id => $name)
