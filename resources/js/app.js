@@ -35,7 +35,7 @@ $('body')
         }
         const $icon = $input.find('i');
         if ($icon.length > 0) {
-            const margin = $icon.hasClass('ml-1') ? 'ml-1' : 'mr-1';
+            const margin = $icon.hasClass('ml-1') ? 'ml-1' : $icon.hasClass('mr-1') ? 'mr-1' : '';
             $icon.attr('class', `fas fa-circle-notch fa-spin ${margin}`)
         }
     })
