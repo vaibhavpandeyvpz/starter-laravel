@@ -43,5 +43,6 @@ class AssignAdministrator extends Command
             ->firstOrFail();
         $user->role = 'admin';
         $user->save();
+        return 0;
     }
 }
