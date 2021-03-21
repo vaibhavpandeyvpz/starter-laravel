@@ -29,7 +29,7 @@ class UserRequest extends FormRequest
             'email' => ['required', 'string', 'email', 'max:255'],
             'password' => ['nullable', 'string', 'min:8', 'confirmed'],
             'role' => [
-                'required',
+                'nullable',
                 'string',
                 Rule::in(array_keys(config('fixtures.roles'))),
             ],
