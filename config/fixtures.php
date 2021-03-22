@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'roles' => [
+    'user_roles' => [
         'admin' => 'Administrator',
         'staff' => 'Staff',
     ],

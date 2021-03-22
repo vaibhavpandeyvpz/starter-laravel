@@ -19,7 +19,7 @@
                     <label for="filter-role">{{ __('Role') }}</label>
                     <select id="filter-role" class="custom-select" wire:model="role">
                         <option value="">{{ __('Any') }}</option>
-                        @foreach (config('fixtures.roles') as $id => $name)
+                        @foreach (config('fixtures.user_roles') as $id => $name)
                             <option value="{{ $id }}">{{ $name }}</option>
                         @endforeach
                     </select>
@@ -97,10 +97,10 @@
                         @endif
                     </td>
                     <td>{{ $user->name }}</td>
-                    <td>{{ $user->email }}</td>
+                    <td><a href="mailto:{{ $user->email }}">{{ $user->email }}</a></td>
                     <td>
                         @if ($user->role)
-                            {{ config('fixtures.roles.' . $user->role) }}
+                            {{ config('fixtures.user_roles.' . $user->role) }}
                         @else
                             <span class="text-muted">{{ __('None') }}</span>
                         @endif

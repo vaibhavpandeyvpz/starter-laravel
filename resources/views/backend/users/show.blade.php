@@ -65,7 +65,7 @@
                         <th class="bg-light">{{ __('Role') }}</th>
                         <td class="w-100">
                             @if ($user->role)
-                                {{ config('fixtures.roles.' . $user->role) }}
+                                {{ config('fixtures.user_roles.' . $user->role) }}
                             @else
                                 <span class="text-muted">{{ __('None') }}</span>
                             @endif

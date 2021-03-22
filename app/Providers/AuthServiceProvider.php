@@ -27,7 +27,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Gate::define('access-backend', function (User $user) {
-            return in_array($user->role, ['staff', 'admin']);
+            return in_array($user->role, array_keys(config('fixtures.user_roles')));
         });
 
         Gate::define('administer', function (User $user) {

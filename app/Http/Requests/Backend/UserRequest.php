@@ -31,7 +31,7 @@ class UserRequest extends FormRequest
             'role' => [
                 'nullable',
                 'string',
-                Rule::in(array_keys(config('fixtures.roles'))),
+                Rule::in(array_keys(config('fixtures.user_roles'))),
             ],
             'enabled' => ['sometimes', 'boolean'],
         ];

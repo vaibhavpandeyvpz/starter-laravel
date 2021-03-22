@@ -61,7 +61,7 @@
             <input class="custom-control-input @error('role') is-invalid @enderror" id="user-role-none" name="role" type="radio" value="" @empty($old_role) checked @endempty>
             <label class="custom-control-label" for="user-role-none">{{ __('None') }}</label>
         </div>
-        @foreach(config('fixtures.roles') as $id => $name)
+        @foreach(config('fixtures.user_roles') as $id => $name)
             <div class="custom-control custom-radio">
                 <input class="custom-control-input @error('role') is-invalid @enderror" id="user-role-{{ $id }}" name="role" type="radio" value="{{ $id }}" @if ($old_role === $id) checked @endif>
                 <label class="custom-control-label" for="user-role-{{ $id }}">{{ $name }}</label>
