@@ -66,7 +66,7 @@
                             <th class="bg-light">{{ __('Roles') }}</th>
                             <td class="w-100">
                                 @forelse ($user->roles()->get() as $role)
-                                    <span class="badge badge-light mr-1">{{ $role->name }}</span>
+                                    <span class="badge badge-dark mr-1">{{ $role->name }}</span>
                                 @empty
                                     <span class="text-muted">{{ __('None') }}</span>
                                 @endforelse

@@ -57,10 +57,23 @@
                         <th class="bg-light">{{ __('Permissions') }}</th>
                         <td class="w-100">
                             @forelse ($role->permissions()->get() as $permission)
-                                <span class="badge badge-light mr-1">{{ $permission->name }}</span>
+                                <span class="badge badge-dark mr-1">{{ $permission->name }}</span>
                             @empty
                                 <span class="text-muted">{{ __('None') }}</span>
                             @endforelse
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="bg-light">{{ __('Users') }}</th>
+                        <td class="w-100">
+                            @php
+                                $count = App\User::query()
+                                    ->whereHas('roles', function ($query) use ($role) {
+                                        $query->whereKey($role->id);
+                                    })
+                                    ->count();
+                            @endphp
+                            {{ __(':count Users', compact('count')) }}
                         </td>
                     </tr>
                     </tbody>
