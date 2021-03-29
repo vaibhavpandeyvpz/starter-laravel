@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\User;
 use Illuminate\Console\Command;
+use Spatie\Permission\Models\Role;
 
 class AssignAdministrator extends Command
 {
@@ -38,10 +39,16 @@ class AssignAdministrator extends Command
      */
     public function handle()
     {
+        /** @var User $user */
         $user = User::query()
             ->where('email', $this->argument('email'))
             ->firstOrFail();
-        $user->role = 'admin';
+        $role = Role::query()
+            ->whereHas('permissions', function ($query) {
+                $query->where('name', 'administer');
+            })
+            ->firstOrFail();
+        $user->assignRole($role);
         $user->save();
         return 0;
     }

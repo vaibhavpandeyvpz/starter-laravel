@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -38,14 +39,13 @@ class UserController extends Controller
                 'email' => __('validation.unique', ['attribute' => 'email']),
             ]);
         }
-        if ($data['role'] === 'admin' && !Gate::check('administer')) {
-            throw ValidationException::withMessages([
-                'role' => __('Only existing administrator may assign "admin" role.'),
-            ]);
-        }
         $data['password'] = Hash::make($data['password']);
         $data['enabled'] = $data['enabled'] ?? false;
+        /** @var User $user */
         $user = User::query()->create($data);
+        if (Gate::check('administer')) {
+            $user->syncRoles(Role::query()->whereIn('id', $data['roles'] ?? [])->get());
+        }
         flash()->success(__('User ":name" has been added to system.', ['name' => $user->name]));
         return redirect()->route('backend.users.show', $user);
     }
@@ -72,11 +72,6 @@ class UserController extends Controller
                 'email' => __('validation.unique', ['attribute' => 'email']),
             ]);
         }
-        if ($data['role'] === 'admin' && !Gate::check('administer')) {
-            throw ValidationException::withMessages([
-                'role' => __('Only existing administrator may assign "admin" role.'),
-            ]);
-        }
         if (empty($data['password'])) {
             unset($data['password']);
         } else {
@@ -89,12 +84,10 @@ class UserController extends Controller
             ]);
         }
         $user->fill($data);
-        if ($user->id === Auth::id() && Gate::check('administer') && !$user->can('administer')) {
-            throw ValidationException::withMessages([
-                'role' => __('You must not remove "admin" role from yourself.'),
-            ]);
-        }
         $user->save();
+        if (Gate::check('administer')) {
+            $user->syncRoles(Role::query()->whereIn('id', $data['roles'] ?? [])->get());
+        }
         flash()->success(__('User ":name" information has been updated.', ['name' => $user->name]));
         return redirect()->route('backend.users.show', $user);
     }

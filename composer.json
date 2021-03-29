@@ -17,6 +17,7 @@
         "laravel/socialite": "^5.0",
         "laravel/tinker": "^2.0",
         "livewire/livewire": "^1.0",
+        "spatie/laravel-permission": "^3.10",
         "spatie/laravel-sitemap": "^5.8"
     },
     "require-dev": {

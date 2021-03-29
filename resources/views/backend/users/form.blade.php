@@ -1,7 +1,6 @@
 @php
     if (empty($user)) {
         $user = new App\User([
-            'role' => 'staff',
             'enabled' => true,
         ]);
     }
@@ -51,28 +50,32 @@
         <input class="form-control" id="user-password-confirmation" name="password_confirmation" type="password" @if (!$user->exists) required @endif>
     </div>
 </div>
-@php
-    $old_role = old('role', $user->role);
-@endphp
-<div class="form-group row">
-    <label class="col-sm-4 col-form-label" for="user-role-admin">{{ __('Role') }} <span class="text-danger">&ast;</span></label>
-    <div class="col-sm-8">
-        <div class="custom-control custom-radio">
-            <input class="custom-control-input @error('role') is-invalid @enderror" id="user-role-none" name="role" type="radio" value="" @empty($old_role) checked @endempty>
-            <label class="custom-control-label" for="user-role-none">{{ __('None') }}</label>
+@can('administer')
+    @php
+        $roles = Spatie\Permission\Models\Role::query()->get();
+        $old_roles = old('roles', $user->roles()->pluck('id'));
+        if (empty($old_roles)) {
+            $old_roles = collect();
+        } else if (is_array($old_roles)) {
+            $old_roles = collect($old_roles);
+        }
+    @endphp
+    <div class="form-group row">
+        <label class="col-sm-4 col-form-label">{{ __('Role') }} <span class="text-danger">&ast;</span></label>
+        <div class="col-sm-8">
+            @foreach ($roles as $role)
+                <div class="custom-control custom-checkbox">
+                    <input class="custom-control-input" id="user-role-{{ $role->id }}" name="roles[]" type="checkbox" value="{{ $role->id }}" @if ($old_roles->contains($role->id)) checked @endif>
+                    <label class="custom-control-label" for="user-role-{{ $role->id }}">{{ $role->name }}</label>
+                </div>
+            @endforeach
+            @error('roles')
+                <div class="@error('roles') is-invalid @enderror" style="display: none;"></div>
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
         </div>
-        @foreach(config('fixtures.user_roles') as $id => $name)
-            <div class="custom-control custom-radio">
-                <input class="custom-control-input @error('role') is-invalid @enderror" id="user-role-{{ $id }}" name="role" type="radio" value="{{ $id }}" @if ($old_role === $id) checked @endif>
-                <label class="custom-control-label" for="user-role-{{ $id }}">{{ $name }}</label>
-            </div>
-        @endforeach
-        @error('role')
-            <div class="@error('role') is-invalid @enderror" style="display: none;"></div>
-            <div class="invalid-feedback">{{ $message }}</div>
-        @enderror
     </div>
-</div>
+@endcan
 @php
     $old_enabled = old('form') === 'user' ? old('enabled') : $user->enabled;
 @endphp

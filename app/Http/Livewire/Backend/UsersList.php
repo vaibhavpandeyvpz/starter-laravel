@@ -30,7 +30,9 @@ class UsersList extends Component
         }
 
         if ($this->role) {
-            $users->where('role', $this->role);
+            $users->whereHas('roles', function ($query) {
+                $query->whereKey($this->role);
+            });
         }
 
         foreach ($this->order as $column => $direction) {

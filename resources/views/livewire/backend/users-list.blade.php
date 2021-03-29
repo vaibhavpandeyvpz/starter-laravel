@@ -19,8 +19,8 @@
                     <label for="filter-role">{{ __('Role') }}</label>
                     <select id="filter-role" class="custom-select" wire:model="role">
                         <option value="">{{ __('Any') }}</option>
-                        @foreach (config('fixtures.user_roles') as $id => $name)
-                            <option value="{{ $id }}">{{ $name }}</option>
+                        @foreach (Spatie\Permission\Models\Role::query()->get() as $role)
+                            <option value="{{ $role->id }}">{{ $role->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -99,11 +99,11 @@
                     <td>{{ $user->name }}</td>
                     <td><a href="mailto:{{ $user->email }}">{{ $user->email }}</a></td>
                     <td>
-                        @if ($user->role)
-                            {{ config('fixtures.user_roles.' . $user->role) }}
-                        @else
+                        @forelse ($user->roles()->get() as $role)
+                            <span class="badge badge-light mr-1">{{ $role->name }}</span>
+                        @empty
                             <span class="text-muted">{{ __('None') }}</span>
-                        @endif
+                        @endforelse
                     </td>
                     <td>{{ Timezone::convertToLocal($user->created_at) }}</td>
                     <td>

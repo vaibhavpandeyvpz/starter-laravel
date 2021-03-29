@@ -24,7 +24,7 @@ class UserPolicy
      */
     public function viewAny(User $user)
     {
-        return true;
+        return $user->can('view all users');
     }
 
     /**
@@ -36,7 +36,7 @@ class UserPolicy
      */
     public function view(User $user, User $model)
     {
-        return true;
+        return $user->can('view user');
     }
 
     /**
@@ -47,7 +47,7 @@ class UserPolicy
      */
     public function create(User $user)
     {
-        return true;
+        return $user->can('create user');
     }
 
     /**
@@ -59,7 +59,7 @@ class UserPolicy
      */
     public function update(User $user, User $model)
     {
-        return !$model->can('administer');
+        return $user->can('update user') && !$model->can('access backend');
     }
 
     /**
@@ -71,7 +71,7 @@ class UserPolicy
      */
     public function delete(User $user, User $model)
     {
-        return false;
+        return $user->can('delete user') && !$model->can('access backend');
     }
 
     /**
