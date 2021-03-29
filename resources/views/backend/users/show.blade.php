@@ -61,16 +61,18 @@
                         <th class="bg-light">{{ __('Password') }}</th>
                         <td class="w-100 text-muted">&ast;&ast;&ast;&ast;&ast;</td>
                     </tr>
-                    <tr>
-                        <th class="bg-light">{{ __('Roles') }}</th>
-                        <td class="w-100">
-                            @forelse ($user->roles()->get() as $role)
-                                <span class="badge badge-light mr-1">{{ $role->name }}</span>
-                            @empty
-                                <span class="text-muted">{{ __('None') }}</span>
-                            @endforelse
-                        </td>
-                    </tr>
+                    @can('administer')
+                        <tr>
+                            <th class="bg-light">{{ __('Roles') }}</th>
+                            <td class="w-100">
+                                @forelse ($user->roles()->get() as $role)
+                                    <span class="badge badge-light mr-1">{{ $role->name }}</span>
+                                @empty
+                                    <span class="text-muted">{{ __('None') }}</span>
+                                @endforelse
+                            </td>
+                        </tr>
+                    @endcan
                     <tr>
                         <th class="bg-light align-middle">{{ __('Photo') }}</th>
                         <td class="w-100">

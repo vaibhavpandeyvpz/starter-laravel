@@ -61,7 +61,7 @@
         }
     @endphp
     <div class="form-group row">
-        <label class="col-sm-4 col-form-label">{{ __('Role') }} <span class="text-danger">&ast;</span></label>
+        <label class="col-sm-4 col-form-label">{{ __('Roles') }} <span class="text-danger">&ast;</span></label>
         <div class="col-sm-8">
             @foreach ($roles as $role)
                 <div class="custom-control custom-checkbox">

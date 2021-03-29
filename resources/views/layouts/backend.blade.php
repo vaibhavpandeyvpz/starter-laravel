@@ -29,6 +29,13 @@
                             </a>
                         </li>
                     @endcan
+                    @can('viewAny', Spatie\Permission\Models\Role::class)
+                        <li class="nav-item @if (Route::is('backend.roles.*')) active @endif">
+                            <a class="nav-link" href="{{ route('backend.roles.index') }}">
+                                <i class="fas fa-key fa-fw mr-1"></i> {{ __('Roles') }}
+                            </a>
+                        </li>
+                    @endcan
                 </ul>
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item dropdown">
