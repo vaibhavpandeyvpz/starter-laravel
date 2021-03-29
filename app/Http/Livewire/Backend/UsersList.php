@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Backend;
 
 use App\User;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -29,7 +30,7 @@ class UsersList extends Component
             });
         }
 
-        if ($this->role) {
+        if ($this->role && Gate::check('administer')) {
             $users->whereHas('roles', function ($query) {
                 $query->whereKey($this->role);
             });

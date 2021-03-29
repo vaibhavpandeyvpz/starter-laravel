@@ -9,23 +9,25 @@
     <div class="card-body border-top">
         <div class="row">
             <div class="col-sm-6 col-md-4 col-lg-3">
-                <div class="form-group mb-md-0">
+                <div class="form-group @can('administer') mb-md-0 @else mb-sm-0 @endif">
                     <label for="filter-search">{{ __('Search') }}</label>
                     <input id="filter-search" class="form-control" placeholder="{{ __('Enter name or email') }}&hellip;" wire:model.debounce.500ms="q" value="{{ $q }}">
                 </div>
             </div>
-            <div class="col-sm-6 col-md-4 col-lg-3">
-                <div class="form-group mb-md-0">
-                    <label for="filter-role">{{ __('Role') }}</label>
-                    <select id="filter-role" class="custom-select" wire:model="role">
-                        <option value="">{{ __('Any') }}</option>
-                        @foreach (Spatie\Permission\Models\Role::query()->get() as $role)
-                            <option value="{{ $role->id }}">{{ $role->name }}</option>
-                        @endforeach
-                    </select>
+            @can('administer')
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-group mb-md-0">
+                        <label for="filter-role">{{ __('Role') }}</label>
+                        <select id="filter-role" class="custom-select" wire:model="role">
+                            <option value="">{{ __('Any') }}</option>
+                            @foreach (Spatie\Permission\Models\Role::query()->get() as $role)
+                                <option value="{{ $role->id }}">{{ $role->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="col-sm-6 col-md-4 col-lg-3 offset-lg-3">
+            @endif
+            <div class="col-sm-6 col-md-4 col-lg-3 @can('administer') offset-lg-3 @else offset-lg-6 @endif">
                 <div class="form-group mb-0">
                     <label for="filter-length">{{ __('Length') }}</label>
                     <select id="filter-length" class="form-control" wire:model="length">
