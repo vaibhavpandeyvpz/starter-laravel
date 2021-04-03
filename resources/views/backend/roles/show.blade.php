@@ -15,12 +15,13 @@
         </nav>
         <div class="btn-toolbar mb-3">
             @can('viewAny', Spatie\Permission\Models\Role::class)
-                <a class="btn btn-outline-dark" href="{{ route('backend.roles.index') }}">
+                <a class="btn btn-outline-dark mr-1" href="{{ route('backend.roles.index') }}">
                     <i class="fas fa-arrow-left mr-1"></i> {{ __('Roles') }}
                 </a>
             @endcan
+            <div class="mx-auto"></div>
             @can('update', $role)
-                <a class="btn btn-info ml-auto" href="{{ route('backend.roles.edit', $role) }}">
+                <a class="btn btn-info ml-1" href="{{ route('backend.roles.edit', $role) }}">
                     <i class="fas fa-feather mr-1"></i> {{ __('Edit') }}
                 </a>
             @endcan

@@ -15,12 +15,12 @@
         </nav>
         <div class="btn-toolbar mb-3">
             @can('viewAny', App\User::class)
-                <a class="btn btn-outline-dark" href="{{ route('backend.users.index') }}">
+                <a class="btn btn-outline-dark mr-1" href="{{ route('backend.users.index') }}">
                     <i class="fas fa-arrow-left mr-1"></i> {{ __('Users') }}
                 </a>
             @endcan
             @can('update', $user)
-                <a class="btn btn-info ml-auto" href="{{ route('backend.users.edit', $user) }}">
+                <a class="btn btn-info ml-1" href="{{ route('backend.users.edit', $user) }}">
                     <i class="fas fa-feather mr-1"></i> {{ __('Edit') }}
                 </a>
             @endcan
