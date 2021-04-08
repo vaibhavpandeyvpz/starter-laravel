@@ -29,7 +29,6 @@ class RolesTableSeeder extends Seeder
             'view all users',
             'view user',
             'create user',
-            'update user',
-            'delete user');
+            'update user');
     }
 }
