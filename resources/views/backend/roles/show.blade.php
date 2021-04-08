@@ -68,11 +68,7 @@
                         <th class="bg-light">{{ __('Users') }}</th>
                         <td class="w-100">
                             @php
-                                $count = App\User::query()
-                                    ->whereHas('roles', function ($query) use ($role) {
-                                        $query->whereKey($role->id);
-                                    })
-                                    ->count();
+                                $count = $role->users()->count();
                             @endphp
                             {{ __(':count Users', compact('count')) }}
                         </td>

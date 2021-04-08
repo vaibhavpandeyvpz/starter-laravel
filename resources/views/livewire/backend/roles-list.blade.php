@@ -55,6 +55,7 @@
                     @endif
                 </th>
                 <th>{{ __('Permissions') }}</th>
+                <th>{{ __('Users') }}</th>
                 <th>
                     @if (($order['created_at'] ?? null) === 'asc')
                         <a class="text-body" href="" wire:click.prevent="sort('created_at', 'desc')">{{ __('Created at') }}</a>
@@ -75,6 +76,7 @@
                     <td>{{ $role->id }}</td>
                     <td>{{ $role->name }}</td>
                     <td>{{ __(':count Permissions', ['count' => $role->permissions()->count()]) }}</td>
+                    <td>{{ __(':count Users', ['count' => $role->users()->count()]) }}</td>
                     <td>{{ Timezone::convertToLocal($role->created_at) }}</td>
                     <td>
                         @can('view', $role)
@@ -107,7 +109,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td class="text-center text-muted" colspan="5">{{ __('Could not find any roles to show.') }}</td>
+                    <td class="text-center text-muted" colspan="6">{{ __('Could not find any roles to show.') }}</td>
                 </tr>
             @endforelse
             </tbody>
