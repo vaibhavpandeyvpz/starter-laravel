@@ -1,11 +1,7 @@
 {
-    "name": "laravel/laravel",
+    "name": "vaibhavpandeyvpz/laravel-crud",
     "type": "project",
-    "description": "The Laravel Framework.",
-    "keywords": [
-        "framework",
-        "laravel"
-    ],
+    "description": "Quick, Laravel LTS CRUD boilerplate using livewire with RBAC.",
     "license": "MIT",
     "require": {
         "php": "^7.2",
