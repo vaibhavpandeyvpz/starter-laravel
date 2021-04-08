@@ -55,8 +55,8 @@
                         <td class="w-100">{{ $role->name }}</td>
                     </tr>
                     <tr>
-                        <th class="bg-light">{{ __('Permissions') }}</th>
-                        <td class="w-100">
+                        <th class="bg-light align-text-top">{{ __('Permissions') }}</th>
+                        <td class="w-100 text-wrap">
                             @forelse ($role->permissions()->get() as $permission)
                                 <span class="badge badge-dark mr-1">{{ $permission->name }}</span>
                             @empty
