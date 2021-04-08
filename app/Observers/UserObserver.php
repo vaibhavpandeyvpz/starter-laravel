@@ -8,6 +8,19 @@ use Illuminate\Support\Facades\Storage;
 class UserObserver
 {
     /**
+     * Handle the user "creating" event.
+     *
+     * @param  \App\User  $user
+     * @return void
+     */
+    public function creating(User $user)
+    {
+        if (empty($user->timezone)) {
+            $user->timezone = config('app.timezone');
+        }
+    }
+
+    /**
      * Handle the user "created" event.
      *
      * @param  \App\User  $user
