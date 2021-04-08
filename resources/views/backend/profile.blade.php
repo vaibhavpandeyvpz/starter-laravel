@@ -41,8 +41,6 @@
                 <p class="card-text">{{ __('Review and update your personal information.') }}</p>
             </div>
             <div class="card-body border-top">
-                @php
-                @endphp
                 <div class="row">
                     <div class="col-lg-10 col-xl-8">
                         <form action="" enctype="multipart/form-data" method="post">
