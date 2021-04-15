@@ -16,7 +16,7 @@
 </div>
 @php
     $permissions = Spatie\Permission\Models\Permission::query()->get();
-    $old_permissions = old('permissions', $role->permissions()->pluck('id'));
+    $old_permissions = old('permissions', $role->permissions->pluck('id'));
     if (empty($old_permissions)) {
         $old_permissions = collect();
     } else if (is_array($old_permissions)) {
