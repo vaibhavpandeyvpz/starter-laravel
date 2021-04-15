@@ -40,10 +40,12 @@
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="" id="dropdown-account" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-cog fa-fw mr-1"></i> {{ __('Hi, :name', ['name' => Auth::user()->name]) }}
+                            <i class="fas fa-id-card-alt fa-fw mr-1"></i>
+                            <span class="d-md-none">{{ __('More') }}</span>
+                            <span class="d-none d-md-inline">{{ __('Hi, :name', ['name' => Auth::user()->name]) }}</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-account">
-                            <a class="dropdown-item" href="{{ route('backend.profile') }}">{{ __('Profile') }}</a>
+                            <a class="dropdown-item @if (Route::is('backend.profile')) active @endif" href="{{ route('backend.profile') }}">{{ __('Profile') }}</a>
                             <a class="dropdown-item" href="{{ route('logout') }}" onclick="logout(event)">{{ __('Logout') }}</a>
                         </div>
                     </li>
