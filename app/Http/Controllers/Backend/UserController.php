@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\UserRequest;
 use App\User;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
@@ -46,6 +47,9 @@ class UserController extends Controller
         if (Gate::check('administer')) {
             $user->syncRoles(Role::query()->whereIn('id', $data['roles'] ?? [])->get());
         }
+        if ($user instanceof MustVerifyEmail) {
+            $user->sendEmailVerificationNotification();
+        }
         flash()->success(__('User ":name" has been added to system.', ['name' => $user->name]));
         return redirect()->route('backend.users.show', $user);
     }
@@ -84,9 +88,15 @@ class UserController extends Controller
             ]);
         }
         $user->fill($data);
+        if ($changed = $user->isDirty('email')) {
+            $user->email_verified_at = null;
+        }
         $user->save();
         if (Gate::check('administer')) {
             $user->syncRoles(Role::query()->whereIn('id', $data['roles'] ?? [])->get());
+        }
+        if ($changed && $user instanceof MustVerifyEmail) {
+            $user->sendEmailVerificationNotification();
         }
         flash()->success(__('User ":name" information has been updated.', ['name' => $user->name]));
         return redirect()->route('backend.users.show', $user);
