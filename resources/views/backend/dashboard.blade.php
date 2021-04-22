@@ -4,7 +4,36 @@
     <title>{{ __('Dashboard') }} | {{ __('Backend') }} | {{ config('app.name') }}</title>
 @endsection
 
+@php
+    /** @var App\User $user */
+    $user = Auth::user();
+    $unverified = $user instanceof Illuminate\Contracts\Auth\MustVerifyEmail && !$user->hasVerifiedEmail();
+@endphp
+
 @section('content')
+    @if ($unverified)
+        <form action="{{ route('verification.resend') }}" id="resend-form" method="post" style="display: none;">
+            @csrf
+        </form>
+        <script>
+            function resend(e) {
+                e.preventDefault();
+                document.forms['resend-form'].submit()
+            }
+        </script>
+        <div class="container">
+            @if (session('resent'))
+                <div class="alert alert-success" role="alert">
+                    {{ __('We have resent the verification link to your email address.') }}
+                </div>
+            @else
+                <div class="alert alert-warning alert-important" role="alert">
+                    {{ __('Please check your email for a verification link to verify your email address.') }}
+                    {{ __('If you did not receive the email') }}, <a class="alert-link" href="{{ route('verification.resend') }}" onclick="resend(event)">{{ __('click here to request another one') }}</a>.
+                </div>
+            @endif
+        </div>
+    @endif
     <main class="container">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
