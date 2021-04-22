@@ -25,7 +25,7 @@ Route::middleware(['auth', 'can:access backend'])->namespace('Backend')->prefix(
     Route::view('/', 'backend.dashboard')->name('backend.dashboard');
 
     Route::resource('users', 'UserController', ['as' => 'backend']);
-    Route::resource('roles', 'RoleController', ['as' => 'backend']);
+    Route::resource('roles', 'RoleController', ['as' => 'backend'])->middleware('password.confirm');
 
     Route::get('profile', 'ProfileController@show')->name('backend.profile');
     Route::put('profile', 'ProfileController@update');

@@ -13,7 +13,7 @@
                 @csrf
                 <div class="form-group">
                     <label for="login-password">{{ __('Password') }} <span class="text-danger">&ast;</span></label>
-                    <input class="form-control @error('password') is-invalid @enderror" id="login-password" name="password" required type="password">
+                    <input autofocus class="form-control @error('password') is-invalid @enderror" id="login-password" name="password" required type="password">
                     @error('password')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
