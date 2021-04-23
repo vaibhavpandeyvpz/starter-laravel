@@ -16,18 +16,18 @@
         <div class="btn-toolbar mb-3">
             @can('viewAny', Spatie\Permission\Models\Role::class)
                 <a class="btn btn-outline-dark mr-1" href="{{ route('backend.roles.index') }}">
-                    <i class="fas fa-arrow-left"></i> <span class="d-none d-sm-none ml-1">{{ __('Roles') }}</span>
+                    <i class="fas fa-arrow-left"></i> <span class="d-none d-sm-inline ml-1">{{ __('Roles') }}</span>
                 </a>
             @endcan
             <div class="mx-auto"></div>
             @can('update', $role)
                 <a class="btn btn-info ml-1" href="{{ route('backend.roles.edit', $role) }}">
-                    <i class="fas fa-feather"></i> <span class="d-none d-sm-none ml-1">{{ __('Edit') }}</span>
+                    <i class="fas fa-feather"></i> <span class="d-none d-sm-inline ml-1">{{ __('Edit') }}</span>
                 </a>
             @endcan
             @can('delete', $role)
                 <button class="btn btn-danger ml-1" data-toggle="popover" data-title="{{ __('Delete') }}" data-target="#delete-confirmation">
-                    <i class="fas fa-trash"></i> <span class="d-none d-sm-none ml-1">{{ __('Delete') }}</span>
+                    <i class="fas fa-trash"></i> <span class="d-none d-sm-inline ml-1">{{ __('Delete') }}</span>
                 </button>
             @endcan
         </div>
