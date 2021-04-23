@@ -16,17 +16,17 @@
         <div class="btn-toolbar mb-3">
             @can('viewAny', App\User::class)
                 <a class="btn btn-outline-dark mr-1" href="{{ route('backend.users.index') }}">
-                    <i class="fas fa-arrow-left mr-1"></i> {{ __('Users') }}
+                    <i class="fas fa-arrow-left"></i> <span class="d-none d-sm-none ml-1">{{ __('Users') }}</span>
                 </a>
             @endcan
             @can('update', $user)
                 <a class="btn btn-info ml-1" href="{{ route('backend.users.edit', $user) }}">
-                    <i class="fas fa-feather mr-1"></i> {{ __('Edit') }}
+                    <i class="fas fa-feather"></i> <span class="d-none d-sm-none ml-1">{{ __('Edit') }}</span>
                 </a>
             @endcan
             @can('delete', $user)
                 <button class="btn btn-danger ml-1" data-toggle="popover" data-title="{{ __('Delete') }}" data-target="#delete-confirmation">
-                    <i class="fas fa-trash mr-1"></i> {{ __('Delete') }}
+                    <i class="fas fa-trash"></i> <span class="d-none d-sm-none ml-1">{{ __('Delete') }}</span>
                 </button>
             @endcan
         </div>
