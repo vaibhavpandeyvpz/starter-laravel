@@ -58,7 +58,7 @@
     </div>
     @yield('content')
     <footer class="container my-3">
-        {{ config('app.name') }} &copy; {{ date('Y') }}.
+        <strong>{{ config('app.name') }}</strong> &copy; {{ date('Y') }}.
     </footer>
 @endsection
 
