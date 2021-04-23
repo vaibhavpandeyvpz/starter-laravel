@@ -50,7 +50,7 @@
         <input class="form-control" id="user-password-confirmation" name="password_confirmation" type="password" @if (!$user->exists) required @endif>
     </div>
 </div>
-@can('administer')
+@can('viewAny', Spatie\Permission\Models\Role::class)
     @php
         $roles = Spatie\Permission\Models\Role::query()->get();
         $old_roles = old('roles', $user->roles()->pluck('id'));

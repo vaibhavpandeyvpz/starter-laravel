@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Spatie\Permission\Models\Role;
 
 class UsersList extends Component
 {
@@ -30,7 +31,7 @@ class UsersList extends Component
             });
         }
 
-        if ($this->role && Gate::check('administer')) {
+        if ($this->role && Gate::check('viewAny', Role::class)) {
             $users->whereHas('roles', function ($query) {
                 $query->whereKey($this->role);
             });
@@ -44,16 +45,6 @@ class UsersList extends Component
         return view('livewire.backend.users-list', compact('users'));
     }
 
-    public function resize($length)
-    {
-        $this->length = $length;
-    }
-
-    public function search($q)
-    {
-        $this->q = $q;
-    }
-
     public function updatingLength()
     {
         $this->resetPage();
@@ -64,7 +55,7 @@ class UsersList extends Component
         $this->resetPage();
     }
 
-    public function updatingSearch()
+    public function updatingQ($q)
     {
         $this->resetPage();
     }

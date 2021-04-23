@@ -44,7 +44,7 @@ class UserController extends Controller
         $data['enabled'] = $data['enabled'] ?? false;
         /** @var User $user */
         $user = User::query()->create($data);
-        if (Gate::check('administer')) {
+        if (Gate::check('viewAny', Role::class)) {
             $user->syncRoles(Role::query()->whereIn('id', $data['roles'] ?? [])->get());
         }
         if ($user instanceof MustVerifyEmail) {
@@ -92,7 +92,7 @@ class UserController extends Controller
             $user->email_verified_at = null;
         }
         $user->save();
-        if (Gate::check('administer')) {
+        if (Gate::check('viewAny', Role::class)) {
             $user->syncRoles(Role::query()->whereIn('id', $data['roles'] ?? [])->get());
         }
         if ($changed && $user instanceof MustVerifyEmail) {

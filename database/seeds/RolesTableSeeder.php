@@ -16,7 +16,11 @@ class RolesTableSeeder extends Seeder
         $administrator = Role::create(['name' => 'Administrator']);
         $administrator->givePermissionTo(
             'access backend',
-            'administer',
+            'view all roles',
+            'view role',
+            'create role',
+            'update role',
+            'delete role',
             'view all users',
             'view user',
             'create user',

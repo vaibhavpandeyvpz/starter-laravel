@@ -12,11 +12,13 @@
                 <li class="breadcrumb-item active" aria-current="page">{{ __('Roles') }}</li>
             </ol>
         </nav>
-        <div class="btn-toolbar mb-3">
-            <a class="btn btn-success ml-auto" href="{{ route('backend.roles.create') }}">
-                <i class="fas fa-plus"></i> <span class="d-none d-sm-inline ml-1">{{ __('New') }}</span>
-            </a>
-        </div>
+        @can('create', Spatie\Permission\Models\Role::class)
+            <div class="btn-toolbar mb-3">
+                <a class="btn btn-success ml-auto" href="{{ route('backend.roles.create') }}">
+                    <i class="fas fa-plus"></i> <span class="d-none d-sm-inline ml-1">{{ __('New') }}</span>
+                </a>
+            </div>
+        @endcan
         @livewire('backend.roles-list')
     </main>
 @endsection

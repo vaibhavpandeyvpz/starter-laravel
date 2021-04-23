@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire\Backend;
 
-use Illuminate\Database\Eloquent\Builder;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Spatie\Permission\Models\Role;
@@ -40,16 +39,6 @@ class RolesList extends Component
         return view('livewire.backend.roles-list', compact('roles'));
     }
 
-    public function resize($length)
-    {
-        $this->length = $length;
-    }
-
-    public function search($q)
-    {
-        $this->q = $q;
-    }
-
     public function updatingLength()
     {
         $this->resetPage();
@@ -60,7 +49,7 @@ class RolesList extends Component
         $this->resetPage();
     }
 
-    public function updatingSearch()
+    public function updatingQ($q)
     {
         $this->resetPage();
     }

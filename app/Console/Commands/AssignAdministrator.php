@@ -20,7 +20,7 @@ class AssignAdministrator extends Command
      *
      * @var string
      */
-    protected $description = 'Sets "admin" role to specified email address.';
+    protected $description = 'Sets "Administrator" role to specified email address.';
 
     /**
      * Create a new command instance.
@@ -44,9 +44,7 @@ class AssignAdministrator extends Command
             ->where('email', $this->argument('email'))
             ->firstOrFail();
         $role = Role::query()
-            ->whereHas('permissions', function ($query) {
-                $query->where('name', 'administer');
-            })
+            ->where('name', 'Administrator')
             ->firstOrFail();
         $user->assignRole($role);
         $user->save();

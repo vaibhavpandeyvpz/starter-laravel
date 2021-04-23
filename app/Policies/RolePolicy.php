@@ -10,13 +10,6 @@ class RolePolicy
 {
     use HandlesAuthorization;
 
-    public function before(User $user, $ability)
-    {
-        if ($user->can('administer')) {
-            return true;
-        }
-    }
-
     /**
      * Determine whether the user can view any models.
      *
@@ -25,19 +18,19 @@ class RolePolicy
      */
     public function viewAny(User $user)
     {
-        return false;
+        return $user->can('view all roles');
     }
 
     /**
-     * Determine whether the user can view the model.
+     * Determine whether the user can view the role.
      *
      * @param  \App\User  $user
-     * @param  \Spatie\Permission\Models\Role  $model
+     * @param  \Spatie\Permission\Models\Role  $role
      * @return mixed
      */
-    public function view(User $user, Role $model)
+    public function view(User $user, Role $role)
     {
-        return false;
+        return $user->can('view role');
     }
 
     /**
@@ -48,53 +41,53 @@ class RolePolicy
      */
     public function create(User $user)
     {
-        return false;
+        return $user->can('create role');
     }
 
     /**
-     * Determine whether the user can update the model.
+     * Determine whether the user can update the role.
      *
      * @param  \App\User  $user
-     * @param  \Spatie\Permission\Models\Role  $model
+     * @param  \Spatie\Permission\Models\Role  $role
      * @return mixed
      */
-    public function update(User $user, Role $model)
+    public function update(User $user, Role $role)
     {
-        return false;
+        return $user->can('update role');
     }
 
     /**
-     * Determine whether the user can delete the model.
+     * Determine whether the user can delete the role.
      *
      * @param  \App\User  $user
-     * @param  \Spatie\Permission\Models\Role  $model
+     * @param  \Spatie\Permission\Models\Role  $role
      * @return mixed
      */
-    public function delete(User $user, Role $model)
+    public function delete(User $user, Role $role)
     {
-        return false;
+        return $user->can('delete role');
     }
 
     /**
-     * Determine whether the user can restore the model.
+     * Determine whether the user can restore the role.
      *
      * @param  \App\User  $user
-     * @param  \Spatie\Permission\Models\Role  $model
+     * @param  \Spatie\Permission\Models\Role  $role
      * @return mixed
      */
-    public function restore(User $user, Role $model)
+    public function restore(User $user, Role $role)
     {
         //
     }
 
     /**
-     * Determine whether the user can permanently delete the model.
+     * Determine whether the user can permanently delete the role.
      *
      * @param  \App\User  $user
-     * @param  \Spatie\Permission\Models\Role  $model
+     * @param  \Spatie\Permission\Models\Role  $role
      * @return mixed
      */
-    public function forceDelete(User $user, Role $model)
+    public function forceDelete(User $user, Role $role)
     {
         //
     }
