@@ -21,15 +21,10 @@ class RolesTableSeeder extends Seeder
             'create role',
             'update role',
             'delete role',
-            'view all users',
-            'view user',
-            'create user',
-            'update user',
             'delete user');
         /** @var Role $staff */
         $staff = Role::create(['name' => 'Staff']);
         $staff->givePermissionTo(
-            'access backend',
             'view all users',
             'view user',
             'create user',

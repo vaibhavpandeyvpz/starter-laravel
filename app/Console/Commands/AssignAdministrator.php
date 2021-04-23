@@ -43,10 +43,8 @@ class AssignAdministrator extends Command
         $user = User::query()
             ->where('email', $this->argument('email'))
             ->firstOrFail();
-        $role = Role::query()
-            ->where('name', 'Administrator')
-            ->firstOrFail();
-        $user->assignRole($role);
+        $roles = Role::query()->get();
+        $user->syncRoles(...$roles);
         $user->save();
         return 0;
     }

@@ -19,6 +19,7 @@
                     <i class="fas fa-arrow-left"></i> <span class="d-none d-sm-inline ml-1">{{ __('Users') }}</span>
                 </a>
             @endcan
+            <div class="mx-auto"></div>
             @can('update', $user)
                 <a class="btn btn-info ml-1" href="{{ route('backend.users.edit', $user) }}">
                     <i class="fas fa-feather"></i> <span class="d-none d-sm-inline ml-1">{{ __('Edit') }}</span>
