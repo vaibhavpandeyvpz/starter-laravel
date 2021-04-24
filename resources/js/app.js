@@ -48,7 +48,7 @@ $('body')
         sanitize: false,
         selector: '[data-toggle="popover"]',
         content() {
-            const target = $(this).data('target');
+            const target = $(this).data('target') || $(this).attr('href');
             return $(target).html()
         }
     });
