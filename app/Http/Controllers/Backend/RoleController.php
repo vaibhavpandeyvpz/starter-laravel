@@ -75,7 +75,7 @@ class RoleController extends Controller
     public function destroy(Role $role)
     {
         $role->delete();
-        flash()->info(__('Role ":name" was deleted from system.', ['name' => $role->name]));
+        flash()->info(__('Role ":name" has been deleted from system.', ['name' => $role->name]));
         return redirect()->route('backend.roles.index');
     }
 }

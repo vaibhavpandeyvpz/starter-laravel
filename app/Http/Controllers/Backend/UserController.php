@@ -109,7 +109,7 @@ class UserController extends Controller
             return redirect()->back();
         } else {
             $user->delete();
-            flash()->info(__('User ":name" was deleted from system.', ['name' => $user->name]));
+            flash()->info(__('User ":name" has been deleted from system.', ['name' => $user->name]));
             return redirect()->route('backend.users.index');
         }
     }
