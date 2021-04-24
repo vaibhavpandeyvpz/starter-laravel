@@ -18,7 +18,7 @@
                 <div class="form-group mb-md-0">
                     <label for="filter-permission">{{ __('Permission') }}</label>
                     <select id="filter-permission" class="custom-select" wire:model="permission">
-                        <option value="">{{ __('Any') }}</option>
+                        <option value="">{{ __('Select') }}&hellip;</option>
                         @foreach (Spatie\Permission\Models\Permission::query()->get() as $permission)
                             <option value="{{ $permission->id }}">{{ $permission->name }}</option>
                         @endforeach

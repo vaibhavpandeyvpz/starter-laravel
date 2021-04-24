@@ -14,11 +14,13 @@
                 <li class="breadcrumb-item active" aria-current="page">{{ __('Edit') }}</li>
             </ol>
         </nav>
-        <div class="btn-toolbar mb-3">
-            <a class="btn btn-outline-dark" href="{{ route('backend.users.show', $user) }}">
-                <i class="fas fa-arrow-left mr-1"></i> {{ __('Details') }}
-            </a>
-        </div>
+        @can('view', $user)
+            <div class="btn-toolbar mb-3">
+                <a class="btn btn-outline-dark" href="{{ route('backend.users.show', $user) }}">
+                    <i class="fas fa-arrow-left mr-1"></i> {{ __('Details') }}
+                </a>
+            </div>
+        @endcan
         <div class="card shadow-sm">
             <div class="card-body">
                 <h5 class="card-title text-primary">{{ __('Edit') }}</h5>

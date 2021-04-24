@@ -125,7 +125,7 @@
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label" for="profile-birthday">{{ __('Birthday') }}</label>
                                 <div class="col-sm-8">
-                                    <input autocomplete="off" autofocus class="form-control @error('birthday') is-invalid @enderror" data-widget="datepicker" id="profile-birthday" name="birthday" value="{{ $old_birthday }}">
+                                    <input autocomplete="off" class="form-control @error('birthday') is-invalid @enderror" data-widget="datepicker" id="profile-birthday" name="birthday" value="{{ $old_birthday }}">
                                     @error('birthday')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror

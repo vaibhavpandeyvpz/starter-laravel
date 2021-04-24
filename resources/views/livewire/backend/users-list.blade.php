@@ -19,7 +19,7 @@
                     <div class="form-group mb-md-0">
                         <label for="filter-role">{{ __('Role') }}</label>
                         <select id="filter-role" class="custom-select" wire:model="role">
-                            <option value="">{{ __('Any') }}</option>
+                            <option value="">{{ __('Select') }}&hellip;</option>
                             @foreach (Spatie\Permission\Models\Role::query()->get() as $role)
                                 <option value="{{ $role->id }}">{{ $role->name }}</option>
                             @endforeach
