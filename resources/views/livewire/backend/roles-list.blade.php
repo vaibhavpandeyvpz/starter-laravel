@@ -97,7 +97,7 @@
                                 <p>{{ __('This action cannot be undone. Are you sure?') }}</p>
                                 <form action="{{ route('backend.roles.destroy', $role) }}" method="post">
                                     @csrf
-                                    @method('DELETE')
+                                    @method('delete')
                                     <div class="btn-toolbar">
                                         <button class="btn btn-danger btn-sm ml-auto"><i class="fas fa-trash mr-1"></i> {{ __('Delete') }}</button>
                                         <button class="btn btn-outline-dark btn-sm ml-1 mr-auto" data-dismiss="popover" type="button">{{ __('Cancel') }}</button>

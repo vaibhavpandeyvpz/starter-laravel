@@ -31,7 +31,7 @@
                     <div class="col-md-12 col-lg-8">
                         <form action="{{ route('backend.roles.update', $role) }}" method="post">
                             @csrf
-                            @method('PUT')
+                            @method('put')
                             @include('backend.roles.form')
                             <div class="row">
                                 <div class="col-sm-8 offset-sm-4">
@@ -39,9 +39,11 @@
                                         <button class="btn btn-success">
                                             <i class="fas fa-check mr-1"></i> {{ __('Save') }}
                                         </button>
-                                        <a class="btn btn-outline-dark ml-1" href="{{ route('backend.roles.show', $role) }}">
-                                            {{ __('Cancel') }}
-                                        </a>
+                                        @can('view', $role)
+                                            <a class="btn btn-outline-dark ml-1" href="{{ route('backend.roles.show', $role) }}">
+                                                {{ __('Cancel') }}
+                                            </a>
+                                        @endcan
                                     </div>
                                 </div>
                             </div>

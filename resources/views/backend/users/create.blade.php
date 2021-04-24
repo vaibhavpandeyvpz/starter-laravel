@@ -13,11 +13,13 @@
                 <li class="breadcrumb-item active" aria-current="page">{{ __('New') }}</li>
             </ol>
         </nav>
-        <div class="btn-toolbar mb-3">
-            <a class="btn btn-outline-dark" href="{{ route('backend.users.index') }}">
-                <i class="fas fa-arrow-left mr-1"></i> {{ __('Cancel') }}
-            </a>
-        </div>
+        @can('viewAny', App\User::class)
+            <div class="btn-toolbar mb-3">
+                <a class="btn btn-outline-dark" href="{{ route('backend.users.index') }}">
+                    <i class="fas fa-arrow-left mr-1"></i> {{ __('Cancel') }}
+                </a>
+            </div>
+        @endcan
         <div class="card shadow-sm">
             <div class="card-body">
                 <h5 class="card-title text-primary">{{ __('New') }}</h5>
@@ -35,9 +37,11 @@
                                         <button class="btn btn-success">
                                             <i class="fas fa-check mr-1"></i> {{ __('Save') }}
                                         </button>
-                                        <a class="btn btn-outline-dark ml-1" href="{{ route('backend.users.index') }}">
-                                            {{ __('Cancel') }}
-                                        </a>
+                                        @can('viewAny', App\User::class)
+                                            <a class="btn btn-outline-dark ml-1" href="{{ route('backend.users.index') }}">
+                                                {{ __('Cancel') }}
+                                            </a>
+                                        @endcan
                                     </div>
                                 </div>
                             </div>
