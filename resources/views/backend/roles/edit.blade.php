@@ -9,8 +9,16 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('backend.dashboard') }}">{{ config('app.name') }}</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('backend.roles.index') }}">{{ __('Roles') }}</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('backend.roles.show', $role) }}">{{ $role->name }}</a></li>
+                @can('viewAny', \Spatie\Permission\Models\Role::class)
+                    <li class="breadcrumb-item"><a href="{{ route('backend.roles.index') }}">{{ __('Roles') }}</a></li>
+                @else
+                    <li class="breadcrumb-item">{{ __('Roles') }}</li>
+                @endcan
+                @can('view', $role)
+                    <li class="breadcrumb-item"><a href="{{ route('backend.roles.show', $role) }}">{{ $role->name }}</a></li>
+                @else
+                    <li class="breadcrumb-item">{{ $role->name }}</li>
+                @endcan
                 <li class="breadcrumb-item active" aria-current="page">{{ __('Edit') }}</li>
             </ol>
         </nav>

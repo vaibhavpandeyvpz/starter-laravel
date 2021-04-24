@@ -9,8 +9,16 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('backend.dashboard') }}">{{ config('app.name') }}</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('backend.users.index') }}">{{ __('Users') }}</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('backend.users.show', $user) }}">{{ $user->name }}</a></li>
+                @can('viewAny', App\User::class)
+                    <li class="breadcrumb-item"><a href="{{ route('backend.users.index') }}">{{ __('Users') }}</a></li>
+                @else
+                    <li class="breadcrumb-item">{{ __('Users') }}</li>
+                @endcan
+                @can('view', $user)
+                    <li class="breadcrumb-item"><a href="{{ route('backend.users.show', $user) }}">{{ $user->name }}</a></li>
+                @else
+                    <li class="breadcrumb-item">{{ $user->name }}</li>
+                @endcan
                 <li class="breadcrumb-item active" aria-current="page">{{ __('Edit') }}</li>
             </ol>
         </nav>
