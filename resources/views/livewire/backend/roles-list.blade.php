@@ -4,40 +4,47 @@
             <span class="sr-only">{{ __('Loading') }}&hellip;</span>
         </div>
         <h5 class="card-title text-primary">{{ __('Roles') }}</h5>
-        <p class="card-text">{{ __('List and manage user roles here.') }}</p>
+        <p class="card-text">
+            {{ __('List and manage user roles here.') }}
+            <a href="" wire:click.prevent="filter()">
+                {{ __($filtering ? 'Hide filters?' : 'Show filters?') }}
+            </a>
+        </p>
     </div>
-    <div class="card-body border-top">
-        <div class="row">
-            <div class="col-sm-6 col-md-4 col-lg-3">
-                <div class="form-group mb-md-0">
-                    <label for="filter-search">{{ __('Search') }}</label>
-                    <input id="filter-search" class="form-control" placeholder="{{ __('Enter name') }}&hellip;" wire:model.debounce.500ms="q" value="{{ $q }}">
+    @if ($filtering)
+        <div class="card-body border-top">
+            <div class="row">
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-group mb-md-0">
+                        <label for="filter-search">{{ __('Search') }}</label>
+                        <input id="filter-search" class="form-control" placeholder="{{ __('Enter name') }}&hellip;" wire:model.debounce.500ms="q" value="{{ $q }}">
+                    </div>
                 </div>
-            </div>
-            <div class="col-sm-6 col-md-4 col-lg-3">
-                <div class="form-group mb-md-0">
-                    <label for="filter-permission">{{ __('Permission') }}</label>
-                    <select id="filter-permission" class="custom-select" wire:model="permission">
-                        <option value="">{{ __('Select') }}&hellip;</option>
-                        @foreach (Spatie\Permission\Models\Permission::query()->get() as $permission)
-                            <option value="{{ $permission->id }}">{{ $permission->name }}</option>
-                        @endforeach
-                    </select>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-group mb-md-0">
+                        <label for="filter-permission">{{ __('Permission') }}</label>
+                        <select id="filter-permission" class="custom-select" wire:model="permission">
+                            <option value="">{{ __('Select') }}&hellip;</option>
+                            @foreach (Spatie\Permission\Models\Permission::query()->get() as $permission)
+                                <option value="{{ $permission->id }}">{{ $permission->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="col-sm-6 col-md-4 col-lg-3 offset-lg-3">
-                <div class="form-group mb-0">
-                    <label for="filter-length">{{ __('Length') }}</label>
-                    <select id="filter-length" class="form-control" wire:model="length">
-                        <option value="10">10</option>
-                        <option value="25">25</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                    </select>
+                <div class="col-sm-6 col-md-4 col-lg-3 offset-lg-3">
+                    <div class="form-group mb-0">
+                        <label for="filter-length">{{ __('Length') }}</label>
+                        <select id="filter-length" class="form-control" wire:model="length">
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    @endif
     <div class="table-responsive">
         <table class="table mb-0">
             <thead class="thead-light">

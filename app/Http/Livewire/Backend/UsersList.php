@@ -13,6 +13,8 @@ class UsersList extends Component
 {
     use WithPagination;
 
+    public $filtering = false;
+
     public $length = '10';
 
     public $order = ['created_at' => 'desc'];
@@ -20,6 +22,11 @@ class UsersList extends Component
     public $q;
 
     public $role;
+
+    public function filter()
+    {
+        $this->filtering = !$this->filtering;
+    }
 
     public function render()
     {
@@ -55,7 +62,7 @@ class UsersList extends Component
         $this->resetPage();
     }
 
-    public function updatingQ($q)
+    public function updatingQ()
     {
         $this->resetPage();
     }

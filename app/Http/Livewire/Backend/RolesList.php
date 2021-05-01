@@ -10,6 +10,8 @@ class RolesList extends Component
 {
     use WithPagination;
 
+    public $filtering = false;
+
     public $length = '10';
 
     public $order = ['created_at' => 'desc'];
@@ -17,6 +19,11 @@ class RolesList extends Component
     public $q;
 
     public $permission;
+
+    public function filter()
+    {
+        $this->filtering = !$this->filtering;
+    }
 
     public function render()
     {
@@ -49,7 +56,7 @@ class RolesList extends Component
         $this->resetPage();
     }
 
-    public function updatingQ($q)
+    public function updatingQ()
     {
         $this->resetPage();
     }

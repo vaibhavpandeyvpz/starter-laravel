@@ -4,42 +4,49 @@
             <span class="sr-only">{{ __('Loading') }}&hellip;</span>
         </div>
         <h5 class="card-title text-primary">{{ __('Users') }}</h5>
-        <p class="card-text">{{ __('List and manage registered users here.') }}</p>
+        <p class="card-text">
+            {{ __('List and manage registered users here.') }}
+            <a href="" wire:click.prevent="filter()">
+                {{ __($filtering ? 'Hide filters?' : 'Show filters?') }}
+            </a>
+        </p>
     </div>
-    <div class="card-body border-top">
-        <div class="row">
-            <div class="col-sm-6 col-md-4 col-lg-3">
-                <div class="form-group @can('viewAny', Spatie\Permission\Models\Role::class) mb-md-0 @else mb-sm-0 @endif">
-                    <label for="filter-search">{{ __('Search') }}</label>
-                    <input id="filter-search" class="form-control" placeholder="{{ __('Enter name or email') }}&hellip;" wire:model.debounce.500ms="q" value="{{ $q }}">
-                </div>
-            </div>
-            @can('viewAny', Spatie\Permission\Models\Role::class)
+    @if ($filtering)
+        <div class="card-body border-top">
+            <div class="row">
                 <div class="col-sm-6 col-md-4 col-lg-3">
-                    <div class="form-group mb-md-0">
-                        <label for="filter-role">{{ __('Role') }}</label>
-                        <select id="filter-role" class="custom-select" wire:model="role">
-                            <option value="">{{ __('Select') }}&hellip;</option>
-                            @foreach (Spatie\Permission\Models\Role::query()->get() as $role)
-                                <option value="{{ $role->id }}">{{ $role->name }}</option>
-                            @endforeach
+                    <div class="form-group @can('viewAny', Spatie\Permission\Models\Role::class) mb-md-0 @else mb-sm-0 @endif">
+                        <label for="filter-search">{{ __('Search') }}</label>
+                        <input id="filter-search" class="form-control" placeholder="{{ __('Enter name or email') }}&hellip;" wire:model.debounce.500ms="q" value="{{ $q }}">
+                    </div>
+                </div>
+                @can('viewAny', Spatie\Permission\Models\Role::class)
+                    <div class="col-sm-6 col-md-4 col-lg-3">
+                        <div class="form-group mb-md-0">
+                            <label for="filter-role">{{ __('Role') }}</label>
+                            <select id="filter-role" class="custom-select" wire:model="role">
+                                <option value="">{{ __('Select') }}&hellip;</option>
+                                @foreach (Spatie\Permission\Models\Role::query()->get() as $role)
+                                    <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                @endif
+                <div class="col-sm-6 col-md-4 col-lg-3 @can('viewAny', Spatie\Permission\Models\Role::class) offset-lg-3 @else offset-lg-6 @endif">
+                    <div class="form-group mb-0">
+                        <label for="filter-length">{{ __('Length') }}</label>
+                        <select id="filter-length" class="form-control" wire:model="length">
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
                         </select>
                     </div>
                 </div>
-            @endif
-            <div class="col-sm-6 col-md-4 col-lg-3 @can('viewAny', Spatie\Permission\Models\Role::class) offset-lg-3 @else offset-lg-6 @endif">
-                <div class="form-group mb-0">
-                    <label for="filter-length">{{ __('Length') }}</label>
-                    <select id="filter-length" class="form-control" wire:model="length">
-                        <option value="10">10</option>
-                        <option value="25">25</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                    </select>
-                </div>
             </div>
         </div>
-    </div>
+    @endif
     <div class="table-responsive">
         <table class="table mb-0">
             <thead class="thead-light">
