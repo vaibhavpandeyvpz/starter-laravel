@@ -13,6 +13,8 @@ class UsersList extends Component
 {
     use WithPagination;
 
+    public $enabled;
+
     public $filtering = false;
 
     public $length = '10';
@@ -44,12 +46,21 @@ class UsersList extends Component
             });
         }
 
+        if ($this->enabled) {
+            $users->where('enabled', $this->enabled === 'true');
+        }
+
         foreach ($this->order as $column => $direction) {
             $users = $users->orderBy($column, $direction);
         }
 
         $users = $users->paginate($this->length);
         return view('livewire.backend.users-list', compact('users'));
+    }
+
+    public function updatingEnabled()
+    {
+        $this->resetPage();
     }
 
     public function updatingLength()

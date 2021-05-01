@@ -15,7 +15,7 @@
         <div class="card-body border-top">
             <div class="row">
                 <div class="col-sm-6 col-md-4 col-lg-3">
-                    <div class="form-group @can('viewAny', Spatie\Permission\Models\Role::class) mb-md-0 @else mb-sm-0 @endif">
+                    <div class="form-group @can('viewAny', Spatie\Permission\Models\Role::class) mb-lg-0 @else mb-md-0 @endif">
                         <label for="filter-search">{{ __('Search') }}</label>
                         <input id="filter-search" class="form-control" placeholder="{{ __('Enter name or email') }}&hellip;" wire:model.debounce.500ms="q" value="{{ $q }}">
                     </div>
@@ -33,7 +33,17 @@
                         </div>
                     </div>
                 @endif
-                <div class="col-sm-6 col-md-4 col-lg-3 @can('viewAny', Spatie\Permission\Models\Role::class) offset-lg-3 @else offset-lg-6 @endif">
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="form-group mb-sm-0">
+                        <label for="filter-enabled">{{ __('Enabled?') }}</label>
+                        <select id="filter-enabled" class="custom-select" wire:model="enabled">
+                            <option value="">{{ __('Select') }}&hellip;</option>
+                            <option value="true">{{ __('Yes') }}</option>
+                            <option value="false">{{ __('No') }}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-4 col-lg-3">
                     <div class="form-group mb-0">
                         <label for="filter-length">{{ __('Length') }}</label>
                         <select id="filter-length" class="form-control" wire:model="length">
