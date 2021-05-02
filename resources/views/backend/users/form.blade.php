@@ -70,7 +70,7 @@
                 </div>
             @endforeach
             @error('roles')
-                <div class="@error('roles') is-invalid @enderror" style="display: none;"></div>
+                <div class="is-invalid" style="display: none;"></div>
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
