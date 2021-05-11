@@ -13,7 +13,6 @@ class PermissionsTableSeeder extends Seeder
      */
     public function run()
     {
-        Permission::create(['name' => 'access backend']);
         Permission::create(['name' => 'view all roles']);
         Permission::create(['name' => 'view role']);
         Permission::create(['name' => 'create role']);

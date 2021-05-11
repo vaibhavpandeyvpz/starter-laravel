@@ -104,13 +104,8 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
-        if ($user->id === Auth::id()) {
-            flash()->warning(__('You must not delete yourself from system.'));
-            return redirect()->back();
-        } else {
-            $user->delete();
-            flash()->info(__('User ":name" has been deleted from system.', ['name' => $user->name]));
-            return redirect()->route('backend.users.index');
-        }
+        $user->delete();
+        flash()->info(__('User ":name" has been deleted from system.', ['name' => $user->name]));
+        return redirect()->route('backend.users.index');
     }
 }

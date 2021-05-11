@@ -52,7 +52,7 @@ class UserPolicy
      */
     public function update(User $user, User $model)
     {
-        return $user->can('update user') && !$model->can('access backend');
+        return $user->can('update user') && $user->id !== $model->id;
     }
 
     /**
@@ -64,7 +64,7 @@ class UserPolicy
      */
     public function delete(User $user, User $model)
     {
-        return $user->can('delete user') && !$model->can('access backend');
+        return $user->can('delete user') && $user->id !== $model->id;
     }
 
     /**
