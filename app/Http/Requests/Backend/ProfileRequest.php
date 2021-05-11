@@ -46,13 +46,13 @@ class ProfileRequest extends FormRequest
             ],
             'photo_remove' => ['sometimes', 'boolean'],
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $this->user()->id],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,'.$this->user()->id],
             'password' => ['nullable', 'required_with:new_password', 'string', 'min:8', 'max:32', new UserPassword],
             'new_password' => ['nullable', 'string', 'min:8', 'max:32', 'confirmed'],
             'birthday' => [
                 'nullable',
                 'date',
-                'before_or_equal:' . now()->subYears(18)->format('Y-m-d'),
+                'before_or_equal:'.today()->subYears(18)->format('Y-m-d'),
             ],
             'timezone' => ['required', 'string', 'timezone'],
         ];
