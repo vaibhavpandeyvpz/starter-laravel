@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\UserRequest;
 use App\User;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
@@ -82,11 +81,6 @@ class UserController extends Controller
             $data['password'] = Hash::make($data['password']);
         }
         $data['enabled'] = $data['enabled'] ?? false;
-        if ($user->id === Auth::id() && !$data['enabled']) {
-            throw ValidationException::withMessages([
-                'enabled' => __('You must not disable yourself.'),
-            ]);
-        }
         $user->fill($data);
         if ($changed = $user->isDirty('email')) {
             $user->email_verified_at = null;
