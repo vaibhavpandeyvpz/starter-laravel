@@ -54,6 +54,6 @@ class ProfileController extends Controller
             $user->sendEmailVerificationNotification();
         }
         flash(__('Your profile details were successfully updated.'))->success();
-        return view('backend.profile');
+        return redirect()->route('backend.profile');
     }
 }
