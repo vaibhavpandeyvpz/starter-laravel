@@ -9,6 +9,26 @@
     $unverified = $user instanceof Illuminate\Contracts\Auth\MustVerifyEmail && !$user->hasVerifiedEmail();
 @endphp
 
+@section('breadcrumb')
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('backend.dashboard') }}">{{ __('Backend') }}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ __('Profile') }}</li>
+        </ol>
+    </nav>
+@endsection
+
+@section('alerts')
+    @if (session('resent'))
+        <div class="container">
+            <div class="alert alert-success" role="alert">
+                {{ __('We have resent the verification link to your email address.') }}
+            </div>
+        </div>
+    @endif
+    @parent
+@endsection
+
 @section('content')
     @if ($unverified)
         <form action="{{ route('verification.resend') }}" id="resend-form" method="post" style="display: none;">
@@ -21,20 +41,7 @@
             }
         </script>
     @endif
-    @if (session('resent'))
-        <div class="container">
-            <div class="alert alert-success" role="alert">
-                {{ __('We have resent the verification link to your email address.') }}
-            </div>
-        </div>
-    @endif
     <main class="container">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('backend.dashboard') }}">{{ __('Backend') }}</a></li>
-                <li class="breadcrumb-item active" aria-current="page">{{ __('Profile') }}</li>
-            </ol>
-        </nav>
         <div class="card shadow-sm">
             <div class="card-body">
                 <h5 class="card-title text-primary">{{ __('Profile') }}</h5>

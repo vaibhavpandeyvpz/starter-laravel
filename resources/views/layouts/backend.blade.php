@@ -54,7 +54,10 @@
         </nav>
     </header>
     <div class="container">
-        @include('flash::message')
+        @yield('breadcrumb')
+        @section('alerts')
+            @include('flash::message')
+        @show
     </div>
     @yield('content')
     <footer class="container my-3">

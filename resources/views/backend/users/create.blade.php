@@ -4,19 +4,22 @@
     <title>{{ __('Users') }} - {{ __('Create') }} | {{ __('Backend') }} | {{ config('app.name', 'Laravel') }}</title>
 @endsection
 
+@section('breadcrumb')
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('backend.dashboard') }}">{{ __('Backend') }}</a></li>
+            @can('viewAny', App\User::class)
+                <li class="breadcrumb-item"><a href="{{ route('backend.users.index') }}">{{ __('Users') }}</a></li>
+            @else
+                <li class="breadcrumb-item">{{ __('Users') }}</li>
+            @endcan
+            <li class="breadcrumb-item active" aria-current="page">{{ __('New') }}</li>
+        </ol>
+    </nav>
+@endsection
+
 @section('content')
     <main class="container">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('backend.dashboard') }}">{{ __('Backend') }}</a></li>
-                @can('viewAny', App\User::class)
-                    <li class="breadcrumb-item"><a href="{{ route('backend.users.index') }}">{{ __('Users') }}</a></li>
-                @else
-                    <li class="breadcrumb-item">{{ __('Users') }}</li>
-                @endcan
-                <li class="breadcrumb-item active" aria-current="page">{{ __('New') }}</li>
-            </ol>
-        </nav>
         @can('viewAny', App\User::class)
             <div class="btn-toolbar mb-3">
                 <a class="btn btn-outline-dark" href="{{ route('backend.users.index') }}">
