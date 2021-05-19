@@ -16,9 +16,9 @@ class RolesList extends Component
 
     public $order = ['created_at' => 'desc'];
 
-    public $q;
-
     public $permission;
+
+    public $search;
 
     public function filter()
     {
@@ -27,23 +27,38 @@ class RolesList extends Component
 
     public function render()
     {
-        $roles = Role::query();
-        if ($this->q) {
-            $roles = $roles->where('name', 'like', "%$this->q%");
+        $query = Role::query();
+        if ($this->search) {
+            $query->where('name', 'like', "%$this->search%");
         }
 
         if ($this->permission) {
-            $roles->whereHas('permissions', function ($query) {
+            $query->whereHas('permissions', function ($query) {
                 $query->whereKey($this->permission);
             });
         }
 
         foreach ($this->order as $column => $direction) {
-            $roles = $roles->orderBy($column, $direction);
+            $query->orderBy($column, $direction);
         }
 
-        $roles = $roles->paginate($this->length);
+        $roles = $query->paginate($this->length);
         return view('livewire.backend.roles-list', compact('roles'));
+    }
+
+    /**
+     * @param string $column
+     * @param string|false $direction
+     */
+    public function sort(string $column, $direction)
+    {
+        if ($direction) {
+            $this->order[$column] = $direction;
+        } else {
+            unset($this->order[$column]);
+        }
+
+        $this->resetPage();
     }
 
     public function updatingLength()
@@ -56,23 +71,8 @@ class RolesList extends Component
         $this->resetPage();
     }
 
-    public function updatingQ()
+    public function updatingSearch()
     {
-        $this->resetPage();
-    }
-
-    /**
-     * @param string $column
-     * @param string|false $direction
-     */
-    public function sort($column, $direction)
-    {
-        if ($direction) {
-            $this->order[$column] = $direction;
-        } else {
-            unset($this->order[$column]);
-        }
-
         $this->resetPage();
     }
 }

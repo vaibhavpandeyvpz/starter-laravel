@@ -21,9 +21,9 @@ class UsersList extends Component
 
     public $order = ['created_at' => 'desc'];
 
-    public $q;
-
     public $role;
+
+    public $search;
 
     public function filter()
     {
@@ -32,30 +32,45 @@ class UsersList extends Component
 
     public function render()
     {
-        $users = User::query();
-        if ($this->q) {
-            $users = $users->where(function (Builder $query) {
-                $query->where('name', 'like', "%$this->q%")
-                    ->orWhere('email', 'like', "%$this->q%");
+        $query = User::query();
+        if ($this->search) {
+            $query->where(function (Builder $query) {
+                $query->where('name', 'like', "%$this->search%")
+                    ->orWhere('email', 'like', "%$this->search%");
             });
         }
 
         if ($this->role && Gate::check('viewAny', Role::class)) {
-            $users->whereHas('roles', function ($query) {
+            $query->whereHas('roles', function ($query) {
                 $query->whereKey($this->role);
             });
         }
 
         if ($this->enabled) {
-            $users->where('enabled', $this->enabled === 'true');
+            $query->where('enabled', $this->enabled === 'true');
         }
 
         foreach ($this->order as $column => $direction) {
-            $users = $users->orderBy($column, $direction);
+            $query->orderBy($column, $direction);
         }
 
-        $users = $users->paginate($this->length);
+        $users = $query->paginate($this->length);
         return view('livewire.backend.users-list', compact('users'));
+    }
+
+    /**
+     * @param string $column
+     * @param string|false $direction
+     */
+    public function sort(string $column, $direction)
+    {
+        if ($direction) {
+            $this->order[$column] = $direction;
+        } else {
+            unset($this->order[$column]);
+        }
+
+        $this->resetPage();
     }
 
     public function updatingEnabled()
@@ -73,23 +88,8 @@ class UsersList extends Component
         $this->resetPage();
     }
 
-    public function updatingQ()
+    public function updatingSearch()
     {
-        $this->resetPage();
-    }
-
-    /**
-     * @param string $column
-     * @param string|false $direction
-     */
-    public function sort($column, $direction)
-    {
-        if ($direction) {
-            $this->order[$column] = $direction;
-        } else {
-            unset($this->order[$column]);
-        }
-
         $this->resetPage();
     }
 }

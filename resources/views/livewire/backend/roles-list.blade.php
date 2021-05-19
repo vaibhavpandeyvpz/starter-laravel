@@ -17,7 +17,7 @@
                 <div class="col-sm-6 col-md-4 col-lg-3">
                     <div class="form-group mb-md-0">
                         <label for="filter-search">{{ __('Search') }}</label>
-                        <input id="filter-search" class="form-control" placeholder="{{ __('Enter name') }}&hellip;" wire:model.debounce.500ms="q" value="{{ $q }}">
+                        <input id="filter-search" class="form-control" placeholder="{{ __('Enter name') }}&hellip;" wire:model.debounce.500ms="search">
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-4 col-lg-3">

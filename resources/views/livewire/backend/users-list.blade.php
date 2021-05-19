@@ -17,7 +17,7 @@
                 <div class="col-sm-6 col-md-4 col-lg-3">
                     <div class="form-group @can('viewAny', Spatie\Permission\Models\Role::class) mb-lg-0 @else mb-md-0 @endif">
                         <label for="filter-search">{{ __('Search') }}</label>
-                        <input id="filter-search" class="form-control" placeholder="{{ __('Enter name or email') }}&hellip;" wire:model.debounce.500ms="q" value="{{ $q }}">
+                        <input id="filter-search" class="form-control" placeholder="{{ __('Enter name or email') }}&hellip;" wire:model.debounce.500ms="search">
                     </div>
                 </div>
                 @can('viewAny', Spatie\Permission\Models\Role::class)
