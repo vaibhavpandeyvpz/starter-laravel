@@ -20,7 +20,7 @@ class AssignAdministrator extends Command
      *
      * @var string
      */
-    protected $description = 'Sets "Administrator" role to specified email address.';
+    protected $description = 'Sync all available roles with specified user by email address.';
 
     /**
      * Create a new command instance.
