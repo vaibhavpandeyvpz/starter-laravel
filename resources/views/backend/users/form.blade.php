@@ -63,12 +63,14 @@
     <div class="form-group row">
         <label class="col-sm-4 col-form-label">{{ __('Roles') }} <span class="text-danger">&ast;</span></label>
         <div class="col-sm-8">
-            @foreach ($roles as $role)
-                <div class="custom-control custom-checkbox">
-                    <input class="custom-control-input" id="user-role-{{ $role->id }}" name="roles[]" type="checkbox" value="{{ $role->id }}" @if ($old_roles->contains($role->id)) checked @endif>
-                    <label class="custom-control-label" for="user-role-{{ $role->id }}">{{ $role->name }}</label>
-                </div>
-            @endforeach
+            <div class="mt-sm-2">
+                @foreach ($roles as $role)
+                    <div class="custom-control custom-checkbox">
+                        <input class="custom-control-input" id="user-role-{{ $role->id }}" name="roles[]" type="checkbox" value="{{ $role->id }}" @if ($old_roles->contains($role->id)) checked @endif>
+                        <label class="custom-control-label" for="user-role-{{ $role->id }}">{{ $role->name }}</label>
+                    </div>
+                @endforeach
+            </div>
             @error('roles')
                 <div class="is-invalid" style="display: none;"></div>
                 <div class="invalid-feedback">{{ $message }}</div>

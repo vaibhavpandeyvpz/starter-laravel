@@ -26,12 +26,14 @@
 <div class="form-group row">
     <label class="col-sm-4 col-form-label">{{ __('Permissions') }} <span class="text-danger">&ast;</span></label>
     <div class="col-sm-8">
-        @foreach ($permissions as $permission)
-            <div class="custom-control custom-checkbox">
-                <input class="custom-control-input" id="role-permission-{{ $permission->id }}" name="permissions[]" type="checkbox" value="{{ $permission->id }}" @if ($old_permissions->contains($permission->id)) checked @endif>
-                <label class="custom-control-label" for="role-permission-{{ $permission->id }}">{{ $permission->name }}</label>
-            </div>
-        @endforeach
+        <div class="mt-sm-2">
+            @foreach ($permissions as $permission)
+                <div class="custom-control custom-checkbox">
+                    <input class="custom-control-input" id="role-permission-{{ $permission->id }}" name="permissions[]" type="checkbox" value="{{ $permission->id }}" @if ($old_permissions->contains($permission->id)) checked @endif>
+                    <label class="custom-control-label" for="role-permission-{{ $permission->id }}">{{ $permission->name }}</label>
+                </div>
+            @endforeach
+        </div>
         @error('permissions')
             <div class="is-invalid" style="display: none;"></div>
             <div class="invalid-feedback">{{ $message }}</div>
