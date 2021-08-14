@@ -1,0 +1,61 @@
+version: '3'
+
+networks:
+  laravel:
+
+services:
+  nginx:
+    container_name: nginx
+    build:
+      context: .
+      dockerfile: .docker/nginx/Dockerfile
+    volumes:
+      - ./:/var/www/html:delegated
+    ports:
+      - 8000:80
+    networks:
+      - laravel
+
+  php:
+    container_name: php
+    build:
+      context: .
+      dockerfile: .docker/php/Dockerfile
+    volumes:
+      - .:/var/www/html:delegated
+    working_dir: /var/www/html
+    networks:
+      - laravel
+
+  mariadb:
+    container_name: mariadb
+    image: mariadb:10.5
+    restart: unless-stopped
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: homestead
+      MYSQL_USER: homestead
+      MYSQL_PASSWORD: secret
+      MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
+    networks:
+      - laravel
+
+  redis:
+    image: redis:5
+    container_name: redis
+    restart: unless-stopped
+    ports:
+      - 6379:6379
+    networks:
+      - laravel
+
+  npm:
+    container_name: npm
+    image: node:lts
+    volumes:
+      - ./:/var/www/html
+    working_dir: /var/www/html
+    user: www-data
+    networks:
+      - laravel
