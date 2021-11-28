@@ -1,40 +1,12 @@
 version: '3'
 
 services:
-  app:
-    build: .
-    environment:
-      APP_DEBUG: 'true'
-      APP_ENV: local
-      APP_KEY: base64:kOsUbeIDHgUUgN6/6APuscYHnRiZ1EBAduAkDHdK22s=
-      APP_URL: http://localhost:8080
-      AWS_ACCESS_KEY_ID: accessKey1
-      AWS_SECRET_ACCESS_KEY: verySecretKey1
-      AWS_DEFAULT_REGION: us-east-1
-      AWS_BUCKET: laravel
-      AWS_ENDPOINT: http://zenko:8000
-      AWS_ENDPOINT_PATH_STYLE: 'true'
-      DB_HOST: mariadb
-      DB_DATABASE: laravel
-      DB_USERNAME: laravel
-      DB_PASSWORD: laravel
-      QUEUE_CONNECTION: redis
-      REDIS_HOST: redis
-    ports:
-      - '8080:80'
-    volumes:
-      - .:/var/www/html
-      - /var/www/html/bootstrap/cache
-      - /var/www/html/node_modules
-      - /var/www/html/storage
-      - /var/www/html/vendor
-
   mariadb:
     image: mariadb:10.5
     environment:
-      MYSQL_DATABASE: laravel
-      MYSQL_USER: laravel
-      MYSQL_PASSWORD: laravel
+      MYSQL_DATABASE: homestead
+      MYSQL_USER: homestead
+      MYSQL_PASSWORD: secret
       MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
     ports:
       - '3306:3306'
@@ -46,32 +18,21 @@ services:
     depends_on:
       - mariadb
     environment:
-      PMA_HOST: laravel
-      PMA_USER: laravel
-      PMA_PASSWORD: laravel
+      PMA_HOST: homestead
+      PMA_USER: homestead
+      PMA_PASSWORD: secret
     ports:
       - '9090:80'
 
   queue:
     build: .
     command: php artisan queue:work
-    environment:
-      APP_DEBUG: 'true'
-      APP_ENV: local
-      APP_KEY: base64:kOsUbeIDHgUUgN6/6APuscYHnRiZ1EBAduAkDHdK22s=
-      APP_URL: http://localhost:8080
-      AWS_ACCESS_KEY_ID: accessKey1
-      AWS_SECRET_ACCESS_KEY: verySecretKey1
-      AWS_DEFAULT_REGION: us-east-1
-      AWS_BUCKET: laravel
-      AWS_ENDPOINT: http://zenko:8000
-      AWS_ENDPOINT_PATH_STYLE: 'true'
-      DB_HOST: mariadb
-      DB_DATABASE: laravel
-      DB_USERNAME: laravel
-      DB_PASSWORD: laravel
-      QUEUE_CONNECTION: redis
-      REDIS_HOST: redis
+    depends_on:
+      - mariadb
+      - redis
+      - zenko
+    env_file:
+      - .env.docker
     volumes:
       - .:/var/www/html
       - /var/www/html/bootstrap/cache
@@ -85,6 +46,23 @@ services:
       - '6379:6379'
     volumes:
       - redis_data:/data
+
+  web:
+    build: .
+    depends_on:
+      - mariadb
+      - redis
+      - zenko
+    env_file:
+      - .env.docker
+    ports:
+      - '8080:80'
+    volumes:
+      - .:/var/www/html
+      - /var/www/html/bootstrap/cache
+      - /var/www/html/node_modules
+      - /var/www/html/storage
+      - /var/www/html/vendor
 
   zenko:
     image: zenko/cloudserver

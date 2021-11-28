@@ -39,21 +39,21 @@ To start the application, run below command in Command Prompt, PowerShell or Ter
 docker-compose up -d
 ```
 
-The `app` container also includes `composer` for you to carry out common tasks, some basic examples are below:
+The `web` container also includes `composer` for you to carry out common tasks, some basic examples are below:
 
 ```shell
 # install any PHP package
-docker-compose exec app composer require <package-name>
+docker-compose exec web composer require <package-name>
 
 # run migrations and seed database
-docker-compose exec app php artisan migrate --seed
+docker-compose exec web php artisan migrate --seed
 ```
 
 Before you start to use the bundled S3-compatible cloud storage, you will need to create the bucket as follows:
 
 ```shell
 # open a shell
-docker-compose exec app sh
+docker-compose exec web sh
 
 # start a tinker session
 php artisan tinker
@@ -85,5 +85,5 @@ Then assign newly created user with administrator privileges by running below co
 php artisan app:assign-admin <email-address-of-the-user>
 
 # if using Docker
-docker-compose exec app php artisan app:assign-admin <email-address-of-the-user>
+docker-compose exec web php artisan app:assign-admin <email-address-of-the-user>
 ```
