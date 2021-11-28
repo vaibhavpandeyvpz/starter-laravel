@@ -1,61 +1,106 @@
 version: '3'
 
-networks:
-  laravel:
-
 services:
-  nginx:
-    container_name: nginx
-    build:
-      context: .
-      dockerfile: .docker/nginx/Dockerfile
-    volumes:
-      - ./:/var/www/html:delegated
+  app:
+    build: .
+    environment:
+      APP_DEBUG: 'true'
+      APP_ENV: local
+      APP_KEY: base64:kOsUbeIDHgUUgN6/6APuscYHnRiZ1EBAduAkDHdK22s=
+      APP_URL: http://localhost:8080
+      AWS_ACCESS_KEY_ID: accessKey1
+      AWS_SECRET_ACCESS_KEY: verySecretKey1
+      AWS_DEFAULT_REGION: us-east-1
+      AWS_BUCKET: laravel
+      AWS_ENDPOINT: http://zenko:8000
+      AWS_ENDPOINT_PATH_STYLE: 'true'
+      DB_HOST: mariadb
+      DB_DATABASE: laravel
+      DB_USERNAME: laravel
+      DB_PASSWORD: laravel
+      QUEUE_CONNECTION: redis
+      REDIS_HOST: redis
     ports:
-      - 8000:80
-    networks:
-      - laravel
-
-  php:
-    container_name: php
-    build:
-      context: .
-      dockerfile: .docker/php/Dockerfile
+      - '8080:80'
     volumes:
-      - .:/var/www/html:delegated
-    working_dir: /var/www/html
-    networks:
-      - laravel
+      - .:/var/www/html
+      - /var/www/html/bootstrap/cache
+      - /var/www/html/node_modules
+      - /var/www/html/storage
+      - /var/www/html/vendor
 
   mariadb:
-    container_name: mariadb
     image: mariadb:10.5
-    restart: unless-stopped
-    ports:
-      - 3306:3306
     environment:
-      MYSQL_DATABASE: homestead
-      MYSQL_USER: homestead
-      MYSQL_PASSWORD: secret
+      MYSQL_DATABASE: laravel
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: laravel
       MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
-    networks:
-      - laravel
+    ports:
+      - '3306:3306'
+    volumes:
+      - mariadb_data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin:5
+    depends_on:
+      - mariadb
+    environment:
+      PMA_HOST: laravel
+      PMA_USER: laravel
+      PMA_PASSWORD: laravel
+    ports:
+      - '9090:80'
+
+  queue:
+    build: .
+    command: php artisan queue:work
+    environment:
+      APP_DEBUG: 'true'
+      APP_ENV: local
+      APP_KEY: base64:kOsUbeIDHgUUgN6/6APuscYHnRiZ1EBAduAkDHdK22s=
+      APP_URL: http://localhost:8080
+      AWS_ACCESS_KEY_ID: accessKey1
+      AWS_SECRET_ACCESS_KEY: verySecretKey1
+      AWS_DEFAULT_REGION: us-east-1
+      AWS_BUCKET: laravel
+      AWS_ENDPOINT: http://zenko:8000
+      AWS_ENDPOINT_PATH_STYLE: 'true'
+      DB_HOST: mariadb
+      DB_DATABASE: laravel
+      DB_USERNAME: laravel
+      DB_PASSWORD: laravel
+      QUEUE_CONNECTION: redis
+      REDIS_HOST: redis
+    volumes:
+      - .:/var/www/html
+      - /var/www/html/bootstrap/cache
+      - /var/www/html/node_modules
+      - /var/www/html/storage
+      - /var/www/html/vendor
 
   redis:
-    image: redis:5
-    container_name: redis
-    restart: unless-stopped
+    image: redis:5-alpine
     ports:
-      - 6379:6379
-    networks:
-      - laravel
-
-  npm:
-    container_name: npm
-    image: node:lts
+      - '6379:6379'
     volumes:
-      - ./:/var/www/html
-    working_dir: /var/www/html
-    user: www-data
-    networks:
-      - laravel
+      - redis_data:/data
+
+  zenko:
+    image: zenko/cloudserver
+    environment:
+      ENDPOINT: zenko
+      REMOTE_MANAGEMENT_DISABLE: '1'
+      S3DATAPATH: /data
+      S3METADATAPATH: /metadata
+    ports:
+      - '8000:8000'
+    volumes:
+      - zenko_data:/data
+      - zenko_metadata:/metadata
+
+volumes:
+  mariadb_data:
+  redis_data:
+  zenko_data:
+  zenko_metadata:

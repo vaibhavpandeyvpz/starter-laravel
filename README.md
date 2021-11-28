@@ -14,7 +14,7 @@ composer create-project vaibhavpandeyvpz/starter-laravel:@dev <your-project-name
 To run the project, you can either start a local web server or run it inside a [Docker](https://www.docker.com/) container.
 The ready-made `docker-compose` configuration includes [NGINX](https://www.nginx.com/), [PHP](https://www.php.net/), [MariaDB](https://mariadb.org/) and [Redis](https://redis.io/) by default.
 
-### Local
+## Local
 
 Edit the `.env` file with your database information and seed the database with seeds by running below commands:
 
@@ -28,43 +28,64 @@ Start the built-in development server using below command:
 php artisan serve
 ```
 
-Now open the project URL (i.e., [http://localhost:8000](http://localhost:8000) by default) in your favorite web browser and register for an account.
-Then assign newly created user with administrator privileges by running below command with its email:
+## Docker
 
-```shell
-php artisan app:assign-admin <email-address-of-the-user>
-```
+This project also includes pre-configured [Docker](https://www.docker.com/) scripts for faster development and deployment.
 
-
-### Docker
-
-You must make below changes to `.env` to be able to get up and running with [Docker](https://www.docker.com/):
-
-```shell
-DB_HOST=mariadb
-REDIS_HOST=redis
-```
+### Development
 
 To start the application, run below command in Command Prompt, PowerShell or Terminal window:
 
 ```shell
-docker-compose up
+docker-compose up -d
 ```
 
-The `php` container also includes `composer` for you to carry out common tasks.
-Some basic examples are below:
+The `app` container also includes `composer` for you to carry out common tasks, some basic examples are below:
 
 ```shell
-# install PHP dependencies
-docker-compose exec php composer install
-
-# set application secret key
-docker-compose exec php php artisan key:generate
+# install any PHP package
+docker-compose exec app composer require <package-name>
 
 # run migrations and seed database
-docker-compose exec php php artisan migrate --seed
+docker-compose exec app php artisan migrate --seed
+```
+
+Before you start to use the bundled S3-compatible cloud storage, you will need to create the bucket as follows:
+
+```shell
+# open a shell
+docker-compose exec app sh
+
+# start a tinker session
+php artisan tinker
+
+# copy/paste and run below PHP code
+$client = Storage::cloud()->getAdapter()->getClient();
+$result = $client->createBucket(['Bucket' => config('filesystems.disks.s3.bucket')]);
+```
+
+
+### Deployment
+
+To build an image for deployment and publish the image to a registry e.g., [Docker Hub](https://hub.docker.com/), use command as below:
+
+```shell
+# build and tag image
+docker build -t vaibhavpandeyvpz/starter-laravel .
+
+# push image to registry
+docker push vaibhavpandeyvpz/starter-laravel
 ```
 
 ## Backend
 
-Lastly, you may access the backend at [http://localhost:8000/backend](http://localhost:8000/backend).
+Lastly, you may access the backend at [http://localhost:8080/](http://localhost:8080/) in your favorite web browser and register for an account.
+Then assign newly created user with administrator privileges by running below command with its email:
+
+```shell
+# if developing locally
+php artisan app:assign-admin <email-address-of-the-user>
+
+# if using Docker
+docker-compose exec app php artisan app:assign-admin <email-address-of-the-user>
+```
