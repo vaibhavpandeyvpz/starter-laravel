@@ -21,7 +21,6 @@ Route::get('login/{provider}', 'Auth\LoginController@redirect')->name('login.soc
 Route::get('login/{provider}/callback', 'Auth\LoginController@callback');
 
 Route::middleware('auth')->namespace('Backend')->prefix('backend')->group(function () {
-
     Route::view('/', 'backend.dashboard')->name('backend.dashboard');
 
     Route::resource('users', 'UserController', ['as' => 'backend']);

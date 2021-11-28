@@ -50,6 +50,7 @@ class UserController extends Controller
             $user->sendEmailVerificationNotification();
         }
         flash()->success(__('User ":name" has been added to system.', ['name' => $user->name]));
+
         return redirect()->route('backend.users.show', $user);
     }
 
@@ -93,6 +94,7 @@ class UserController extends Controller
             $user->sendEmailVerificationNotification();
         }
         flash()->success(__('User ":name" information has been updated.', ['name' => $user->name]));
+
         return redirect()->route('backend.users.show', $user);
     }
 
@@ -100,6 +102,7 @@ class UserController extends Controller
     {
         $user->delete();
         flash()->info(__('User ":name" has been deleted from system.', ['name' => $user->name]));
+
         return redirect()->route('backend.users.index');
     }
 }

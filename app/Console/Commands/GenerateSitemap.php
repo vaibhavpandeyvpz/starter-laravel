@@ -4,7 +4,6 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Spatie\Sitemap\SitemapGenerator;
-use Spatie\Sitemap\Tags\Url;
 
 class GenerateSitemap extends Command
 {
@@ -45,6 +44,7 @@ class GenerateSitemap extends Command
             ->add('/password/reset')
             ->add('/register')
             ->writeToFile(public_path('sitemap.xml'));
+
         return 0;
     }
 }

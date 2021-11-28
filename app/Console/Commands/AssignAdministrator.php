@@ -45,6 +45,7 @@ class AssignAdministrator extends Command
             ->firstOrFail();
         $roles = Role::query()->get();
         $user->syncRoles(...$roles);
+
         return 0;
     }
 }

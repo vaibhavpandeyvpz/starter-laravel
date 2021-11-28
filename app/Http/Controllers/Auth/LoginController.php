@@ -68,10 +68,12 @@ class LoginController extends Controller
             ->first();
         if ($local) {
             Auth::login($local);
+
             return $this->sendLoginResponse($request);
         }
 
         flash()->success(__('Could find an associated account to authenticate.'));
+
         return redirect()->route('login');
     }
 }

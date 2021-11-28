@@ -55,6 +55,7 @@ class UsersList extends Component
         }
 
         $users = $query->paginate($this->length);
+
         return view('livewire.backend.users-list', compact('users'));
     }
 

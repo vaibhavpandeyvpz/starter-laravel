@@ -17,6 +17,7 @@ class ForbidIfDisabled
     {
         $user = $request->user();
         abort_if($user && !$user->enabled, 403);
+
         return $next($request);
     }
 }

@@ -25,7 +25,7 @@ class ProfileController extends Controller
         if ($data['photo_remove'] ?? false) {
             $data['photo'] = null;
             $old_photo = $user->photo;
-        } else if (empty($data['photo'])) {
+        } elseif (empty($data['photo'])) {
             unset($data['photo']);
         } else {
             /** @var UploadedFile $photo */
@@ -54,6 +54,7 @@ class ProfileController extends Controller
             $user->sendEmailVerificationNotification();
         }
         flash(__('Your profile details were successfully updated.'))->success();
+
         return redirect()->route('backend.profile');
     }
 }

@@ -43,6 +43,7 @@ class RolesList extends Component
         }
 
         $roles = $query->paginate($this->length);
+
         return view('livewire.backend.roles-list', compact('roles'));
     }
 

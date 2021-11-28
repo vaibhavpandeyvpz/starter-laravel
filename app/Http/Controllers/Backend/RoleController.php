@@ -40,6 +40,7 @@ class RoleController extends Controller
         $role = Role::query()->create($data);
         $role->syncPermissions(Permission::query()->whereIn('id', $data['permissions'] ?? [])->get());
         flash()->success(__('Role ":name" has been added to system.', ['name' => $role->name]));
+
         return redirect()->route('backend.roles.show', $role);
     }
 
@@ -69,6 +70,7 @@ class RoleController extends Controller
         $role->save();
         $role->syncPermissions(Permission::query()->whereIn('id', $data['permissions'] ?? [])->get());
         flash()->success(__('Role ":name" information has been updated.', ['name' => $role->name]));
+
         return redirect()->route('backend.roles.show', $role);
     }
 
@@ -76,6 +78,7 @@ class RoleController extends Controller
     {
         $role->delete();
         flash()->info(__('Role ":name" has been deleted from system.', ['name' => $role->name]));
+
         return redirect()->route('backend.roles.index');
     }
 }
