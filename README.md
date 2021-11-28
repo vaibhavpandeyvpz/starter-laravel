@@ -88,7 +88,7 @@ php artisan app:assign-admin <email-address-of-the-user>
 docker-compose exec web php artisan app:assign-admin <email-address-of-the-user>
 ```
 
-## Base practices
+## Best practices
 
 To enforce recommended coding style across project, this project also includes configuration for [PHP CS Fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer) be default.
 Before committing your changes, you may run below command to test your code against any such issue.
