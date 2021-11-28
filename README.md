@@ -12,7 +12,6 @@ composer create-project vaibhavpandeyvpz/starter-laravel:@dev <your-project-name
 ```
 
 To run the project, you can either start a local web server or run it inside a [Docker](https://www.docker.com/) container.
-The ready-made `docker-compose` configuration includes [NGINX](https://www.nginx.com/), [PHP](https://www.php.net/), [MariaDB](https://mariadb.org/) and [Redis](https://redis.io/) by default.
 
 ## Local
 
