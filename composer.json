@@ -1,7 +1,7 @@
 {
-    "name": "vaibhavpandeyvpz/laravel-crud",
+    "name": "vaibhavpandeyvpz/starter-laravel",
     "type": "project",
-    "description": "Quick, Laravel LTS CRUD boilerplate using livewire with RBAC.",
+    "description": "Quick, Laravel LTS CRUD boilerplate using Livewire with RBAC.",
     "license": "MIT",
     "require": {
         "php": "^7.2",

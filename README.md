@@ -1,14 +1,14 @@
-# vaibhavpandeyvpz/laravel-crud
+# vaibhavpandeyvpz/starter-laravel
 
-Quick, Laravel LTS CRUD boilerplate using livewire with RBAC. Has better default auth views based on Bootstrap, nicely
-integrates Select2 & Flatpickr as well.
+Quick, [Laravel](https://laravel.com/) LTS CRUD boilerplate using [Livewire](https://laravel-livewire.com/) with [RBAC](https://spatie.be/docs/laravel-permission/v3/introduction).
+Has better default auth views based on [Bootstrap](https://getbootstrap.com/docs/4.6/getting-started/introduction/), nicely integrates [Select2](https://select2.org/) and [Flatpickr](https://flatpickr.js.org/) as well.
 
 ## Installation
 
-To create a new project from this boilerplate, run below command in Command Prompt, PowerShell or Terminal window:
+To create a new project from this template, run below command in Command Prompt, PowerShell or Terminal window:
 
 ```shell
-composer create-project vaibhavpandeyvpz/laravel-crud:@dev <your-project-name>
+composer create-project vaibhavpandeyvpz/starter-laravel:@dev <your-project-name>
 ```
 
 To run the project, you can either start a local web server or run it inside a [Docker](https://www.docker.com/) container.
