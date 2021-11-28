@@ -63,7 +63,6 @@ $client = Storage::cloud()->getAdapter()->getClient();
 $result = $client->createBucket(['Bucket' => config('filesystems.disks.s3.bucket')]);
 ```
 
-
 ### Deployment
 
 To build an image for deployment and publish the image to a registry e.g., [Docker Hub](https://hub.docker.com/), use command as below:
