@@ -77,7 +77,7 @@ docker push vaibhavpandeyvpz/starter-laravel
 
 ## Backend
 
-Lastly, you may access the backend at [http://localhost:8080/](http://localhost:8080/) in your favorite web browser and register for an account.
+Lastly, you may access the backend at [http://localhost:8000/](http://localhost:8000/) or [http://localhost:8080/](http://localhost:8080/) (if using Docker) in your favorite web browser and register for an account.
 Then assign newly created user with administrator privileges by running below command with its email:
 
 ```shell
