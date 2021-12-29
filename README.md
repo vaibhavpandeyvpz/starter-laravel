@@ -5,6 +5,8 @@ Has better default auth views based on [Bootstrap](https://getbootstrap.com/docs
 
 ## Installation
 
+Before installing, make sure to have [PHP](https://www.php.net/), [Composer](https://getcomposer.org/), [Node.js](https://nodejs.org/en/), [Yarn](https://yarnpkg.com/) and either of [MySQL](https://www.mysql.com/) or [MariaDB](https://mariadb.org/) installed on your workstation.
+
 To create a new project from this template, run below command in Command Prompt, PowerShell or Terminal window:
 
 ```shell
