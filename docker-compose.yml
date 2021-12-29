@@ -32,7 +32,7 @@ services:
       - redis
       - zenko
     env_file:
-      - .env.docker
+      - .env
     volumes:
       - .:/var/www/html
       - /var/www/html/bootstrap/cache
@@ -54,7 +54,7 @@ services:
       - redis
       - zenko
     env_file:
-      - .env.docker
+      - .env
     ports:
       - '8080:80'
     volumes:
