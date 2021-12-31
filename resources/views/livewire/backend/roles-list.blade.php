@@ -81,7 +81,7 @@
             @forelse ($roles as $role)
                 <tr>
                     <td>{{ $role->id }}</td>
-                    <td>{{ $role->name }}</td>
+                    <td><a href="{{ route('backend.roles.show', $role) }}">{{ $role->name }}</a></td>
                     <td>{{ __(':count Permissions', ['count' => $role->permissions()->count()]) }}</td>
                     <td>{{ __(':count Users', ['count' => $role->users()->count()]) }}</td>
                     <td>{{ Timezone::convertToLocal($role->created_at) }}</td>
