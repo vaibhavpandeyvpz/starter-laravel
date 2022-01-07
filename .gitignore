@@ -6,9 +6,10 @@
 /vendor
 .env*
 !.env.example
+.phplint-cache
 .phpunit.result.cache
+.php-cs-fixer.cache
 Homestead.json
 Homestead.yaml
 npm-debug.log
-.php-cs-fixer*cache
 yarn-error.log

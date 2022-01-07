@@ -1,0 +1,74 @@
+image: php:7.2-cli
+
+definitions:
+  services:
+    mysql:
+      image: mysql:5.7
+      environment:
+        MYSQL_DATABASE: homestead
+        MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
+        MYSQL_USER: homestead
+        MYSQL_PASSWORD: secret
+
+    redis:
+      image: redis
+
+pipelines:
+  default:
+    - parallel:
+        - step:
+            name: Check code-style
+            caches:
+              - composer
+            script:
+              - apt update && apt install -qy curl git libpng-dev libzip-dev zip zlib1g-dev
+              - docker-php-ext-install exif gd zip
+              - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+              - composer install
+              - ./vendor/bin/php-cs-fixer fix --diff --dry-run --show-progress=dots -vvv
+        - step:
+            name: Lint for problems
+            caches:
+              - composer
+            script:
+              - apt update && apt install -qy curl git libpng-dev libzip-dev zip zlib1g-dev
+              - docker-php-ext-install exif gd zip
+              - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+              - composer install
+              - ./vendor/bin/phplint . --exclude=vendor
+
+  pull-requests:
+    '**':
+      - step:
+          name: Run test suites
+          artifacts:
+            - coverage/**
+          caches:
+            - composer
+          services:
+            - mysql
+            - redis
+          script:
+            - export DB_DATABASE=homestead
+            - export DB_USERNAME=homestead
+            - export DB_PASSWORD=secret
+            - apt update && apt install -qy curl git libpng-dev libzip-dev zip zlib1g-dev
+            - yes | pecl install xdebug-3.1.2
+            - docker-php-ext-enable xdebug
+            - docker-php-ext-install exif gd pdo_mysql zip
+            - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+            - composer install
+            - php -r "copy('.env.example', '.env');"
+            - php artisan key:generate && php artisan migrate --seed
+            - XDEBUG_MODE=coverage ./vendor/bin/phpunit --coverage-html coverage
+
+  branches:
+    main:
+      - step:
+          name: Build & push image
+          caches:
+            - docker
+          script:
+            - docker build -t $BITBUCKET_REPO_FULL_NAME:latest .
+            - docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_ACCESS_TOKEN
+            - docker push $BITBUCKET_REPO_FULL_NAME:latest
