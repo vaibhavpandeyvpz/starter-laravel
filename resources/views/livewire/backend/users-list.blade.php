@@ -117,7 +117,7 @@
                             ])
                         @endif
                     </td>
-                    <td>{{ $user->name }}</td>
+                    <td><a href="{{ route('backend.users.show', $user) }}">{{ $user->name }}</a></td>
                     <td><a href="mailto:{{ $user->email }}">{{ $user->email }}</a></td>
                     @can('viewAny', Spatie\Permission\Models\Role::class)
                         <td>{{ __(':count Roles', ['count' => $user->roles()->count()]) }}</td>

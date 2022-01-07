@@ -5,6 +5,8 @@ Has better default auth views based on [Bootstrap](https://getbootstrap.com/docs
 
 ## Installation
 
+Before installing, make sure to have [PHP](https://www.php.net/), [Composer](https://getcomposer.org/), [Node.js](https://nodejs.org/en/), [Yarn](https://yarnpkg.com/) and either of [MySQL](https://www.mysql.com/) or [MariaDB](https://mariadb.org/) installed on your workstation.
+
 To create a new project from this template, run below command in Command Prompt, PowerShell or Terminal window:
 
 ```shell
@@ -29,7 +31,28 @@ php artisan serve
 
 ## Docker
 
-This project also includes pre-configured [Docker](https://www.docker.com/) scripts for faster development and deployment.
+This project also includes pre-configured [Docker](https://www.docker.com/) scripts for faster development as well as deployment.
+
+### Prepare
+
+Before you start the project with [Docker](https://www.docker.com/), you need to update below values in `.env` file:
+
+```
+APP_URL=http://localhost:8080
+
+DB_HOST=mariadb
+DB_DATABASE=homestead
+DB_USERNAME=homestead
+DB_PASSWORD=secret
+
+REDIS_HOST=redis
+
+AWS_ACCESS_KEY_ID=accessKey1
+AWS_SECRET_ACCESS_KEY=verySecretKey1
+AWS_BUCKET=laravel
+AWS_ENDPOINT=http://zenko:8000
+AWS_ENDPOINT_PATH_STYLE=true
+```
 
 ### Development
 
@@ -77,7 +100,7 @@ docker push vaibhavpandeyvpz/starter-laravel
 
 ## Backend
 
-Lastly, you may access the backend at [http://localhost:8080/](http://localhost:8080/) in your favorite web browser and register for an account.
+Lastly, you may access the backend at [http://localhost:8000/](http://localhost:8000/) or [http://localhost:8080/](http://localhost:8080/) (if using Docker) in your favorite web browser and register for an account.
 Then assign newly created user with administrator privileges by running below command with its email:
 
 ```shell
