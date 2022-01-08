@@ -51,7 +51,7 @@
         </div>
         <div class="row">
             <div class="col-md-6 col-lg-8">
-                <div class="card shadow-sm mb-3 mb-md-0">
+                <div class="card shadow-sm mb-3">
                     <div class="card-body">
                         <h5 class="card-title text-primary">{{ __('Details') }}</h5>
                         <p class="card-text">{{ __('See information about existing user here.') }}</p>
@@ -131,6 +131,9 @@
                             <span class="text-muted">{{ __('Updated at') }}</span> {{ Timezone::convertToLocal($user->updated_at) }}
                         </span>
                     </div>
+                </div>
+                <div class="mb-3 mb-md-0">
+                    @livewire('backend.activity-logs-list', ['model' => $user])
                 </div>
             </div>
             <div class="col-md-6 col-lg-4">

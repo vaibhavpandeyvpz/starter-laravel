@@ -9,7 +9,10 @@ mkdir -p storage/framework/views
 mkdir -p storage/logs
 
 php artisan package:discover --ansi
-php artisan optimize
+
+if [ -z "$SKIP_OPTIMIZATIONS" ]; then
+    php artisan optimize
+fi
 
 chgrp -R www-data bootstrap/cache storage
 chmod -R ug+rwx bootstrap/cache storage
