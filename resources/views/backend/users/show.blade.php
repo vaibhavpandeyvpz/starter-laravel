@@ -49,85 +49,92 @@
                 </div>
             </form>
         </div>
-        <div class="card shadow-sm">
-            <div class="card-body">
-                <h5 class="card-title text-primary">{{ __('Details') }}</h5>
-                <p class="card-text">{{ __('See information about existing user here.') }}</p>
+        <div class="row">
+            <div class="col-md-6 col-lg-8">
+                <div class="card shadow-sm mb-3 mb-md-0">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary">{{ __('Details') }}</h5>
+                        <p class="card-text">{{ __('See information about existing user here.') }}</p>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table mb-0">
+                            <tbody>
+                            <tr>
+                                <th class="bg-light align-middle">{{ __('Photo') }}</th>
+                                <td class="w-100">
+                                    @if ($user->photo)
+                                        <img alt="{{ $user->name }}" class="rounded" height="32" src="{{ $user->photo_url }}">
+                                    @else
+                                        @include('partials.placeholder', [
+                                            'class' => 'rounded',
+                                            'width' => 32,
+                                            'height' => 32,
+                                        ])
+                                    @endif
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-light">{{ __('Name') }}</th>
+                                <td class="w-100">{{ $user->name }}</td>
+                            </tr>
+                            <tr>
+                                <th class="bg-light">{{ __('Email address') }}</th>
+                                <td class="w-100"><a href="mailto:{{ $user->email }}">{{ $user->email }}</a></td>
+                            </tr>
+                            <tr>
+                                <th class="bg-light">{{ __('Password') }}</th>
+                                <td class="w-100 text-muted">&ast;&ast;&ast;&ast;&ast;</td>
+                            </tr>
+                            @can('viewAny', App\Role::class)
+                                <tr>
+                                    <th class="bg-light">{{ __('Roles') }}</th>
+                                    <td class="w-100">
+                                        @forelse ($user->roles()->get() as $role)
+                                            <span class="badge badge-dark mr-1">{{ $role->name }}</span>
+                                        @empty
+                                            <span class="text-muted">{{ __('None') }}</span>
+                                        @endforelse
+                                    </td>
+                                </tr>
+                            @endcan
+                            <tr>
+                                <th class="bg-light">{{ __('Enabled?') }}</th>
+                                <td class="w-100">
+                                    @if ($user->enabled)
+                                        <i class="fas fa-toggle-on text-primary mr-1"></i>
+                                    @else
+                                        <i class="fas fa-toggle-off text-muted mr-1"></i>
+                                    @endif
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-light">{{ __('Birthday') }}</th>
+                                <td class="w-100">
+                                    @if ($user->birthday)
+                                        {{ $user->birthday->format('d/m/Y') }}
+                                    @else
+                                        <span class="text-muted">{{ __('Not set') }}</span>
+                                    @endif
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-light">{{ __('Timezone') }}</th>
+                                <td class="w-100">{{ $user->timezone }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-footer">
+                        <span class="text-muted">{{ __('Created at') }}</span> {{ Timezone::convertToLocal($user->created_at) }}
+                        <span class="d-none d-md-inline">
+                            &bull;
+                            <span class="text-muted">{{ __('Updated at') }}</span> {{ Timezone::convertToLocal($user->updated_at) }}
+                        </span>
+                    </div>
+                </div>
             </div>
-            <div class="table-responsive">
-                <table class="table mb-0">
-                    <tbody>
-                    <tr>
-                        <th class="bg-light align-middle">{{ __('Photo') }}</th>
-                        <td class="w-100">
-                            @if ($user->photo)
-                                <img alt="{{ $user->name }}" class="rounded" height="32" src="{{ $user->photo_url }}">
-                            @else
-                                @include('partials.placeholder', [
-                                    'class' => 'rounded',
-                                    'width' => 32,
-                                    'height' => 32,
-                                ])
-                            @endif
-                        </td>
-                    </tr>
-                    <tr>
-                        <th class="bg-light">{{ __('Name') }}</th>
-                        <td class="w-100">{{ $user->name }}</td>
-                    </tr>
-                    <tr>
-                        <th class="bg-light">{{ __('Email address') }}</th>
-                        <td class="w-100"><a href="mailto:{{ $user->email }}">{{ $user->email }}</a></td>
-                    </tr>
-                    <tr>
-                        <th class="bg-light">{{ __('Password') }}</th>
-                        <td class="w-100 text-muted">&ast;&ast;&ast;&ast;&ast;</td>
-                    </tr>
-                    @can('viewAny', Spatie\Permission\Models\Role::class)
-                        <tr>
-                            <th class="bg-light">{{ __('Roles') }}</th>
-                            <td class="w-100">
-                                @forelse ($user->roles()->get() as $role)
-                                    <span class="badge badge-dark mr-1">{{ $role->name }}</span>
-                                @empty
-                                    <span class="text-muted">{{ __('None') }}</span>
-                                @endforelse
-                            </td>
-                        </tr>
-                    @endcan
-                    <tr>
-                        <th class="bg-light">{{ __('Enabled?') }}</th>
-                        <td class="w-100">
-                            @if ($user->enabled)
-                                <i class="fas fa-toggle-on text-primary mr-1"></i>
-                            @else
-                                <i class="fas fa-toggle-off text-muted mr-1"></i>
-                            @endif
-                        </td>
-                    </tr>
-                    <tr>
-                        <th class="bg-light">{{ __('Birthday') }}</th>
-                        <td class="w-100">
-                            @if ($user->birthday)
-                                {{ $user->birthday->format('d/m/Y') }}
-                            @else
-                                <span class="text-muted">{{ __('Not set') }}</span>
-                            @endif
-                        </td>
-                    </tr>
-                    <tr>
-                        <th class="bg-light">{{ __('Timezone') }}</th>
-                        <td class="w-100">{{ $user->timezone }}</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="card-footer">
-                <span class="text-muted">{{ __('Created at') }}</span> {{ Timezone::convertToLocal($user->created_at) }}
-                <span class="d-none d-md-inline">
-                    &bull;
-                    <span class="text-muted">{{ __('Updated at') }}</span> {{ Timezone::convertToLocal($user->updated_at) }}
-                </span>
+            <div class="col-md-6 col-lg-4">
+                @include('partials.auditors', ['model' => $user])
             </div>
         </div>
     </main>

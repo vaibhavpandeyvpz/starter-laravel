@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use App\User;
 use Illuminate\Console\Command;
-use Spatie\Permission\Models\Role;
+use App\Role;
 
 class AssignAdministrator extends Command
 {

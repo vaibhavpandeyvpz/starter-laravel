@@ -5,11 +5,12 @@ namespace App;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
+use Quarks\Laravel\Auditors\HasAuditors;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasRoles, Notifiable;
+    use HasAuditors, HasRoles, Notifiable;
 
     /**
      * The attributes that should be cast to native types.

@@ -1,6 +1,6 @@
 @php
     if (empty($role)) {
-        $role = new Spatie\Permission\Models\Role();
+        $role = new App\Role();
     }
 @endphp
 
@@ -27,7 +27,25 @@
     <label class="col-sm-4 col-form-label">{{ __('Permissions') }} <span class="text-danger">&ast;</span></label>
     <div class="col-sm-8">
         <div class="mt-sm-2">
-            @foreach ($permissions as $permission)
+            @php
+                $subset = $permissions->filter(function ($permission) {
+                    return stripos($permission->name, 'user');
+                });
+            @endphp
+            @foreach ($subset as $permission)
+                <div class="custom-control custom-checkbox">
+                    <input class="custom-control-input" id="role-permission-{{ $permission->id }}" name="permissions[]" type="checkbox" value="{{ $permission->id }}" @if ($old_permissions->contains($permission->id)) checked @endif>
+                    <label class="custom-control-label" for="role-permission-{{ $permission->id }}">{{ $permission->name }}</label>
+                </div>
+            @endforeach
+        </div>
+        <div class="mt-sm-2">
+            @php
+                $subset = $permissions->filter(function ($permission) {
+                    return stripos($permission->name, 'role');
+                });
+            @endphp
+            @foreach ($subset as $permission)
                 <div class="custom-control custom-checkbox">
                     <input class="custom-control-input" id="role-permission-{{ $permission->id }}" name="permissions[]" type="checkbox" value="{{ $permission->id }}" @if ($old_permissions->contains($permission->id)) checked @endif>
                     <label class="custom-control-label" for="role-permission-{{ $permission->id }}">{{ $permission->name }}</label>

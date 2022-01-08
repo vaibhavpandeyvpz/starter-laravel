@@ -9,7 +9,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
-use Spatie\Permission\Models\Role;
+use App\Role;
 
 class UserController extends Controller
 {

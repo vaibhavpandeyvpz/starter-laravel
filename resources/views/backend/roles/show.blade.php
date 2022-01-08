@@ -8,7 +8,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('backend.dashboard') }}">{{ __('Backend') }}</a></li>
-            @can('viewAny', \Spatie\Permission\Models\Role::class)
+            @can('viewAny', App\Role::class)
                 <li class="breadcrumb-item"><a href="{{ route('backend.roles.index') }}">{{ __('Roles') }}</a></li>
             @else
                 <li class="breadcrumb-item">{{ __('Roles') }}</li>
@@ -21,7 +21,7 @@
 @section('content')
     <main class="container">
         <div class="btn-toolbar mb-3">
-            @can('viewAny', Spatie\Permission\Models\Role::class)
+            @can('viewAny', App\Role::class)
                 <a class="btn btn-outline-dark mr-1" href="{{ route('backend.roles.index') }}">
                     <i class="fas fa-arrow-left"></i> <span class="d-none d-sm-inline ml-1">{{ __('Roles') }}</span>
                 </a>
@@ -49,46 +49,53 @@
                 </div>
             </form>
         </div>
-        <div class="card shadow-sm">
-            <div class="card-body">
-                <h5 class="card-title text-primary">{{ __('Details') }}</h5>
-                <p class="card-text">{{ __('See information about existing role here.') }}</p>
+        <div class="row">
+            <div class="col-md-6 col-lg-8">
+                <div class="card shadow-sm mb-3 mb-md-0">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary">{{ __('Details') }}</h5>
+                        <p class="card-text">{{ __('See information about existing role here.') }}</p>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table mb-0">
+                            <tbody>
+                            <tr>
+                                <th class="bg-light">{{ __('Name') }}</th>
+                                <td class="w-100">{{ $role->name }}</td>
+                            </tr>
+                            <tr>
+                                <th class="bg-light align-text-top">{{ __('Permissions') }}</th>
+                                <td class="w-100 text-wrap">
+                                    @forelse ($role->permissions()->get() as $permission)
+                                        <span class="badge badge-dark mr-1">{{ $permission->name }}</span>
+                                    @empty
+                                        <span class="text-muted">{{ __('None') }}</span>
+                                    @endforelse
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-light">{{ __('Users') }}</th>
+                                <td class="w-100">
+                                    @php
+                                        $count = $role->users()->count();
+                                    @endphp
+                                    {{ __(':count Users', compact('count')) }}
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-footer">
+                        <span class="text-muted">{{ __('Created at') }}</span> {{ Timezone::convertToLocal($role->created_at) }}
+                        <span class="d-none d-md-inline">
+                            &bull;
+                            <span class="text-muted">{{ __('Updated at') }}</span> {{ Timezone::convertToLocal($role->updated_at) }}
+                        </span>
+                    </div>
+                </div>
             </div>
-            <div class="table-responsive">
-                <table class="table mb-0">
-                    <tbody>
-                    <tr>
-                        <th class="bg-light">{{ __('Name') }}</th>
-                        <td class="w-100">{{ $role->name }}</td>
-                    </tr>
-                    <tr>
-                        <th class="bg-light align-text-top">{{ __('Permissions') }}</th>
-                        <td class="w-100 text-wrap">
-                            @forelse ($role->permissions()->get() as $permission)
-                                <span class="badge badge-dark mr-1">{{ $permission->name }}</span>
-                            @empty
-                                <span class="text-muted">{{ __('None') }}</span>
-                            @endforelse
-                        </td>
-                    </tr>
-                    <tr>
-                        <th class="bg-light">{{ __('Users') }}</th>
-                        <td class="w-100">
-                            @php
-                                $count = $role->users()->count();
-                            @endphp
-                            {{ __(':count Users', compact('count')) }}
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="card-footer">
-                <span class="text-muted">{{ __('Created at') }}</span> {{ Timezone::convertToLocal($role->created_at) }}
-                <span class="d-none d-md-inline">
-                    &bull;
-                    <span class="text-muted">{{ __('Updated at') }}</span> {{ Timezone::convertToLocal($role->updated_at) }}
-                </span>
+            <div class="col-md-6 col-lg-4">
+                @include('partials.auditors', ['model' => $role])
             </div>
         </div>
     </main>

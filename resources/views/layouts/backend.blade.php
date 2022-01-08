@@ -29,7 +29,7 @@
                             </a>
                         </li>
                     @endcan
-                    @can('viewAny', Spatie\Permission\Models\Role::class)
+                    @can('viewAny', App\Role::class)
                         <li class="nav-item @if (Route::is('backend.roles.*')) active @endif">
                             <a class="nav-link" href="{{ route('backend.roles.index') }}">
                                 <i class="fas fa-key fa-fw mr-1"></i> {{ __('Roles') }}

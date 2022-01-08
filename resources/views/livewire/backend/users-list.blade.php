@@ -15,18 +15,18 @@
         <div class="card-body border-top">
             <div class="row">
                 <div class="col-sm-6 col-md-4 col-lg-3">
-                    <div class="form-group @can('viewAny', Spatie\Permission\Models\Role::class) mb-lg-0 @else mb-md-0 @endif">
+                    <div class="form-group @can('viewAny', App\Role::class) mb-lg-0 @else mb-md-0 @endif">
                         <label for="filter-search">{{ __('Search') }}</label>
                         <input id="filter-search" class="form-control" placeholder="{{ __('Enter name or email') }}&hellip;" wire:model.debounce.500ms="search">
                     </div>
                 </div>
-                @can('viewAny', Spatie\Permission\Models\Role::class)
+                @can('viewAny', App\Role::class)
                     <div class="col-sm-6 col-md-4 col-lg-3">
                         <div class="form-group mb-md-0">
                             <label for="filter-role">{{ __('Role') }}</label>
                             <select id="filter-role" class="custom-select" wire:model="role">
                                 <option value="">{{ __('Select') }}&hellip;</option>
-                                @foreach (Spatie\Permission\Models\Role::query()->get() as $role)
+                                @foreach (App\Role::query()->get() as $role)
                                     <option value="{{ $role->id }}">{{ $role->name }}</option>
                                 @endforeach
                             </select>
@@ -85,7 +85,7 @@
                         <a class="text-body" href="" wire:click.prevent="sort('email', 'asc')">{{ __('Email address') }}</a>
                     @endif
                 </th>
-                @can('viewAny', Spatie\Permission\Models\Role::class)
+                @can('viewAny', App\Role::class)
                     <th>{{ __('Roles') }}</th>
                 @endcan
                 <th>
@@ -119,7 +119,7 @@
                     </td>
                     <td><a href="{{ route('backend.users.show', $user) }}">{{ $user->name }}</a></td>
                     <td><a href="mailto:{{ $user->email }}">{{ $user->email }}</a></td>
-                    @can('viewAny', Spatie\Permission\Models\Role::class)
+                    @can('viewAny', App\Role::class)
                         <td>{{ __(':count Roles', ['count' => $user->roles()->count()]) }}</td>
                     @endcan
                     <td>{{ Timezone::convertToLocal($user->created_at) }}</td>
@@ -154,7 +154,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td class="text-center text-muted" colspan="@can('viewAny', Spatie\Permission\Models\Role::class) 7 @else 6 @endif">{{ __('Could not find any users to show.') }}</td>
+                    <td class="text-center text-muted" colspan="@can('viewAny', App\Role::class) 7 @else 6 @endif">{{ __('Could not find any users to show.') }}</td>
                 </tr>
             @endforelse
             </tbody>

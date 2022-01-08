@@ -15,7 +15,7 @@
 
 @section('content')
     <main class="container">
-        @can('create', Spatie\Permission\Models\Role::class)
+        @can('create', App\Role::class)
             <div class="btn-toolbar mb-3">
                 <a class="btn btn-success ml-auto" href="{{ route('backend.roles.create') }}">
                     <i class="fas fa-plus"></i> <span class="d-none d-sm-inline ml-1">{{ __('New') }}</span>

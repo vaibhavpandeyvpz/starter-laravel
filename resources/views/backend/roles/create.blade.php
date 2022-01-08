@@ -8,7 +8,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('backend.dashboard') }}">{{ __('Backend') }}</a></li>
-            @can('viewAny', \Spatie\Permission\Models\Role::class)
+            @can('viewAny', App\Role::class)
                 <li class="breadcrumb-item"><a href="{{ route('backend.roles.index') }}">{{ __('Roles') }}</a></li>
             @else
                 <li class="breadcrumb-item">{{ __('Roles') }}</li>
@@ -20,7 +20,7 @@
 
 @section('content')
     <main class="container">
-        @can('viewAny', Spatie\Permission\Models\Role::class)
+        @can('viewAny', App\Role::class)
             <div class="btn-toolbar mb-3">
                 <a class="btn btn-outline-dark" href="{{ route('backend.roles.index') }}">
                     <i class="fas fa-arrow-left mr-1"></i> {{ __('Cancel') }}
@@ -44,7 +44,7 @@
                                         <button class="btn btn-success">
                                             <i class="fas fa-check mr-1"></i> {{ __('Save') }}
                                         </button>
-                                        @can('viewAny', Spatie\Permission\Models\Role::class)
+                                        @can('viewAny', App\Role::class)
                                             <a class="btn btn-outline-dark ml-1" href="{{ route('backend.roles.index') }}">
                                                 {{ __('Cancel') }}
                                             </a>

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7dfd21810e6a650d8b26f8646eb361b5",
+    "content-hash": "befce043cfb72d8e74a4a4bfb580ae68",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -2534,6 +2534,56 @@
                 "source": "https://github.com/bobthecow/psysh/tree/v0.10.11"
             },
             "time": "2021-11-23T15:02:17+00:00"
+        },
+        {
+            "name": "quarks/laravel-auditors",
+            "version": "1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/qtsolv/laravel-auditors.git",
+                "reference": "70ce1102b39a592ef90197aff3c6dd25ae76e789"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/qtsolv/laravel-auditors/zipball/70ce1102b39a592ef90197aff3c6dd25ae76e789",
+                "reference": "70ce1102b39a592ef90197aff3c6dd25ae76e789",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2"
+            },
+            "require-dev": {
+                "laravel/framework": "^6.0 || ^7.0 || ^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Quarks\\Laravel\\Auditors\\AuditorServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Quarks\\Laravel\\Auditors\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Vaibhav Pandey",
+                    "email": "vaibhav.pandey@qtsolv.com"
+                }
+            ],
+            "description": "Record created by, updated by and deleted by on Eloquent models automatically.",
+            "support": {
+                "issues": "https://github.com/qtsolv/laravel-auditors/issues",
+                "source": "https://github.com/qtsolv/laravel-auditors/tree/1.1.1"
+            },
+            "time": "2021-08-21T19:10:54+00:00"
         },
         {
             "name": "ralouphie/getallheaders",

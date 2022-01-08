@@ -8,7 +8,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('backend.dashboard') }}">{{ __('Backend') }}</a></li>
-            @can('viewAny', \Spatie\Permission\Models\Role::class)
+            @can('viewAny', App\Role::class)
                 <li class="breadcrumb-item"><a href="{{ route('backend.roles.index') }}">{{ __('Roles') }}</a></li>
             @else
                 <li class="breadcrumb-item">{{ __('Roles') }}</li>
