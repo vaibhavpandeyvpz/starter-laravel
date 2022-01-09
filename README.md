@@ -47,6 +47,8 @@ DB_PASSWORD=secret
 
 REDIS_HOST=redis
 
+QUEUE_CONNECTION=redis
+
 AWS_ACCESS_KEY_ID=accessKey1
 AWS_SECRET_ACCESS_KEY=verySecretKey1
 AWS_BUCKET=laravel
