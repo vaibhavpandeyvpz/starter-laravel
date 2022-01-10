@@ -1,4 +1,9 @@
 @php
+    $colors = [
+        'created' => 'success',
+        'updated' => 'warning',
+        'deleted' => 'danger',
+    ];
     $hidden = [
         'password',
         'remember_token',
@@ -20,7 +25,7 @@
             @php
                 $properties = $activity->properties['attributes'] ?? [];
             @endphp
-            <div class="list-group-item">
+            <div class="list-group-item list-group-item-activity list-group-item-activity-{{ $colors[$activity->description] ?? 'light' }}">
                 <div class="media">
                     <div class="align-self-center mr-3">
                         @if ($activity->causer && $activity->causer->photo)
@@ -34,29 +39,35 @@
                         @endif
                     </div>
                     <div class="media-body">
-                        <div class="d-flex w-100 justify-content-between mb-1">
+                        <div class="d-flex w-100 justify-content-between @if (count($properties)) mb-1 @endif">
                             <span>
-                                {{ __(':action by', ['action' => ucfirst($activity->description)]) }}
                                 @if ($activity->causer && Gate::check('view', $activity->causer))
                                     <a href="{{ route('backend.users.show', $activity->causer) }}">{{ $activity->causer->name }}</a>
                                 @elseif ($activity->causer)
                                     {{ $activity->causer->name }}
                                 @else
-                                    {{ __('Unknown') }}
+                                    <span class="text-muted">{{ __('Unknown') }}</span>
                                 @endif
+                                {{ __(':action this record.', ['action' => $activity->description]) }}
                             </span>
-                            <span class="text-muted">{{ $activity->created_at->diffForHumans() }}</span>
+                            <abbr data-toggle="tooltip" title="{{ Timezone::convertToLocal($activity->created_at) }}">{{ $activity->created_at->diffForHumans() }}</abbr>
                         </div>
-                        <p class="mb-0">
-                            <a class="text-body" href="" wire:click.prevent="toggle({{ $activity->id }})">
-                                {{ __(':count properties added or changed.', ['count' => count($properties)]) }}
-                            </a>
-                        </p>
+                        @if (count($properties))
+                            <p class="mb-0">
+                                <a class="text-body" href="" wire:click.prevent="toggle({{ $activity->id }})">
+                                    {{ __(':count properties were added or changed.', ['count' => count($properties)]) }}
+                                </a>
+                            </p>
+                        @else
+                            <p class="mb-0">
+                                {{ __(':count properties were added or changed.', ['count' => 0]) }}
+                            </p>
+                        @endif
                     </div>
                 </div>
             </div>
             @if ($expanded === $activity->id)
-                <div class="list-group-item p-3">
+                <div class="list-group-item bg-light p-3">
                     <div class="table-responsive">
                         <table class="table table-borderless table-sm mb-0">
                             <tbody>

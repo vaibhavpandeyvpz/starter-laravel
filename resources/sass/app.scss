@@ -7,6 +7,16 @@
     margin-bottom: 0;
 }
 
+.list-group-item-activity {
+    border-left: 2px solid !important;
+
+    @each $color, $value in $theme-colors {
+        &-#{$color} {
+            border-left-color: $value !important;
+        }
+    }
+}
+
 .table-responsive .table {
     tbody tr td,
     tbody tr th,

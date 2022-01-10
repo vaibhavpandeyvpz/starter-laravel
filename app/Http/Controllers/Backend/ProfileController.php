@@ -30,8 +30,8 @@ class ProfileController extends Controller
         } else {
             /** @var UploadedFile $photo */
             $photo = $data['photo'];
-            $image = Image::make($photo)->fit(256)->encode('webp');
-            $name = sprintf('users/%d/photos/%s.webp', $user->id, Str::random(10));
+            $image = Image::make($photo)->fit(256)->encode('png');
+            $name = sprintf('users/%d/photos/%s.png', $user->id, Str::random(10));
             Storage::disk('public')->put($name, (string) $image);
             $data['photo'] = $name;
             unlink($photo->getRealPath());

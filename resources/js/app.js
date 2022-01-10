@@ -58,6 +58,8 @@ $('.custom-file-input').on('change', function (e) {
     $(this).next('.custom-file-label').text(name)
 });
 
+$('[data-toggle="tooltip"]').tooltip({ container: 'body' });
+
 $('[data-widget="datepicker"]').flatpickr({
     allowInput: true,
     altInput: true,

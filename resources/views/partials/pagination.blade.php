@@ -1,6 +1,5 @@
 @if ($paginator->hasPages())
     <ul class="pagination" role="navigation">
-        {{-- Previous Page Link --}}
         @if ($paginator->onFirstPage())
             <li class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.previous')">
                 <span class="page-link" aria-hidden="true">&laquo; {{ __('Newer') }}</span>
