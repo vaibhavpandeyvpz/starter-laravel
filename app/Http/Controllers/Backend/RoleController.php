@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\RoleRequest;
 use Illuminate\Validation\ValidationException;
+use Quarks\Laravel\Locking\LockedVersionMismatchException;
 use Spatie\Permission\Models\Permission;
 use App\Role;
 
@@ -67,7 +68,15 @@ class RoleController extends Controller
             ]);
         }
         $role->fill($data);
-        $role->save();
+        $role->fillLockVersion();
+        try {
+            $role->save();
+        } catch (LockedVersionMismatchException $e) {
+            flash()->warning(__('This model was modified during edit.'));
+
+            return back()->withInput();
+        }
+
         $role->syncPermissions(Permission::query()->whereIn('id', $data['permissions'] ?? [])->get());
         flash()->success(__('Role ":name" information has been updated.', ['name' => $role->name]));
 

@@ -6,18 +6,19 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
 use Quarks\Laravel\Auditors\HasAuditors;
+use Quarks\Laravel\Locking\LocksVersion;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasAuditors, HasRoles, LogsActivity, Notifiable;
+    use HasAuditors, HasRoles, LocksVersion, LogsActivity, Notifiable;
 
     protected static $logAttributes = ['*'];
 
     protected static $logAttributesToIgnore = [
         'password', 'remember_token', 'created_by_id', 'created_by_type', 'updated_by_id', 'updated_by_type',
-        'deleted_by_id', 'deleted_by_type',
+        'deleted_by_id', 'deleted_by_type', 'lock_version',
     ];
 
     protected static $logOnlyDirty = true;

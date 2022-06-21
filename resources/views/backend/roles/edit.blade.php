@@ -42,6 +42,7 @@
                     <div class="col-md-12 col-lg-8">
                         <form action="{{ route('backend.roles.update', $role) }}" method="post">
                             @csrf
+                            @lockInput($role)
                             @method('put')
                             @include('backend.roles.form')
                             <div class="row">

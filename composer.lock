@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "98023f17d76126863f92a2c3d12d6abb",
+    "content-hash": "40438f8ea9ee4cd8f7c59921f040ea02",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -2587,6 +2587,56 @@
                 "source": "https://github.com/qtsolv/laravel-auditors/tree/1.2.1"
             },
             "time": "2022-01-08T18:50:42+00:00"
+        },
+        {
+            "name": "quarks/laravel-locking",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/qtsolv/laravel-locking.git",
+                "reference": "3d702630999f69632c9f23aef3b8b080d2a883fe"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/qtsolv/laravel-locking/zipball/3d702630999f69632c9f23aef3b8b080d2a883fe",
+                "reference": "3d702630999f69632c9f23aef3b8b080d2a883fe",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2"
+            },
+            "require-dev": {
+                "laravel/framework": "^6.0 || ^7.0 || ^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Quarks\\Laravel\\Locking\\LockingServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Quarks\\Laravel\\Locking\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Vaibhav Pandey",
+                    "email": "vaibhav.pandey@qtsolv.com"
+                }
+            ],
+            "description": "Easily implement optimistic Eloquent model locking feature to your Laravel app.",
+            "support": {
+                "issues": "https://github.com/qtsolv/laravel-locking/issues",
+                "source": "https://github.com/qtsolv/laravel-locking/tree/1.0.0"
+            },
+            "time": "2022-06-21T11:09:32+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
@@ -9131,5 +9181,5 @@
     "platform-overrides": {
         "php": "7.2.0"
     },
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.1.0"
 }

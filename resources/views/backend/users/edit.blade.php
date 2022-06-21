@@ -42,6 +42,7 @@
                     <div class="col-md-12 col-lg-8">
                         <form action="{{ route('backend.users.update', $user) }}" method="post">
                             @csrf
+                            @lockInput($user)
                             @method('put')
                             @include('backend.users.form')
                             <div class="row">

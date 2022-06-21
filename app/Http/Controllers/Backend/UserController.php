@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use App\Role;
+use Quarks\Laravel\Locking\LockedVersionMismatchException;
 
 class UserController extends Controller
 {
@@ -86,7 +87,16 @@ class UserController extends Controller
         if ($changed = $user->isDirty('email')) {
             $user->email_verified_at = null;
         }
-        $user->save();
+
+        $user->fillLockVersion();
+        try {
+            $user->save();
+        } catch (LockedVersionMismatchException $e) {
+            flash()->warning(__('This model was modified during edit.'));
+
+            return back()->withInput();
+        }
+
         if (Gate::check('viewAny', Role::class)) {
             $user->syncRoles(Role::query()->whereIn('id', $data['roles'] ?? [])->get());
         }
