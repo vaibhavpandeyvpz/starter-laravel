@@ -62,7 +62,7 @@
                 </div>
             </div>
         </li>
-        @if ($model->trashed())
+        @if (method_exists($model, 'trashed') && $model->trashed())
             <li class="list-group-item">
                 <div class="media">
                     <div class="align-self-center mr-3">
