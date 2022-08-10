@@ -54,10 +54,12 @@
                     <button class="btn btn-secondary">
                         {{ __('Login') }} <i class="fas fa-arrow-right ml-1"></i>
                     </button>
-                    <a class="btn btn-light ml-1" href="{{ route('login.socialite', ['provider' => 'google']) }}" role="button">
-                        <img alt="{{ __('Google') }}" src="{{ mix('images/logo-google.svg') }}" style="height: 1em;">
-                        {{ __('Login with Google') }}
-                    </a>
+                    @if (config('services.google.client_id'))
+                        <a class="btn btn-light ml-1" href="{{ route('login.socialite', ['provider' => 'google']) }}" role="button">
+                            <img alt="{{ __('Google') }}" src="{{ mix('images/logo-google.svg') }}" style="height: 1em;">
+                            {{ __('Login with Google') }}
+                        </a>
+                    @endif
                 </div>
             </form>
         </div>
