@@ -110,10 +110,10 @@
                                     <div class="custom-file @if ($user->photo) mb-3 @endif">
                                         <input accept="image/jpeg,image/png" class="custom-file-input @error('photo') is-invalid @enderror" id="profile-photo" name="photo" type="file">
                                         <label class="custom-file-label" for="profile-photo"></label>
-                                        @error('photo')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
                                     </div>
+                                    @error('photo')
+                                        <div class="invalid-feedback d-inline-block">{{ $message }}</div>
+                                    @enderror
                                     @if ($user->photo)
                                         <img alt="{{ $user->name }}" class="rounded" height="32" src="{{ $user->photo_url }}">
                                         <div class="custom-control custom-checkbox mt-sm-2">

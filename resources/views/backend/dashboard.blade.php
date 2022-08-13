@@ -42,7 +42,7 @@
         <script>
             function resend(e) {
                 e.preventDefault();
-                document.forms['resend-form'].submit()
+                document.forms['resend-form'].submit();
             }
         </script>
     @endif

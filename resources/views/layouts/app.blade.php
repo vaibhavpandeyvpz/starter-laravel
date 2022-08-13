@@ -17,7 +17,7 @@
         <script>
             function logout(e) {
                 e.preventDefault();
-                document.forms['form-logout'].submit()
+                document.forms['form-logout'].submit();
             }
         </script>
     @endauth

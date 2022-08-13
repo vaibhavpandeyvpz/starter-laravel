@@ -53,8 +53,7 @@
             @endforeach
         </div>
         @error('permissions')
-            <div class="is-invalid" style="display: none;"></div>
-            <div class="invalid-feedback">{{ $message }}</div>
+            <div class="invalid-feedback d-inline-block">{{ $message }}</div>
         @enderror
     </div>
 </div>

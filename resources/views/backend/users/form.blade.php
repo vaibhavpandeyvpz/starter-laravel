@@ -72,8 +72,7 @@
                 @endforeach
             </div>
             @error('roles')
-                <div class="is-invalid" style="display: none;"></div>
-                <div class="invalid-feedback">{{ $message }}</div>
+                <div class="invalid-feedback d-inline-block">{{ $message }}</div>
             @enderror
         </div>
     </div>
@@ -87,9 +86,9 @@
         <div class="custom-control custom-switch mt-sm-2">
             <input class="custom-control-input @error('enabled') is-invalid @enderror" id="user-enabled" type="checkbox" name="enabled" value="1" @if ($old_enabled) checked @endif>
             <label class="custom-control-label" for="user-enabled">{{ __('Yes') }}</label>
-            @error('enabled')
-                <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
         </div>
+        @error('enabled')
+            <div class="invalid-feedback d-inline-block">{{ $message }}</div>
+        @enderror
     </div>
 </div>
