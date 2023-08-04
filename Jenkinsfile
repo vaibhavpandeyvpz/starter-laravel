@@ -11,7 +11,7 @@ pipeline {
     )
     string(
       name: 'DOCKER_IMAGE',
-      defaultValue: 'syncloudsoftech/starter-laravel9'
+      defaultValue: ''
     )
   }
   stages {
