@@ -1,0 +1,19 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo Login to Docker Hub...
+      - docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_TOKEN
+
+  build:
+    commands:
+      - echo Check code-style
+      - docker run --rm -v $PWD:/workspace syncloudsoftech/pinter pint --test
+      - echo Build Docker image...
+      - docker build -t $DOCKER_IMAGE:$CODEBUILD_BUILD_NUMBER .
+
+  post_build:
+    commands:
+      - echo Push image to registry...
+      - docker push $DOCKER_IMAGE:$CODEBUILD_BUILD_NUMBER

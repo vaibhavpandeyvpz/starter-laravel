@@ -1,0 +1,21 @@
+image: atlassian/default-image:3
+
+pipelines:
+  default:
+    - step:
+        name: Check code style
+        script:
+          - docker run --rm -v $PWD:/workspace syncloudsoftech/pinter pint --test
+        services:
+          - docker
+
+  branches:
+    main:
+      - step:
+          name: Build and push
+          caches:
+            - docker
+          script:
+            - docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_TOKEN
+            - docker build -t $DOCKER_IMAGE:$BITBUCKET_BUILD_NUMBER .
+            - docker push $DOCKER_IMAGE:$BITBUCKET_BUILD_NUMBER

@@ -1,0 +1,31 @@
+trigger:
+  - main
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  registry: $(DockerRegistry)
+  # set this to your repository name
+  imageName: $(DockerImage)
+
+steps:
+  - task: Docker@2
+    displayName: Login to registry
+    inputs:
+      command: login
+      containerRegistry: $(registry)
+
+  - task: CmdLine@2
+    displayName: Check code-style
+    inputs:
+      script: |
+        docker run --rm -v $PWD:/workspace syncloudsoftech/pinter
+
+  - task: Docker@2
+    displayName: Build and push
+    inputs:
+      command: buildAndPush
+      repository: $(imageName)
+      dockerfile: Dockerfile
+      tags: $(Build.BuildId)
