@@ -1,0 +1,17 @@
+entryPoints:
+  web:
+    address: ':80'
+  websecure:
+    address: ':443'
+  traefik:
+    address: ':8080'
+
+providers:
+  docker:
+    defaultRule: 'Host(`{{ trimPrefix `/` .Name }}.local.dev`)'
+  file:
+    directory: /etc/traefik/dynamic_conf
+
+api:
+  insecure: true
+  dashboard: true

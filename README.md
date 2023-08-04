@@ -1,127 +1,112 @@
 # vaibhavpandeyvpz/starter-laravel
 
-Quick, [Laravel](https://laravel.com/) LTS CRUD boilerplate using [Livewire](https://laravel-livewire.com/) with [RBAC](https://spatie.be/docs/laravel-permission/v3/introduction).
-Has better default auth views based on [Bootstrap](https://getbootstrap.com/docs/4.6/getting-started/introduction/), nicely integrates [Select2](https://select2.org/) and [Flatpickr](https://flatpickr.js.org/) as well.
+Quick, [Laravel](https://laravel.com/) CRUD boilerplate using [Livewire](https://laravel-livewire.com/) with [RBAC](https://spatie.be/docs/laravel-permission/v3/introduction).
+Uses [Docker](https://www.docker.com) for local development & production deployments, has better auth views based on [Bootstrap](https://getbootstrap.com/docs/5.3/getting-started/introduction/), nicely integrates [Select2](https://select2.org/) and [Flatpickr](https://flatpickr.js.org/) as well.
 
-## Installation
+## Prepare
 
-Before installing, make sure to have [PHP](https://www.php.net/), [Composer](https://getcomposer.org/), [Node.js](https://nodejs.org/en/), [Yarn](https://yarnpkg.com/) and either of [MySQL](https://www.mysql.com/) or [MariaDB](https://mariadb.org/) installed on your workstation.
-
-To create a new project from this template, run below command in Command Prompt, PowerShell or Terminal window:
-
-```shell
-composer create-project vaibhavpandeyvpz/starter-laravel:@dev <your-project-name>
-```
-
-To run the project, you can either start a local web server or run it inside a [Docker](https://www.docker.com/) container.
-
-## Local
-
-Edit the `.env` file with your database information and seed the database with seeds by running below commands:
+If you wish to use SSL for local development (recommended), you need to have [mkcert](https://github.com/FiloSottile/mkcert) installed on your machine.
+Once installed, next install the [mkcert](https://github.com/FiloSottile/mkcert)'s local CA in system's trust store.
 
 ```shell
-php artisan migrate --seed
+$ sudo mkcert -install
 ```
 
-Start the built-in development server using below command:
+Then generate an SSL certificate for local development using below command:
 
 ```shell
-php artisan serve
+$ mkcert local.dev '*.local.dev' localhost 127.0.0.1 ::1
 ```
 
-## Docker
+### Installation
 
-This project also includes pre-configured [Docker](https://www.docker.com/) scripts for faster development as well as deployment.
-
-### Prepare
-
-Before you start the project with [Docker](https://www.docker.com/), you need to update below values in `.env` file:
-
-```
-APP_URL=http://localhost:8080
-
-DB_HOST=mariadb
-DB_DATABASE=homestead
-DB_USERNAME=homestead
-DB_PASSWORD=secret
-
-REDIS_HOST=redis
-
-QUEUE_CONNECTION=redis
-
-AWS_ACCESS_KEY_ID=accessKey1
-AWS_SECRET_ACCESS_KEY=verySecretKey1
-AWS_BUCKET=laravel
-AWS_ENDPOINT=http://zenko:8000
-AWS_ENDPOINT_PATH_STYLE=true
-```
-
-### Development
-
-To start the application, run below command in Command Prompt, PowerShell or Terminal window:
+Before installing, make sure to have [Docker](https://www.docker.com/) installed on your workstation.
+Then simply download or clone the code and run below commands in project folder:
 
 ```shell
-docker-compose up -d
+# start the services
+$ docker-compose up -d
+
+# spawn a shell in web container
+$ docker-compose exec web bash
+
+# install dependencies
+$ composer install && yarn install && yarn dev
+
+# create sample .env file
+$ php -r "file_exists('.env') || copy('.env.example', '.env');"
+
+# setup NGROK_AUTHTOKEN in .env
+
+# set application key
+$ php artisan key:generate
+
+# prepare database
+$ php artisan migrate --seed
+
+# link public storage directory
+$ php artisan storage:link
 ```
 
-The `web` container also includes `composer` for you to carry out common tasks, some basic examples are below:
+You can access the project via browser at [https://web.local.dev/](https://web.local.dev/).
 
-```shell
-# install any PHP package
-docker-compose exec web composer require <package-name>
+## Extras
 
-# run migrations and seed database
-docker-compose exec web php artisan migrate --seed
+[Traefik](https://traefik.io/) requires you to route hostnames to your local machine.
+To do so, add the following lines to your `/etc/hosts` file:
+
+```
+127.0.0.1 cdn.local.dev
+127.0.0.1 mailcatcher.local.dev
+127.0.0.1 minio.local.dev
+127.0.0.1 phpmyadmin.local.dev
+127.0.0.1 redis-commander.local.dev
+127.0.0.1 web.local.dev
 ```
 
-Before you start to use the bundled S3-compatible cloud storage, you will need to create the bucket as follows:
+The [Docker](https://www.docker.com/) setup also include below services to ease local development:
+
+- [MailCatcher](https://mailcatcher.me/) - to catch all outgoing emails, access on [https://mailcatcher.local.dev/](https://mailcatcher.local.dev/)
+- [MinIO](https://min.io/) - an S3 compatible storage, access on [https://minio.local.dev/](https://minio.local.dev/)
+- [phpMyAdmin](https://www.phpmyadmin.net/) - to manage SQL database, access on [https://phpmyadmin.local.dev/](https://phpmyadmin.local.dev/)
+- [Redis Commander](http://joeferner.github.io/redis-commander/) - to manage Redis data, access on [https://redis-commander.local.dev/](https://redis-commander.local.dev/)
+
+Some additional configuration described below may be needed for extended functionality.
+
+### File uploads
+
+Before uploading files, you may need to log in to [MinIO](https://min.io/) console at [https://minio.local.dev/](https://minio.local.dev/) using `syncloud` as both (username and password) and create a bucket named `laraveldev`.
+Once created, go to bucket's settings and change its **Access Policy** to `Public`.
+
+### Ngrok
+
+The project setup also includes [ngrok](https://ngrok.com/) service. To get the active tunnel URL, use below command:
 
 ```shell
-# open a shell
-docker-compose exec web sh
+# start the services
+$ docker-compose up -d
 
-# start a tinker session
-php artisan tinker
-
-# copy/paste and run below PHP code
-$client = Storage::cloud()->getAdapter()->getClient();
-$result = $client->createBucket(['Bucket' => config('filesystems.disks.s3.bucket')]);
+# show ngrok tunnel url
+$ php artisan ngrok:discover
 ```
 
-### Deployment
+### Code-style
 
-To build an image for deployment and publish the image to a registry e.g., [Docker Hub](https://hub.docker.com/), use command as below:
+The project uses [laravel/pint](https://github.com/laravel/pint) to enforce code-style.
+To run it and fix any issues, use below command:
 
 ```shell
-# build and tag image
-docker build -t vaibhavpandeyvpz/starter-laravel .
+$ docker run --rm -v $PWD:/workspace syncloudsoftech/pinter
+```
+
+## Deployment
+
+You can deploy the project into production (using [Docker](https://www.docker.com/)) using below commands:
+
+```shell
+# build production container
+$ docker build -t laraveldev .
 
 # push image to registry
-docker push vaibhavpandeyvpz/starter-laravel
-```
-
-## Backend
-
-Lastly, you may access the backend at [http://localhost:8000/](http://localhost:8000/) or [http://localhost:8080/](http://localhost:8080/) (if using Docker) in your favorite web browser and register for an account.
-Then assign newly created user with administrator privileges by running below command with its email:
-
-```shell
-# if developing locally
-php artisan app:assign-admin <email-address-of-the-user>
-
-# if using Docker
-docker-compose exec web php artisan app:assign-admin <email-address-of-the-user>
-```
-
-## Best practices
-
-To enforce recommended coding style across project, this project also includes configuration for [PHP CS Fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer) be default.
-Before committing your changes, you may run below command to test your code against any such issue.
-
-```shell
-# if developing locally
-./vendor/bin/php-cs-fixer fix --show-progress=dots -vvv
-
-# if using Docker
-docker-compose exec web vendor/bin/php-cs-fixer fix --show-progress=dots -vvv
+$ docker push laraveldev
 ```

@@ -1,84 +1,158 @@
 version: '3'
 
 services:
-  mariadb:
-    image: mariadb:10.5
+  dockfront:
+    image: syncloudsoftech/dockfront
     environment:
-      MYSQL_DATABASE: homestead
-      MYSQL_USER: homestead
-      MYSQL_PASSWORD: secret
+      ORIGIN_TYPE: s3
+      S3_ACCESS_KEY_ID: laraveldev
+      S3_BUCKET: laraveldev
+      S3_ENDPOINT: http://minio:9091
+      S3_PATH_STYLE_ENDPOINT: 'true'
+      S3_REGION: us-east-1
+      S3_SECRET_ACCESS_KEY: laraveldev
+    labels:
+      - 'traefik.http.routers.cdn.entrypoints=web,websecure'
+      - 'traefik.http.routers.cdn.rule=Host(`cdn.local.dev`)'
+      - 'traefik.http.routers.cdn.tls=true'
+      - 'traefik.http.services.cdn.loadbalancer.server.port=80'
+    ports:
+      - '9090:80'
+
+  mailcatcher:
+    image: syncloudsoftech/mailcatcher
+    labels:
+      - 'traefik.http.routers.mailcatcher.entrypoints=web,websecure'
+      - 'traefik.http.routers.mailcatcher.rule=Host(`mailcatcher.local.dev`)'
+      - 'traefik.http.routers.mailcatcher.tls=true'
+      - 'traefik.http.services.mailcatcher.loadbalancer.server.port=8025'
+    ports:
+      - '1025:1025'
+      - '8025:8025'
+
+  minio:
+    image: minio/minio
+    command: minio server /data/minio --address ":9091" --console-address ":9092"
+    environment:
+      MINIO_ROOT_USER: laraveldev
+      MINIO_ROOT_PASSWORD: laraveldev
+    labels:
+      - 'traefik.http.routers.minio.entrypoints=web,websecure'
+      - 'traefik.http.routers.minio.rule=Host(`minio.local.dev`)'
+      - 'traefik.http.routers.minio.tls=true'
+      - 'traefik.http.services.minio-cdn.loadbalancer.server.port=9092'
+    ports:
+      - '9091:9091'
+      - '9092:9092'
+    volumes:
+      - minio-data:/data/minio
+
+  mysql:
+    image: mysql:8
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_DATABASE: laraveldev
+      MYSQL_USER: laraveldev
+      MYSQL_PASSWORD: laraveldev
       MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
+    labels:
+      - 'traefik.enable=false'
     ports:
       - '3306:3306'
     volumes:
-      - mariadb_data:/var/lib/mysql
+      - mysql-data:/var/lib/mysql
+
+  ngrok:
+    command:
+      - start
+      - --all
+      - --config
+      - /etc/ngrok.yml
+    env_file:
+      - .env
+    image: ngrok/ngrok
+    labels:
+      - 'traefik.enable=false'
+    ports:
+      - '4040:4040'
+    volumes:
+      - ./ngrok.yml:/etc/ngrok.yml
 
   phpmyadmin:
     image: phpmyadmin:5
     depends_on:
-      - mariadb
+      - mysql
     environment:
-      PMA_HOST: mariadb
-      PMA_USER: homestead
-      PMA_PASSWORD: secret
+      PMA_HOST: mysql
+      PMA_USER: laraveldev
+      PMA_PASSWORD: laraveldev
+    labels:
+      - 'traefik.http.routers.phpmyadmin.entrypoints=web,websecure'
+      - 'traefik.http.routers.phpmyadmin.rule=Host(`phpmyadmin.local.dev`)'
+      - 'traefik.http.routers.phpmyadmin.tls=true'
     ports:
-      - '9090:80'
-
-  queue:
-    build: .
-    command: php artisan queue:work
-    depends_on:
-      - mariadb
-      - redis
-      - zenko
-    env_file:
-      - .env
-    volumes:
-      - .:/var/www/html
-      - /var/www/html/bootstrap/cache
-      - /var/www/html/node_modules
-      - /var/www/html/storage
-      - /var/www/html/vendor
+      - '9000:80'
 
   redis:
     image: redis:5-alpine
     ports:
       - '6379:6379'
+    labels:
+      - 'traefik.enable=false'
     volumes:
-      - redis_data:/data
+      - redis-data:/data
+
+  redis-commander:
+    image: rediscommander/redis-commander
+    environment:
+      REDIS_HOSTS: local:redis:6379
+    labels:
+      - 'traefik.http.routers.redis-commander.entrypoints=web,websecure'
+      - 'traefik.http.routers.redis-commander.rule=Host(`redis-commander.local.dev`)'
+      - 'traefik.http.routers.redis-commander.tls=true'
+      - 'traefik.http.services.redis-commander.loadbalancer.server.port=8081'
+    ports:
+      - '8081:8081'
+
+  traefik:
+    image: traefik:banon
+    command:
+      - '--entrypoints.web.http.redirections.entryPoint.to=websecure'
+      - '--entrypoints.web.http.redirections.entryPoint.scheme=https'
+    labels:
+      - 'traefik.enable=false'
+      - 'traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=https'
+    ports:
+      - '80:80'
+      - '443:443'
+      - '8080:8080'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - .:/certs:ro
+      - ./traefik.yml:/etc/traefik/traefik.yml:ro
+      - ./traefik-tls.yml:/etc/traefik/dynamic_conf/traefik-tls.yml:ro
 
   web:
-    build: .
+    build:
+      context: .
+      args:
+        PHP_CONFIG: php.ini
+        PHP_XDEBUG: '1'
     depends_on:
-      - mariadb
+      - mysql
       - redis
-      - zenko
-    env_file:
-      - .env
+    labels:
+      - 'traefik.http.routers.web.entrypoints=web,websecure'
+      - 'traefik.http.routers.web.rule=Host(`web.local.dev`)'
+      - 'traefik.http.routers.web.tls=true'
+      - 'traefik.http.services.web.loadbalancer.server.port=80'
     ports:
-      - '8080:80'
+      - '2022:22'
+      - '8000:80'
     volumes:
       - .:/var/www/html
-      - /var/www/html/bootstrap/cache
-      - /var/www/html/node_modules
-      - /var/www/html/storage
-      - /var/www/html/vendor
-
-  zenko:
-    image: zenko/cloudserver
-    environment:
-      ENDPOINT: zenko
-      REMOTE_MANAGEMENT_DISABLE: '1'
-      S3DATAPATH: /data
-      S3METADATAPATH: /metadata
-    ports:
-      - '8000:8000'
-    volumes:
-      - zenko_data:/data
-      - zenko_metadata:/metadata
 
 volumes:
-  mariadb_data:
-  redis_data:
-  zenko_data:
-  zenko_metadata:
+  minio-data:
+  mysql-data:
+  redis-data:

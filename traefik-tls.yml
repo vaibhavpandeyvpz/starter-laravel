@@ -1,0 +1,6 @@
+tls:
+  stores:
+    default:
+      defaultCertificate:
+        certFile: /certs/local.dev+4.pem
+        keyFile: /certs/local.dev+4-key.pem

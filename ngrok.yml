@@ -1,0 +1,11 @@
+version: 2
+
+region: eu
+
+tunnels:
+  web:
+    proto: http
+    addr: web:80
+    # domain: <your custom domain if paid>
+    schemes:
+      - https
