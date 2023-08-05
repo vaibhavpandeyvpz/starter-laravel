@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 
 class UserObserver
 {
@@ -37,7 +38,9 @@ class UserObserver
      */
     public function deleted(User $user): void
     {
-        //
+        if ($user->photo) {
+            Storage::delete($user->photo);
+        }
     }
 
     /**

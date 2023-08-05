@@ -24,4 +24,6 @@ Route::middleware('auth')->group(function () {
 
     Route::get('profile', [Controllers\ProfileController::class, 'edit'])->name('profile');
     Route::put('profile', [Controllers\ProfileController::class, 'update']);
+
+    Route::resource('users', Controllers\UserController::class);
 });

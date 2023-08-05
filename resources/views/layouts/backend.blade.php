@@ -1,7 +1,8 @@
-@extends('layouts.app')
+@extends('layouts.app', ['body_class' => 'bg-light'])
 
 @push('styles')
     @vite('resources/styl/flatpickr.styl')
+    @livewireStyles
 @endpush
 
 @section('body')
@@ -20,3 +21,7 @@
         <p class="text-center">{{ config('app.name', 'Laravel') }} &copy; {{ date('Y') }}</p>
     </footer>
 @endsection
+
+@push('scripts')
+    @livewireScripts
+@endpush

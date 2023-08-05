@@ -1,6 +1,6 @@
 @extends('layouts.app', [
     'html_class' => 'h-100',
-    'body_class' => 'h-100 d-flex flex-column',
+    'body_class' => 'h-100 bg-light d-flex flex-column',
 ])
 
 @section('body')

@@ -11,6 +11,11 @@
                         {{ __('Dashboard') }}
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link @if (Route::is('users.*')) active @endif" href="{{ route('users.index') }}">
+                        {{ __('Users') }}
+                    </a>
+                </li>
                 <li class="nav-item d-md-none">
                     <a class="nav-link" href="{{ route('home') }}">{{ __('Site') }}</a>
                 </li>

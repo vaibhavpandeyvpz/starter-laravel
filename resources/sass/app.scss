@@ -5,3 +5,22 @@ $s2bs5-clear-icon: $btn-close-bg;
 
 @import 'select2/src/scss/core';
 @import 'select2-bootstrap-5-theme/src/include-all';
+
+.card-body .pagination { margin-bottom: 0 }
+
+.modal {
+    &-footer, &-header { border: none }
+
+    &-header {
+        background: $light;
+    }
+}
+
+.table {
+    thead th { background: $light }
+
+    td, th {
+        white-space: nowrap;
+        vertical-align: middle;
+    }
+}

@@ -1,0 +1,152 @@
+<div class="card shadow">
+    <div class="card-body border-bottom">
+        <div class="float-end">
+            <div class="btn-toolbar mb-3">
+                <a class="btn btn-success ms-auto" href="{{ route('users.create') }}">
+                    <i class="fa-solid fa-plus"></i> <span class="d-none d-sm-inline ms-1">{{ __('New') }}</span>
+                </a>
+            </div>
+        </div>
+        <h5 class="card-title">{{ __('Users') }}</h5>
+        <p class="card-text">
+            {{ __('List and manage users here.') }}
+            <a href="" wire:click.prevent="filter()">
+                {{ __($filtering ? 'Hide filters?' : 'Show filters?') }}
+            </a>
+        </p>
+        @if ($filtering)
+            <div class="row">
+                <div class="col-sm-6 col-md-4 col-xl-3">
+                    <div class="mb-3 mb-sm-0">
+                        <label class="form-label" for="filter-search">{{ __('Search') }}</label>
+                        <input class="form-control" id="filter-search" placeholder="{{ __('Enter name or number') }}&hellip;" wire:model.debounce.500ms="q" value="{{ $q }}">
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-4 col-xl-3">
+                    <div class="mb-3 mb-md-0">
+                        <label class="form-label" for="filter-enabled">{{ __('Enabled?') }}</label>
+                        <select class="form-select" id="filter-enabled" wire:model="enabled">
+                            <option value="">{{ __('Any') }}</option>
+                            <option value="1">{{ __('Yes') }}</option>
+                            <option value="0">{{ __('No') }}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-4 col-xl-3 offset-xl-3">
+                    <label class="form-label" for="filter-length">{{ __('Length') }}</label>
+                    <select class="form-select" id="filter-length" wire:model="length">
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                </div>
+            </div>
+        @endif
+    </div>
+    <div class="table-responsive">
+        <table class="table mb-0">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th></th>
+                <th>
+                    @if (($order['name'] ?? null) === 'asc')
+                        <a class="text-body" href="" wire:click.prevent="sort('name', 'desc')">{{ __('Name') }}</a>
+                        <i class="fa-solid fa-sort-amount-down-alt ms-1"></i>
+                    @elseif (($order['name'] ?? null) === 'desc')
+                        <a class="text-body" href="" wire:click.prevent="sort('name', false)">{{ __('Name') }}</a>
+                        <i class="fa-solid fa-sort-amount-down ms-1"></i>
+                    @else
+                        <a class="text-body" href="" wire:click.prevent="sort('name', 'asc')">{{ __('Name') }}</a>
+                    @endif
+                </th>
+                <th>{{ __('Email address') }}</th>
+                <th>{{ __('Birthday') }}</th>
+                <th>{{ __('Enabled?') }}</th>
+                <th>
+                    @if (($order['created_at'] ?? null) === 'asc')
+                        <a class="text-body" href="" wire:click.prevent="sort('created_at', 'desc')">{{ __('Created at') }}</a>
+                        <i class="fa-solid fa-sort-amount-down-alt ms-1"></i>
+                    @elseif (($order['created_at'] ?? null) === 'desc')
+                        <a class="text-body" href="" wire:click.prevent="sort('created_at', false)">{{ __('Created at') }}</a>
+                        <i class="fa-solid fa-sort-amount-down ms-1"></i>
+                    @else
+                        <a class="text-body" href="" wire:click.prevent="sort('created_at', 'asc')">{{ __('Created at') }}</a>
+                    @endif
+                </th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            @forelse ($users as $user)
+                <tr>
+                    <td>{{ $user->getKey() }}</td>
+                    <td>
+                        @if ($user->photo)
+                            <img alt="{{ $user->name }}" class="rounded" height="24" src="{{ $user->photo_url }}">
+                        @else
+                            @include('partials.photo-placeholder', ['width' => 24, 'height' => 24])
+                        @endif
+                    </td>
+                    <td>
+                        <a href="{{ route('users.show', $user) }}">
+                            {{ $user->name }}
+                        </a>
+                    </td>
+                    <td>
+                        <a href="mailto:{{ $user->email }}">
+                            {{ $user->email }}
+                        </a>
+                    </td>
+                    <td>
+                        {{ $user->birthday->format('d/m/Y') }} <span class="text-muted">({{ __(':count years', ['count' => $user->birthday->diffInYears()]) }})</span>
+                    </td>
+                    <td>
+                        @if ($user->enabled)
+                            <span class="text-success">
+                                <i class="fa-solid fa-check me-1"></i> {{ __('Yes') }}
+                            </span>
+                        @else
+                            <span class="text-danger">
+                                <i class="fa-solid fa-times me-1"></i> {{ __('No') }}
+                            </span>
+                        @endif
+                    </td>
+                    <td>{{ Timezone::convertToLocal($user->created_at) }}</td>
+                    <td>
+                        <a class="btn btn-link text-decoration-none btn-sm" href="{{ route('users.show', $user) }}">
+                            <i class="fa-solid fa-eye me-1"></i> {{ __('Details') }}
+                        </a>
+                        <a class="btn btn-info btn-sm" href="{{ route('users.edit', $user) }}">
+                            <i class="fa-solid fa-pen me-1"></i> {{ __('Edit') }}
+                        </a>
+                        <button class="btn btn-danger btn-sm" data-bs-title="{{ __('Delete') }}" data-bs-toggle="modal" data-bs-target="#delete-confirmation-{{ $user->getKey() }}">
+                            <i class="fa-solid fa-trash me-1"></i> {{ __('Delete') }}
+                        </button>
+                        @include('partials.delete-confirmation', [
+                            'id' => 'delete-confirmation-'.$user->getKey(),
+                            'action' => route('users.destroy', $user),
+                            'message' => __('Do you really want to delete this user?'),
+                        ])
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td class="text-center text-muted" colspan="7">
+                        {{ __('Could not find any users to show.') }}
+                    </td>
+                </tr>
+            @endforelse
+            </tbody>
+        </table>
+    </div>
+    @if ($users->hasPages())
+        <div class="card-body">
+            {{ $users->onEachSide(1)->links() }}
+        </div>
+    @endif
+    <div class="card-footer border-top-0">
+        {{ __('Showing :from to :to of :total users.', ['from' => $users->firstItem() ?: 0, 'to' => $users->lastItem() ?: 0, 'total' => $users->total()]) }}
+    </div>
+</div>
