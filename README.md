@@ -103,7 +103,7 @@ The project uses [laravel/pint](https://github.com/laravel/pint) to enforce code
 To run it and fix any issues, use below command:
 
 ```shell
-$ docker run --rm -v $PWD:/workspace syncloudsoftech/pinter
+$ docker run --rm -v .:/workspace syncloudsoftech/pinter
 ```
 
 ## Deployment
