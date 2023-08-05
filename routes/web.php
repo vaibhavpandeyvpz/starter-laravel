@@ -25,5 +25,6 @@ Route::middleware('auth')->group(function () {
     Route::get('profile', [Controllers\ProfileController::class, 'edit'])->name('profile');
     Route::put('profile', [Controllers\ProfileController::class, 'update']);
 
+    Route::resource('roles', Controllers\RoleController::class)->middleware('password.confirm');
     Route::resource('users', Controllers\UserController::class);
 });

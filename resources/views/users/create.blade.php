@@ -11,9 +11,9 @@
 @endsection
 
 @section('content')
-    <div class="card shadow-sm">
+    <div class="card border-0 shadow-sm">
         <div class="card-body">
-            <h5 class="card-title text-primary">{{ __('New') }}</h5>
+            <h5 class="card-title">{{ __('New') }}</h5>
             <p class="card-text">{{ __('Create a new user account.') }}</p>
         </div>
         <div class="card-body border-top">

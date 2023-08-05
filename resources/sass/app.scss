@@ -17,7 +17,7 @@ $s2bs5-clear-icon: $btn-close-bg;
 }
 
 .table {
-    thead th { background: $light }
+    thead th, tbody th { background: $light }
 
     td, th {
         white-space: nowrap;

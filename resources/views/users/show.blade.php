@@ -16,9 +16,9 @@
         'action' => route('users.destroy', $user),
         'message' => __('Do you really want to delete this user?'),
     ])
-    <div class="card shadow">
+    <div class="card border-0 shadow-sm">
         <div class="card-body">
-            <h5 class="card-title text-primary">{{ __('Details') }}</h5>
+            <h5 class="card-title">{{ __('Details') }}</h5>
             <p class="card-text">{{ __('See information about existing user here.') }}</p>
             <div class="btn-toolbar">
                 <a class="btn btn-info ms-1" href="{{ route('users.edit', $user) }}">
@@ -33,7 +33,7 @@
             <table class="table mb-0">
                 <tbody>
                 <tr>
-                    <th class="bg-light">{{ __('Photo') }}</th>
+                    <th>{{ __('Photo') }}</th>
                     <td class="w-100">
                         @if ($user->photo)
                             <img alt="{{ $user->name }}" class="rounded" height="24" src="{{ $user->photo_url }}">
@@ -43,15 +43,15 @@
                     </td>
                 </tr>
                 <tr>
-                    <th class="bg-light">{{ __('Name') }}</th>
+                    <th>{{ __('Name') }}</th>
                     <td class="w-100">{{ $user->name }}</td>
                 </tr>
                 <tr>
-                    <th class="bg-light">{{ __('Email address') }}</th>
+                    <th>{{ __('Email address') }}</th>
                     <td class="w-100">{{ $user->email }}</td>
                 </tr>
                 <tr>
-                    <th class="bg-light">{{ __('Date of birth') }}</th>
+                    <th>{{ __('Date of birth') }}</th>
                     <td class="w-100">
                         @if ($user->birthday)
                             {{ $user->birthday->format('d/m/Y') }} <span class="text-muted">({{ __(':count years', ['count' => $user->birthday->diffInYears()]) }})</span>
@@ -61,7 +61,17 @@
                     </td>
                 </tr>
                 <tr>
-                    <th class="bg-light">{{ __('Enabled?') }}</th>
+                    <th class="align-text-top">{{ __('Roles') }}</th>
+                    <td class="w-100 text-wrap">
+                        @forelse ($user->roles()->get() as $role)
+                            <span class="badge bg-dark me-1">{{ $role->name }}</span>
+                        @empty
+                            <span class="text-muted">{{ __('None') }}</span>
+                        @endforelse
+                    </td>
+                </tr>
+                <tr>
+                    <th>{{ __('Enabled?') }}</th>
                     <td class="w-100">
                         @if ($user->enabled)
                             <span class="text-success">

@@ -1,4 +1,4 @@
-<div class="card shadow">
+<div class="card border-0 shadow-sm">
     <div class="card-body border-bottom">
         <div class="float-end">
             <div class="btn-toolbar mb-3">
@@ -17,13 +17,25 @@
         @if ($filtering)
             <div class="row">
                 <div class="col-sm-6 col-md-4 col-xl-3">
-                    <div class="mb-3 mb-sm-0">
+                    <div class="mb-3 mb-xl-0">
                         <label class="form-label" for="filter-search">{{ __('Search') }}</label>
-                        <input class="form-control" id="filter-search" placeholder="{{ __('Enter name or number') }}&hellip;" wire:model.debounce.500ms="q" value="{{ $q }}">
+                        <input class="form-control" id="filter-search" placeholder="{{ __('Enter name or email') }}&hellip;" wire:model.debounce.500ms="q" value="{{ $q }}">
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-4 col-xl-3">
-                    <div class="mb-3 mb-md-0">
+                    <div class="mb-3 mb-xl-0">
+                        <label class="form-label" for="filter-role">{{ __('Role') }}</label>
+                        <select class="form-select" id="filter-role" wire:model="role">
+                            <option value="">{{ __('Any') }}</option>
+                            <option value="0">{{ __('None') }}</option>
+                            @foreach($roles as $role)
+                                <option value="{{ $role->getKey() }}">{{ $role->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-4 col-xl-3">
+                    <div class="mb-3 mb-sm-0">
                         <label class="form-label" for="filter-enabled">{{ __('Enabled?') }}</label>
                         <select class="form-select" id="filter-enabled" wire:model="enabled">
                             <option value="">{{ __('Any') }}</option>
@@ -32,7 +44,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-sm-6 col-md-4 col-xl-3 offset-xl-3">
+                <div class="col-sm-6 col-md-4 col-xl-3">
                     <label class="form-label" for="filter-length">{{ __('Length') }}</label>
                     <select class="form-select" id="filter-length" wire:model="length">
                         <option value="10">10</option>

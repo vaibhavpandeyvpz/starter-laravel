@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Component;
@@ -9,6 +10,8 @@ use Livewire\Component;
 class UserList extends Component
 {
     use WithDataTable;
+
+    public string $role = '';
 
     public string $enabled = '';
 
@@ -23,6 +26,15 @@ class UserList extends Component
             });
         }
 
+        if ($this->role === '0') {
+            $query = $query->whereDoesntHave('roles');
+        } elseif ($this->role) {
+            $query = $query->whereHas('roles', function ($query) {
+                /** @var Builder $query */
+                $query->whereKey($this->role);
+            });
+        }
+
         if ($this->enabled !== '') {
             $query = $query->where('enabled', $this->enabled === '1');
         }
@@ -32,7 +44,8 @@ class UserList extends Component
         }
 
         $users = $query->paginate($this->length);
+        $roles = Role::all();
 
-        return view('livewire.user-list', compact('users'));
+        return view('livewire.user-list', compact('roles', 'users'));
     }
 }

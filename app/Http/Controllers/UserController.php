@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserCreateOrUpdateRequest;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Hash;
@@ -45,6 +46,7 @@ class UserController extends Controller
         $data['enabled'] = $data['enabled'] ?? false;
         /** @var User $user */
         $user = User::query()->create($data);
+        $user->syncRoles(Role::query()->whereIn('id', $data['roles'] ?? [])->get());
         if ($user instanceof MustVerifyEmail) {
             $user->sendEmailVerificationNotification();
         }
@@ -94,11 +96,12 @@ class UserController extends Controller
 
         $data['enabled'] = $data['enabled'] ?? false;
         $user->fill($data);
-        $user->save();
         if ($changed = $user->isDirty('email')) {
             $user->email_verified_at = null;
         }
 
+        $user->save();
+        $user->syncRoles(Role::query()->whereIn('id', $data['roles'] ?? [])->get());
         if ($changed && $user instanceof MustVerifyEmail) {
             $user->sendEmailVerificationNotification();
         }

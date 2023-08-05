@@ -52,13 +52,37 @@
     </div>
 </div>
 @php
+    $roles = App\Models\Role::all();
+    $old_roles = old('roles', $user->roles()->pluck('id'));
+    if (empty($old_roles)) {
+        $old_roles = collect();
+    } else if (is_array($old_roles)) {
+        $old_roles = collect($old_roles);
+    }
+@endphp
+<div class="row mb-3">
+    <label class="col-sm-4 col-form-label" for="user-roles">{{ __('Roles') }}</label>
+    <div class="col-sm-8">
+        <select class="form-select @error('roles') is-valid @enderror" data-widget="select2" id="user-roles" multiple name="roles[]">
+            @foreach($roles as $role)
+                <option value="{{ $role->getKey() }}" @if ($old_roles->contains($role->getKey())) selected @endif>
+                    {{ $role->name }}
+                </option>
+            @endforeach
+        </select>
+        @error('roles')
+            <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
+    </div>
+</div>
+@php
     $old_enabled = old('form') === 'user' ? old('enabled') : $user->enabled;
 @endphp
 <div class="row mb-3">
     <label class="col-sm-4 col-form-label" for="user-enabled">{{ __('Enabled?') }}</label>
     <div class="col-sm-8">
         <div class="form-check form-switch mt-sm-2">
-            <input class="form-check-input @error('enabled') is-invalid @enderror" id="user-enabled" name="enabled" type="checkbox" role="switch" value="1">
+            <input class="form-check-input @error('enabled') is-invalid @enderror" id="user-enabled" name="enabled" type="checkbox" role="switch" value="1" @if ($user->enabled) checked @endif>
             <label class="form-check-label" for="user-enabled">{{ __('Yes') }}</label>
         </div>
         @error('enabled')

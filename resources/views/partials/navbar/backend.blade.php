@@ -16,6 +16,11 @@
                         {{ __('Users') }}
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link @if (Route::is('roles.*')) active @endif" href="{{ route('roles.index') }}">
+                        {{ __('Roles') }}
+                    </a>
+                </li>
                 <li class="nav-item d-md-none">
                     <a class="nav-link" href="{{ route('home') }}">{{ __('Site') }}</a>
                 </li>
