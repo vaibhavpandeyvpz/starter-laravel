@@ -9,6 +9,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use Quarks\Laravel\Locking\LockedVersionMismatchException;
 
 class UserController extends Controller
 {
@@ -109,7 +110,14 @@ class UserController extends Controller
             $user->email_verified_at = null;
         }
 
-        $user->save();
+        $user->fillLockVersion();
+        try {
+            $user->save();
+        } catch (LockedVersionMismatchException) {
+            flash()->warning(__('This user was already modified elsewhere.'));
+            throw ValidationException::withMessages([]);
+        }
+
         if (Gate::allows('viewAny', Role::class)) {
             $user->syncRoles(Role::query()->whereIn('id', $data['roles'] ?? [])->get());
         }

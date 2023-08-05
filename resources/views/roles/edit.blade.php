@@ -23,6 +23,7 @@
                     <form action="{{ route('roles.update', $role) }}" method="post">
                         @csrf
                         @method('put')
+                        @lockInput($role)
                         @include('roles.form')
                         <div class="row">
                             <div class="col-sm-8 offset-sm-4">

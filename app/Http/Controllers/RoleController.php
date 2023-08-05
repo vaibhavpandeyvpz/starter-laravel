@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\RoleCreateOrUpdateRequest;
 use App\Models\Role;
 use Illuminate\Validation\ValidationException;
+use Quarks\Laravel\Locking\LockedVersionMismatchException;
 use Spatie\Permission\Models\Permission;
 
 class RoleController extends Controller
@@ -84,8 +85,16 @@ class RoleController extends Controller
                 'name' => __('validation.unique', ['attribute' => 'name']),
             ]);
         }
+
         $role->fill($data);
-        $role->save();
+        $role->fillLockVersion();
+        try {
+            $role->save();
+        } catch (LockedVersionMismatchException) {
+            flash()->warning(__('This role was already modified elsewhere.'));
+            throw ValidationException::withMessages([]);
+        }
+
         $role->syncPermissions(Permission::query()->whereIn('id', $data['permissions'] ?? [])->get());
         flash()->success(__('Role ":name" information has been updated.', ['name' => $role->name]));
 
