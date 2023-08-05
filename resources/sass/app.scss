@@ -1,8 +1,5 @@
 @import 'variables';
 @import 'bootstrap/scss/bootstrap';
-
-$s2bs5-clear-icon: $btn-close-bg;
-
 @import 'select2/src/scss/core';
 @import 'select2-bootstrap-5-theme/src/include-all';
 
@@ -25,6 +22,8 @@ $s2bs5-clear-icon: $btn-close-bg;
         background: $light;
     }
 }
+
+.select2-selection__choice { background: $light }
 
 .table {
     td, th {

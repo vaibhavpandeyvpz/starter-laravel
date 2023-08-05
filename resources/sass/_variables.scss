@@ -3,3 +3,15 @@ $font-family-sans-serif: 'Roboto', sans-serif;
 $line-height-base: 1.5;
 
 $navbar-light-toggler-border-color: none;
+
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/variables-dark";
+
+$s2bs5-clear-icon: $btn-close-bg;
+
+$s2bs5-padding-x: calc($input-padding-x / 2);
+$s2bs5-padding-y: $s2bs5-padding-x;
+
+$s2bs5-multi-item-padding-x: $badge-padding-x;
+$s2bs5-multi-item-padding-y: calc($badge-padding-x / 2);
