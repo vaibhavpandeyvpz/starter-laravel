@@ -18,6 +18,7 @@
         "livewire/livewire": "^2.12",
         "quarks/laravel-auditors": "^1.2",
         "quarks/laravel-locking": "^1.0",
+        "spatie/laravel-activitylog": "^4.7",
         "spatie/laravel-permission": "^5.10"
     },
     "require-dev": {

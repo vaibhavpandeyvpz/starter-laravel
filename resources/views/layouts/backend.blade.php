@@ -17,8 +17,8 @@
     <main class="container mb-3">
         @yield('content')
     </main>
-    <footer>
-        <p class="text-center">{{ config('app.name', 'Laravel') }} &copy; {{ date('Y') }}</p>
+    <footer class="container">
+        <p class="text-muted">{{ config('app.name', 'Laravel') }} &copy; {{ date('Y') }}</p>
     </footer>
 @endsection
 

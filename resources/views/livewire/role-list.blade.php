@@ -1,14 +1,15 @@
 <div class="card border-0 shadow">
     <div class="card-body border-bottom">
-        @can('create', App\Models\Role::class)
-            <div class="float-end">
-                <div class="btn-toolbar mb-3">
-                    <a class="btn btn-success ms-auto" href="{{ route('roles.create') }}">
-                        <i class="fa-solid fa-plus"></i> <span class="d-none d-sm-inline ms-1">{{ __('New') }}</span>
-                    </a>
-                </div>
+        <div class="d-flex align-items-center float-end">
+            <div class="spinner-border spinner-border-sm float-end" role="status" wire:loading>
+                <span class="visually-hidden">{{ __('Loading') }}&hellip;</span>
             </div>
-        @endcan
+            @can('create', App\Models\Role::class)
+                <a class="btn btn-success ms-3" href="{{ route('roles.create') }}">
+                    <i class="fa-solid fa-plus"></i> <span class="d-none d-sm-inline ms-1">{{ __('New') }}</span>
+                </a>
+            @endcan
+        </div>
         <h5 class="card-title">{{ __('Roles') }}</h5>
         <p class="card-text">
             {{ __('List and manage roles here.') }}

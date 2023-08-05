@@ -22,7 +22,7 @@
     ])
     <div class="row">
         <div class="col-lg-8 col-xl-9">
-            <div class="card border-0 shadow mb-3 mb-lg-0">
+            <div class="card border-0 shadow mb-3">
                 <div class="card-body">
                     <h5 class="card-title">{{ __('Details') }}</h5>
                     <p class="card-text">{{ __('See information about existing role here.') }}</p>
@@ -76,6 +76,9 @@
                         &bull; <span class="text-muted">{{ __('Updated at') }}</span> {{ Timezone::convertToLocal($role->updated_at) }}
                     </span>
                 </div>
+            </div>
+            <div class="mb-3 mb-lg-0">
+                @livewire('activity-log-list', ['model' => $role])
             </div>
         </div>
         <div class="col-lg-4 col-xl-3">

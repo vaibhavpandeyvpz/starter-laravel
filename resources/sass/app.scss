@@ -8,6 +8,16 @@ $s2bs5-clear-icon: $btn-close-bg;
 
 .card-body .pagination { margin-bottom: 0 }
 
+.list-group-item-activity {
+    border-left: 2px solid !important;
+
+    @each $color, $value in $theme-colors {
+        &-#{$color} {
+            border-left-color: $value !important;
+        }
+    }
+}
+
 .modal {
     &-footer, &-header { border: none }
 
@@ -17,8 +27,6 @@ $s2bs5-clear-icon: $btn-close-bg;
 }
 
 .table {
-    thead th, tbody th { background: $light }
-
     td, th {
         white-space: nowrap;
         vertical-align: middle;

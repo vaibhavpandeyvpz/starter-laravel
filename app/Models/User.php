@@ -9,11 +9,13 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Quarks\Laravel\Auditors\HasAuditors;
 use Quarks\Laravel\Locking\LocksVersion;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasAuditors, HasFactory, HasRoles, LocksVersion, Notifiable;
+    use HasApiTokens, HasAuditors, HasFactory, HasRoles, LocksVersion, LogsActivity, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -51,6 +53,24 @@ class User extends Authenticatable
         'enabled' => 'boolean',
         'password' => 'hashed',
     ];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logAll()
+            ->logOnlyDirty()
+            ->logExcept([
+                // quarks/laravel-auditors
+                'created_by_id',
+                'created_by_type',
+                'updated_by_id',
+                'updated_by_type',
+                'deleted_by_id',
+                'deleted_by_type',
+                // quarks/laravel-locking
+                'lock_version',
+            ]);
+    }
 
     public function getPhotoUrlAttribute(): ?string
     {

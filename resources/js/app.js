@@ -1,3 +1,4 @@
+import { Tooltip } from 'bootstrap';
 import $ from 'jquery';
 import flatpickr from 'flatpickr';
 import select2 from 'select2';
@@ -5,6 +6,9 @@ import select2 from 'select2';
 import './bootstrap';
 
 select2($);
+
+([].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]')))
+    .forEach((el) => new Tooltip(el));
 
 $('.alert:not(.alert-important)')
     .delay(5 * 1000)
