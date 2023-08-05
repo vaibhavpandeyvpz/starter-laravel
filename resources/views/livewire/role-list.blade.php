@@ -1,4 +1,4 @@
-<div class="card border-0 shadow-sm">
+<div class="card border-0 shadow">
     <div class="card-body border-bottom">
         @can('create', App\Models\Role::class)
             <div class="float-end">

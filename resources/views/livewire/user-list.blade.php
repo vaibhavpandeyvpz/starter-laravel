@@ -1,4 +1,4 @@
-<div class="card border-0 shadow-sm">
+<div class="card border-0 shadow">
     <div class="card-body border-bottom">
         @can('create', App\Models\User::class)
             <div class="float-end">
@@ -100,7 +100,7 @@
                         @if ($user->photo)
                             <img alt="{{ $user->name }}" height="24" src="{{ $user->photo_url }}">
                         @else
-                            @include('partials.photo-placeholder', ['width' => 24, 'height' => 24])
+                            @include('partials.placeholder-image', ['width' => 24, 'height' => 24])
                         @endif
                     </td>
                     <td>

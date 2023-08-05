@@ -11,7 +11,7 @@
 @endsection
 
 @section('content')
-    <div class="card border-0 shadow-sm">
+    <div class="card border-0 shadow">
         <div class="card-body">
             <h5 class="card-title">{{ __('New') }}</h5>
             <p class="card-text">{{ __('Create a new role account.') }}</p>

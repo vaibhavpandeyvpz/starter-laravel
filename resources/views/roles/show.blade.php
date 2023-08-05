@@ -16,59 +16,66 @@
         'action' => route('roles.destroy', $role),
         'message' => __('Do you really want to delete this role?'),
     ])
-    <div class="card border-0 shadow-sm">
-        <div class="card-body">
-            <h5 class="card-title">{{ __('Details') }}</h5>
-            <p class="card-text">{{ __('See information about existing role here.') }}</p>
-            @if (Gate::allows('update', $role) || Gate::allows('delete', $role))
-                <div class="btn-toolbar">
-                    @can('update', $role)
-                        <a class="btn btn-info ms-1" href="{{ route('roles.edit', $role) }}">
-                            <i class="fa-solid fa-feather"></i> <span class="d-none d-sm-inline ms-1">{{ __('Edit') }}</span>
-                        </a>
-                    @endcan
-                    @can('delete', $role)
-                        <button class="btn btn-danger ms-1" data-bs-toggle="modal" data-bs-target="#delete-confirmation-{{ $role->getKey() }}">
-                            <i class="fa-solid fa-trash"></i> <span class="d-none d-sm-inline ms-1">{{ __('Delete') }}</span>
-                        </button>
-                    @endcan
+    <div class="row">
+        <div class="col-lg-8 col-xl-9">
+            <div class="card border-0 shadow mb-3 mb-lg-0">
+                <div class="card-body">
+                    <h5 class="card-title">{{ __('Details') }}</h5>
+                    <p class="card-text">{{ __('See information about existing role here.') }}</p>
+                    @if (Gate::allows('update', $role) || Gate::allows('delete', $role))
+                        <div class="btn-toolbar">
+                            @can('update', $role)
+                                <a class="btn btn-info ms-1" href="{{ route('roles.edit', $role) }}">
+                                    <i class="fa-solid fa-feather"></i> <span class="d-none d-sm-inline ms-1">{{ __('Edit') }}</span>
+                                </a>
+                            @endcan
+                            @can('delete', $role)
+                                <button class="btn btn-danger ms-1" data-bs-toggle="modal" data-bs-target="#delete-confirmation-{{ $role->getKey() }}">
+                                    <i class="fa-solid fa-trash"></i> <span class="d-none d-sm-inline ms-1">{{ __('Delete') }}</span>
+                                </button>
+                            @endcan
+                        </div>
+                    @endif
                 </div>
-            @endif
+                <div class="table-responsive border-top">
+                    <table class="table mb-0">
+                        <tbody>
+                        <tr>
+                            <th>{{ __('Name') }}</th>
+                            <td class="w-100">{{ $role->name }}</td>
+                        </tr>
+                        <tr>
+                            <th class="align-text-top">{{ __('Permissions') }}</th>
+                            <td class="w-100 text-wrap">
+                                @forelse ($role->permissions()->get() as $permission)
+                                    <span class="badge bg-dark me-1">{{ $permission->name }}</span>
+                                @empty
+                                    <span class="text-muted">{{ __('None') }}</span>
+                                @endforelse
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>{{ __('Users') }}</th>
+                            <td class="w-100">
+                                @php
+                                    $count = $role->users()->count();
+                                @endphp
+                                {{ __(':count users', compact('count')) }}
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer border-top-0">
+                    <span class="text-muted">{{ __('Created at') }}</span> {{ Timezone::convertToLocal($role->created_at) }}
+                    <span class="d-none d-md-inline">
+                        &bull; <span class="text-muted">{{ __('Updated at') }}</span> {{ Timezone::convertToLocal($role->updated_at) }}
+                    </span>
+                </div>
+            </div>
         </div>
-        <div class="table-responsive border-top">
-            <table class="table mb-0">
-                <tbody>
-                <tr>
-                    <th>{{ __('Name') }}</th>
-                    <td class="w-100">{{ $role->name }}</td>
-                </tr>
-                <tr>
-                    <th class="align-text-top">{{ __('Permissions') }}</th>
-                    <td class="w-100 text-wrap">
-                        @forelse ($role->permissions()->get() as $permission)
-                            <span class="badge bg-dark me-1">{{ $permission->name }}</span>
-                        @empty
-                            <span class="text-muted">{{ __('None') }}</span>
-                        @endforelse
-                    </td>
-                </tr>
-                <tr>
-                    <th>{{ __('Users') }}</th>
-                    <td class="w-100">
-                        @php
-                            $count = $role->users()->count();
-                        @endphp
-                        {{ __(':count users', compact('count')) }}
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="card-footer border-top-0">
-            <span class="text-muted">{{ __('Created at') }}</span> {{ Timezone::convertToLocal($role->created_at) }}
-            <span class="d-none d-md-inline">
-                &bull; <span class="text-muted">{{ __('Updated at') }}</span> {{ Timezone::convertToLocal($role->updated_at) }}
-            </span>
+        <div class="col-lg-4 col-xl-3">
+            @include('partials.auditors', ['model' => $role])
         </div>
     </div>
 @endsection
