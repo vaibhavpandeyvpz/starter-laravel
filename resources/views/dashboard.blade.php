@@ -23,6 +23,7 @@
             <h5 class="card-title">{{ __('Dashboard') }}</h5>
             <p class="card-text">
                 {{ __('Hey :name, you are now logged in!', ['name' => strtolower(Auth::user()->name)]) }}
+                {{ Illuminate\Foundation\Inspiring::quotes()->random() }}
             </p>
         </div>
     </div>
