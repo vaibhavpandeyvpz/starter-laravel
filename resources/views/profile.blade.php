@@ -1,5 +1,9 @@
 @extends('layouts.backend')
 
+@section('meta')
+    <title>{{ __('Profile') }} | {{ config('app.name') }}</title>
+@endsection
+
 @php
     $user = Auth::user();
     $unverified = $user instanceof Illuminate\Contracts\Auth\MustVerifyEmail && !$user->hasVerifiedEmail();

@@ -1,5 +1,9 @@
 @extends('layouts.backend')
 
+@section('meta')
+    <title>{{ __('Edit') }} | {{ $user->name }} | {{ __('Users') }} | {{ config('app.name') }}</title>
+@endsection
+
 @section('breadcrumbs')
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
