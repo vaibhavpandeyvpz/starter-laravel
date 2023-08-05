@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app', ['body_class' => 'bg-light'])
 
 @section('body')
     <header class="sticky-top shadow-sm">
