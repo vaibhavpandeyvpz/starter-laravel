@@ -147,7 +147,6 @@ services:
       - 'traefik.http.routers.web.tls=true'
       - 'traefik.http.services.web.loadbalancer.server.port=80'
     ports:
-      - '2022:22'
       - '8000:80'
     volumes:
       - .:/var/www/html

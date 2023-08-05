@@ -48,7 +48,14 @@ $ php artisan migrate --seed
 $ php artisan storage:link
 ```
 
-You can access the project via browser at [https://web.local.dev/](https://web.local.dev/).
+You can access the project via browser at [https://web.local.dev/](https://web.local.dev/) or [http://localhost:8000/](https://localhost:8000/).
+
+To be able to manage users, roles etc., you must create or assign relevant roles to a user.
+You can do so by running below command and providing the user information interactively:
+
+```shell
+$ php artisan app:make-admin
+```
 
 ## Extras
 
