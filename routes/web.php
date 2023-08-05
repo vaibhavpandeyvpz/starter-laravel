@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,8 +17,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'home')->name('home');
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
 Route::middleware('auth')->group(function () {
     Route::view('/dashboard', 'dashboard')->name('dashboard');
+
+    Route::get('profile', [Controllers\ProfileController::class, 'edit'])->name('profile');
+    Route::put('profile', [Controllers\ProfileController::class, 'update']);
 });

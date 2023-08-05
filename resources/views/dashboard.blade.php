@@ -1,23 +1,29 @@
 @extends('layouts.backend')
 
+@section('breadcrumbs')
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ config('app.name') }}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ __('Dashboard') }}</li>
+        </ol>
+    </nav>
+@endsection
+
+@push('alerts')
+    @if (session('status'))
+        <div class="alert alert-success" role="alert">
+            {{ session('status') }}
+        </div>
+    @endif
+@endpush
+
 @section('content')
-    <div class="container py-5">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                @if (session('status'))
-                    <div class="alert alert-success" role="alert">
-                        {{ session('status') }}
-                    </div>
-                @endif
-                <div class="card border-0 shadow-sm">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ __('Dashboard') }}</h5>
-                        <p class="card-text">
-                            {{ __('Hey :name, you are now logged in!', ['name' => strtolower(Auth::user()->name)]) }}
-                        </p>
-                    </div>
-                </div>
-            </div>
+    <div class="card border-0 shadow-sm">
+        <div class="card-body">
+            <h5 class="card-title">{{ __('Dashboard') }}</h5>
+            <p class="card-text">
+                {{ __('Hey :name, you are now logged in!', ['name' => strtolower(Auth::user()->name)]) }}
+            </p>
         </div>
     </div>
 @endsection

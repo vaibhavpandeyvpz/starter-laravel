@@ -5,8 +5,9 @@ export default defineConfig({
     plugins: [
         laravel({
             input: [
-                'resources/sass/app.scss',
                 'resources/js/app.js',
+                'resources/sass/app.scss',
+                'resources/styl/flatpickr.styl',
             ],
             refresh: true,
         }),

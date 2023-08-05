@@ -10,8 +10,9 @@
         <link href="https://fonts.googleapis.com" rel="preconnect">
         <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
         <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
-        <link href="https://use.fontawesome.com/releases/v6.2.0/css/all.css" rel="stylesheet">
+        <link href="https://use.fontawesome.com/releases/v6.3.0/css/all.css" rel="stylesheet">
         @vite('resources/sass/app.scss')
+        @stack('styles')
     @show
     @auth
         <script>
@@ -30,6 +31,7 @@
 @yield('body')
 @section('scripts')
     @vite('resources/js/app.js')
+    @stack('scripts')
 @show
 </body>
 </html>

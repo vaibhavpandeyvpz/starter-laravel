@@ -21,6 +21,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'enabled',
+        'photo',
+        'birthday',
+        'timezone',
     ];
 
     /**
@@ -39,7 +43,14 @@ class User extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
+        'birthday' => 'date',
         'email_verified_at' => 'datetime',
+        'enabled' => 'boolean',
         'password' => 'hashed',
     ];
+
+    public function getPhotoUrlAttribute(): ?string
+    {
+        return $this->photo ? cdn_url($this->photo) : null;
+    }
 }

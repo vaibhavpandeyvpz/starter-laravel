@@ -18,9 +18,14 @@
             <ul class="navbar-nav me-md-3">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="" id="dropdown-account" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        {{ __('Profile') }}
+                        <i class="fa-solid fa-circle-user me-1"></i> {{ Auth::user()->name }}
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-account">
+                        <li>
+                            <a class="dropdown-item" href="{{ route('profile') }}">
+                                {{ __('Profile') }}
+                            </a>
+                        </li>
                         <li>
                             <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); logout()">
                                 {{ __('Logout') }}

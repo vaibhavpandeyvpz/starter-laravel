@@ -9,8 +9,14 @@
         "@popperjs/core": "^2.11.6",
         "axios": "^1.1.2",
         "bootstrap": "^5.2.3",
+        "flatpickr": "^4.6.13",
+        "jquery": "^3.7.0",
         "laravel-vite-plugin": "^0.7.5",
         "sass": "^1.56.1",
+        "select2": "^4.0.13",
+        "select2-bootstrap-5-theme": "^1.3.0",
+        "stylus": "^0.59.0",
         "vite": "^4.0.0"
-    }
+    },
+    "dependencies": {}
 }

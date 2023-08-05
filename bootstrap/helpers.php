@@ -3,8 +3,12 @@
 use Illuminate\Support\Facades\Storage;
 
 if (! function_exists('cdn_url')) {
-    function cdn_url(string $path, string $disk = 's3'): string
+    function cdn_url(string $path, ?string $disk = null): string
     {
+        if (empty($disk)) {
+            $disk = config('filesystems.local');
+        }
+
         if ($cdn = config('app.cdn_url')) {
             return rtrim($cdn, '/').'/'.ltrim($path, '/');
         }
