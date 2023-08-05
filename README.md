@@ -82,7 +82,7 @@ Some additional configuration described below may be needed for extended functio
 
 ### File uploads
 
-Before uploading files, you may need to log in to [MinIO](https://min.io/) console at [https://minio.local.dev/](https://minio.local.dev/) using `syncloud` as both (username and password) and create a bucket named `laraveldev`.
+Before uploading files, you may need to log in to [MinIO](https://min.io/) console at [https://minio.local.dev/](https://minio.local.dev/) using `laraveldev` as both (username and password) and create a bucket named `laraveldev`.
 Once created, go to bucket's settings and change its **Access Policy** to `Public`.
 
 ### Ngrok
