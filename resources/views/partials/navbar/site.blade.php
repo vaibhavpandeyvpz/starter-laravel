@@ -14,7 +14,7 @@
                 @auth
                     <li class="nav-item d-md-none">
                         <a class="nav-link @if (Route::is('dashboard')) active @endif" href="{{ route('dashboard') }}">
-                            {{ __('Dashboard') }}
+                            {{ __('Dashboard') }} <i class="fa-solid fa-arrow-right-to-bracket ms-1"></i>
                         </a>
                     </li>
                 @endauth

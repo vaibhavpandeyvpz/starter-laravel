@@ -26,17 +26,25 @@
                     </li>
                 @endcan
                 <li class="nav-item d-md-none">
-                    <a class="nav-link" href="{{ route('home') }}">{{ __('Site') }}</a>
+                    <a class="nav-link @if (Route::is('profile')) active @endif" href="{{ route('profile') }}">{{ __('Profile') }}</a>
+                </li>
+                <li class="nav-item d-md-none">
+                    <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); logout()">{{ __('Logout') }}</a>
+                </li>
+                <li class="nav-item d-md-none">
+                    <a class="nav-link" href="{{ route('home') }}">
+                        {{ __('Site') }} <i class="fa-solid fa-arrow-right-to-bracket ms-1"></i>
+                    </a>
                 </li>
             </ul>
-            <ul class="navbar-nav me-md-3">
+            <ul class="navbar-nav d-none d-md-inline-block me-md-3">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="" id="dropdown-account" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fa-solid fa-circle-user me-1"></i> {{ Auth::user()->name }}
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-account">
                         <li>
-                            <a class="dropdown-item" href="{{ route('profile') }}">
+                            <a class="dropdown-item @if (Route::is('profile')) active @endif" href="{{ route('profile') }}">
                                 {{ __('Profile') }}
                             </a>
                         </li>
