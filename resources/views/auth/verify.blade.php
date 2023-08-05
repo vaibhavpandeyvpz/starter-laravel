@@ -4,16 +4,19 @@
     <title>{{ __('Email Verification') }} | {{ config('app.name') }}</title>
 @endsection
 
-@section('content')
-    <h1 class="h4 card-title mb-3">
-        {{ __('Email verification') }}
-    </h1>
+@push('flash')
     @if (session('resent'))
         <div class="alert alert-success alert-dismissible" role="alert">
             {{ __('New verification link has been sent to the email address you provided during registration.') }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="{{ __('Close') }}"></button>
         </div>
     @endif
+@endpush
+
+@section('content')
+    <h1 class="h4 card-title mb-3">
+        {{ __('Email verification') }}
+    </h1>
     <p class="card-text">
         {{ __('Thanks for signing up!') }}
         {{ __('Before getting started, we need you to verify your email address by clicking on the link we just emailed to you.') }}

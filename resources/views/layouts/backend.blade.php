@@ -12,7 +12,7 @@
     <div class="container">
         @yield('breadcrumbs')
         @include('flash::message')
-        @stack('alerts')
+        @stack('flash')
     </div>
     <main class="container mb-3">
         @yield('content')

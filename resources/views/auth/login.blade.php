@@ -4,16 +4,19 @@
     <title>{{ __('Login') }} | {{ config('app.name') }}</title>
 @endsection
 
-@section('content')
-    <h1 class="h4 card-title mb-3">
-        {{ __('Login') }}
-    </h1>
+@push('flash')
     @if ($message = session('status'))
         <div class="alert alert-success alert-dismissible" role="alert">
             {{ $message }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="{{ __('Close') }}"></button>
         </div>
     @endif
+@endpush
+
+@section('content')
+    <h1 class="h4 card-title mb-3">
+        {{ __('Login') }}
+    </h1>
     <p class="card-text">
         {{ __('Enter credentials below to login into your account registered with us.') }}
     </p>

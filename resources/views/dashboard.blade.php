@@ -13,7 +13,7 @@
     </nav>
 @endsection
 
-@push('alerts')
+@push('flash')
     @if (session('status'))
         <div class="alert alert-success" role="alert">
             {{ session('status') }}

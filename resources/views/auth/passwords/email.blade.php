@@ -4,16 +4,19 @@
     <title>{{ __('Reset Your Password') }} | {{ config('app.name') }}</title>
 @endsection
 
-@section('content')
-    <h1 class="h4 card-title mb-3">
-        {{ __('Reset your password') }}
-    </h1>
+@push('flash')
     @if ($message = session('status'))
         <div class="alert alert-success alert-dismissible" role="alert">
             {{ $message }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="{{ __('Close') }}"></button>
         </div>
     @endif
+@endpush
+
+@section('content')
+    <h1 class="h4 card-title mb-3">
+        {{ __('Reset your password') }}
+    </h1>
     <p class="card-text">
         {{ __('Enter your email below to receive a password reset link on your registered email.') }}
     </p>

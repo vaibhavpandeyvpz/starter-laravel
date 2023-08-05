@@ -7,6 +7,8 @@
     <div class="container my-auto py-3">
         <div class="row justify-content-center">
             <div class="col-md-6 col-lg-4">
+                @include('flash::message')
+                @stack('flash')
                 <div class="card border-0 shadow-sm mb-3">
                     <div class="card-body">
                         @yield('content')

@@ -18,7 +18,7 @@
     </nav>
 @endsection
 
-@push('alerts')
+@push('flash')
     @if (session('resent'))
         <div class="container">
             <div class="alert alert-success" role="alert">
