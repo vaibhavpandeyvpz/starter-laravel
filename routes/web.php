@@ -19,7 +19,7 @@ Route::view('/', 'home')->name('home');
 
 Auth::routes(['verify' => true]);
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'enabled'])->group(function () {
     Route::view('/dashboard', 'dashboard')->name('dashboard');
 
     Route::get('profile', [Controllers\ProfileController::class, 'edit'])->name('profile');
