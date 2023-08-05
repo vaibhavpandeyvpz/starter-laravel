@@ -28,9 +28,11 @@
                                     <button class="btn btn-success">
                                         <i class="fas fa-check me-1"></i> {{ __('Save') }}
                                     </button>
-                                    <a class="btn btn-outline-dark ms-1" href="{{ route('users.index') }}">
-                                        {{ __('Cancel') }}
-                                    </a>
+                                    @can('viewAny', App\Models\User::class)
+                                        <a class="btn btn-outline-dark ms-1" href="{{ route('users.index') }}">
+                                            {{ __('Cancel') }}
+                                        </a>
+                                    @endcan
                                 </div>
                             </div>
                         </div>

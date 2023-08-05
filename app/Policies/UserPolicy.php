@@ -35,7 +35,7 @@ class UserPolicy
      */
     public function update(User $user, User $model): bool
     {
-        return $user->can('update user') && $user->id !== $model->id;
+        return $user->can('update user') && $user->getKey() !== $model->getKey();
     }
 
     /**
@@ -43,7 +43,7 @@ class UserPolicy
      */
     public function delete(User $user, User $model): bool
     {
-        return $user->can('delete user') && $user->id !== $model->id;
+        return $user->can('delete user') && $user->getKey() !== $model->getKey();
     }
 
     /**

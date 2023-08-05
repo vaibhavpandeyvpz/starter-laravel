@@ -1,12 +1,14 @@
 <div class="card border-0 shadow-sm">
     <div class="card-body border-bottom">
-        <div class="float-end">
-            <div class="btn-toolbar mb-3">
-                <a class="btn btn-success ms-auto" href="{{ route('users.create') }}">
-                    <i class="fa-solid fa-plus"></i> <span class="d-none d-sm-inline ms-1">{{ __('New') }}</span>
-                </a>
+        @can('create', App\Models\User::class)
+            <div class="float-end">
+                <div class="btn-toolbar mb-3">
+                    <a class="btn btn-success ms-auto" href="{{ route('users.create') }}">
+                        <i class="fa-solid fa-plus"></i> <span class="d-none d-sm-inline ms-1">{{ __('New') }}</span>
+                    </a>
+                </div>
             </div>
-        </div>
+        @endcan
         <h5 class="card-title">{{ __('Users') }}</h5>
         <p class="card-text">
             {{ __('List and manage users here.') }}
@@ -96,15 +98,17 @@
                     <td>{{ $user->getKey() }}</td>
                     <td>
                         @if ($user->photo)
-                            <img alt="{{ $user->name }}" class="rounded" height="24" src="{{ $user->photo_url }}">
+                            <img alt="{{ $user->name }}" height="24" src="{{ $user->photo_url }}">
                         @else
                             @include('partials.photo-placeholder', ['width' => 24, 'height' => 24])
                         @endif
                     </td>
                     <td>
-                        <a href="{{ route('users.show', $user) }}">
+                        @can('view', $user)
+                            <a href="{{ route('users.show', $user) }}">{{ $user->name }}</a>
+                        @else
                             {{ $user->name }}
-                        </a>
+                        @endcan
                     </td>
                     <td>
                         <a href="mailto:{{ $user->email }}">
@@ -112,7 +116,11 @@
                         </a>
                     </td>
                     <td>
-                        {{ $user->birthday->format('d/m/Y') }} <span class="text-muted">({{ __(':count years', ['count' => $user->birthday->diffInYears()]) }})</span>
+                        @if ($user->birthday)
+                            {{ $user->birthday->format('d/m/Y') }} <span class="text-muted">({{ __(':count years', ['count' => $user->birthday->diffInYears()]) }})</span>
+                        @else
+                            <span class="text-muted">{{ __('Empty') }}</span>
+                        @endif
                     </td>
                     <td>
                         @if ($user->enabled)
@@ -127,20 +135,26 @@
                     </td>
                     <td>{{ Timezone::convertToLocal($user->created_at) }}</td>
                     <td>
-                        <a class="btn btn-link text-decoration-none btn-sm" href="{{ route('users.show', $user) }}">
-                            <i class="fa-solid fa-eye me-1"></i> {{ __('Details') }}
-                        </a>
-                        <a class="btn btn-info btn-sm" href="{{ route('users.edit', $user) }}">
-                            <i class="fa-solid fa-pen me-1"></i> {{ __('Edit') }}
-                        </a>
-                        <button class="btn btn-danger btn-sm" data-bs-title="{{ __('Delete') }}" data-bs-toggle="modal" data-bs-target="#delete-confirmation-{{ $user->getKey() }}">
-                            <i class="fa-solid fa-trash me-1"></i> {{ __('Delete') }}
-                        </button>
-                        @include('partials.delete-confirmation', [
-                            'id' => 'delete-confirmation-'.$user->getKey(),
-                            'action' => route('users.destroy', $user),
-                            'message' => __('Do you really want to delete this user?'),
-                        ])
+                        @can('view', $user)
+                            <a class="btn btn-link text-decoration-none btn-sm" href="{{ route('users.show', $user) }}">
+                                <i class="fa-solid fa-eye me-1"></i> {{ __('Details') }}
+                            </a>
+                        @endcan
+                        @can('update', $user)
+                            <a class="btn btn-info btn-sm" href="{{ route('users.edit', $user) }}">
+                                <i class="fa-solid fa-pen me-1"></i> {{ __('Edit') }}
+                            </a>
+                        @endcan
+                        @can('delete', $user)
+                            <button class="btn btn-danger btn-sm" data-bs-title="{{ __('Delete') }}" data-bs-toggle="modal" data-bs-target="#delete-confirmation-{{ $user->getKey() }}">
+                                <i class="fa-solid fa-trash me-1"></i> {{ __('Delete') }}
+                            </button>
+                            @include('partials.delete-confirmation', [
+                                'id' => 'delete-confirmation-'.$user->getKey(),
+                                'action' => route('users.destroy', $user),
+                                'message' => __('Do you really want to delete this user?'),
+                            ])
+                        @endcan
                     </td>
                 </tr>
             @empty

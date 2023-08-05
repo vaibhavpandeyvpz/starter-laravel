@@ -51,30 +51,32 @@
         <input class="form-control" id="user-password-confirmation" name="password_confirmation" type="password" @if (!$user->exists) required @endif>
     </div>
 </div>
-@php
-    $roles = App\Models\Role::all();
-    $old_roles = old('roles', $user->roles()->pluck('id'));
-    if (empty($old_roles)) {
-        $old_roles = collect();
-    } else if (is_array($old_roles)) {
-        $old_roles = collect($old_roles);
-    }
-@endphp
-<div class="row mb-3">
-    <label class="col-sm-4 col-form-label" for="user-roles">{{ __('Roles') }}</label>
-    <div class="col-sm-8">
-        <select class="form-select @error('roles') is-valid @enderror" data-widget="select2" id="user-roles" multiple name="roles[]">
-            @foreach($roles as $role)
-                <option value="{{ $role->getKey() }}" @if ($old_roles->contains($role->getKey())) selected @endif>
-                    {{ $role->name }}
-                </option>
-            @endforeach
-        </select>
-        @error('roles')
-            <div class="invalid-feedback">{{ $message }}</div>
-        @enderror
+@can('viewAny', App\Models\Role::class)
+    @php
+        $roles = App\Models\Role::all();
+        $old_roles = old('roles', $user->roles()->pluck('id'));
+        if (empty($old_roles)) {
+            $old_roles = collect();
+        } else if (is_array($old_roles)) {
+            $old_roles = collect($old_roles);
+        }
+    @endphp
+    <div class="row mb-3">
+        <label class="col-sm-4 col-form-label" for="user-roles">{{ __('Roles') }}</label>
+        <div class="col-sm-8">
+            <select class="form-select @error('roles') is-valid @enderror" data-widget="select2" id="user-roles" multiple name="roles[]">
+                @foreach($roles as $role)
+                    <option value="{{ $role->getKey() }}" @if ($old_roles->contains($role->getKey())) selected @endif>
+                        {{ $role->name }}
+                    </option>
+                @endforeach
+            </select>
+            @error('roles')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
     </div>
-</div>
+@endcan
 @php
     $old_enabled = old('form') === 'user' ? old('enabled') : $user->enabled;
 @endphp

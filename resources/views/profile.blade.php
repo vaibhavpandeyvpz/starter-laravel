@@ -106,7 +106,7 @@
                             <div class="invalid-feedback d-inline-block">{{ $message }}</div>
                         @enderror
                         @if ($user->photo)
-                            <img alt="{{ $user->name }}" class="rounded" height="32" src="{{ $user->photo_url }}">
+                            <img alt="{{ $user->name }}" height="32" src="{{ $user->photo_url }}">
                             <div class="form-check mt-sm-2">
                                 <input class="form-check-input @error('photo_remove') is-invalid @enderror" id="profile-photo-remove" type="checkbox" name="photo_remove" value="1" @if (old('photo_remove')) checked @endif>
                                 <label class="form-check-label" for="profile-photo-remove">{{ __('Remove?') }}</label>

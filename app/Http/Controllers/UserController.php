@@ -6,11 +6,17 @@ use App\Http\Requests\UserCreateOrUpdateRequest;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(User::class);
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -46,7 +52,10 @@ class UserController extends Controller
         $data['enabled'] = $data['enabled'] ?? false;
         /** @var User $user */
         $user = User::query()->create($data);
-        $user->syncRoles(Role::query()->whereIn('id', $data['roles'] ?? [])->get());
+        if (Gate::allows('viewAny', Role::class)) {
+            $user->syncRoles(Role::query()->whereIn('id', $data['roles'] ?? [])->get());
+        }
+
         if ($user instanceof MustVerifyEmail) {
             $user->sendEmailVerificationNotification();
         }
@@ -101,7 +110,10 @@ class UserController extends Controller
         }
 
         $user->save();
-        $user->syncRoles(Role::query()->whereIn('id', $data['roles'] ?? [])->get());
+        if (Gate::allows('viewAny', Role::class)) {
+            $user->syncRoles(Role::query()->whereIn('id', $data['roles'] ?? [])->get());
+        }
+
         if ($changed && $user instanceof MustVerifyEmail) {
             $user->sendEmailVerificationNotification();
         }

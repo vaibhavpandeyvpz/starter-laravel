@@ -1,12 +1,14 @@
 <div class="card border-0 shadow-sm">
     <div class="card-body border-bottom">
-        <div class="float-end">
-            <div class="btn-toolbar mb-3">
-                <a class="btn btn-success ms-auto" href="{{ route('roles.create') }}">
-                    <i class="fa-solid fa-plus"></i> <span class="d-none d-sm-inline ms-1">{{ __('New') }}</span>
-                </a>
+        @can('create', App\Models\Role::class)
+            <div class="float-end">
+                <div class="btn-toolbar mb-3">
+                    <a class="btn btn-success ms-auto" href="{{ route('roles.create') }}">
+                        <i class="fa-solid fa-plus"></i> <span class="d-none d-sm-inline ms-1">{{ __('New') }}</span>
+                    </a>
+                </div>
             </div>
-        </div>
+        @endcan
         <h5 class="card-title">{{ __('Roles') }}</h5>
         <p class="card-text">
             {{ __('List and manage roles here.') }}
@@ -80,26 +82,38 @@
             <tbody>
             @forelse ($roles as $role)
                 <tr>
-                    <td>{{ $role->id }}</td>
-                    <td><a href="{{ route('roles.show', $role) }}">{{ $role->name }}</a></td>
+                    <td>{{ $role->getKey() }}</td>
+                    <td>
+                        @can('view', $role)
+                            <a href="{{ route('roles.show', $role) }}">{{ $role->name }}</a>
+                        @else
+                            {{ $role->name }}
+                        @endcan
+                    </td>
                     <td>{{ __(':count permissions', ['count' => $role->permissions()->count()]) }}</td>
                     <td>{{ __(':count users', ['count' => $role->users()->count()]) }}</td>
                     <td>{{ Timezone::convertToLocal($role->created_at) }}</td>
                     <td>
-                        <a class="btn btn-link text-decoration-none btn-sm" href="{{ route('roles.show', $role) }}">
-                            <i class="fa-solid fa-eye me-1"></i> {{ __('Details') }}
-                        </a>
-                        <a class="btn btn-info btn-sm" href="{{ route('roles.edit', $role) }}">
-                            <i class="fa-solid fa-pen me-1"></i> {{ __('Edit') }}
-                        </a>
-                        <button class="btn btn-danger btn-sm" data-bs-title="{{ __('Delete') }}" data-bs-toggle="modal" data-bs-target="#delete-confirmation-{{ $role->getKey() }}">
-                            <i class="fa-solid fa-trash me-1"></i> {{ __('Delete') }}
-                        </button>
-                        @include('partials.delete-confirmation', [
-                            'id' => 'delete-confirmation-'.$role->getKey(),
-                            'action' => route('roles.destroy', $role),
-                            'message' => __('Do you really want to delete this role?'),
-                        ])
+                        @can('view', $role)
+                            <a class="btn btn-link text-decoration-none btn-sm" href="{{ route('roles.show', $role) }}">
+                                <i class="fa-solid fa-eye me-1"></i> {{ __('Details') }}
+                            </a>
+                        @endcan
+                        @can('update', $role)
+                            <a class="btn btn-info btn-sm" href="{{ route('roles.edit', $role) }}">
+                                <i class="fa-solid fa-pen me-1"></i> {{ __('Edit') }}
+                            </a>
+                        @endcan
+                        @can('delete', $role)
+                            <button class="btn btn-danger btn-sm" data-bs-title="{{ __('Delete') }}" data-bs-toggle="modal" data-bs-target="#delete-confirmation-{{ $role->getKey() }}">
+                                <i class="fa-solid fa-trash me-1"></i> {{ __('Delete') }}
+                            </button>
+                            @include('partials.delete-confirmation', [
+                                'id' => 'delete-confirmation-'.$role->getKey(),
+                                'action' => route('roles.destroy', $role),
+                                'message' => __('Do you really want to delete this role?'),
+                            ])
+                        @endcan
                     </td>
                 </tr>
             @empty

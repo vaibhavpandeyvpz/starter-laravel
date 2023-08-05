@@ -20,14 +20,20 @@
         <div class="card-body">
             <h5 class="card-title">{{ __('Details') }}</h5>
             <p class="card-text">{{ __('See information about existing role here.') }}</p>
-            <div class="btn-toolbar">
-                <a class="btn btn-info ms-1" href="{{ route('roles.edit', $role) }}">
-                    <i class="fa-solid fa-feather"></i> <span class="d-none d-sm-inline ms-1">{{ __('Edit') }}</span>
-                </a>
-                <button class="btn btn-danger ms-1" data-bs-toggle="modal" data-bs-target="#delete-confirmation-{{ $role->getKey() }}">
-                    <i class="fa-solid fa-trash"></i> <span class="d-none d-sm-inline ms-1">{{ __('Delete') }}</span>
-                </button>
-            </div>
+            @if (Gate::allows('update', $role) || Gate::allows('delete', $role))
+                <div class="btn-toolbar">
+                    @can('update', $role)
+                        <a class="btn btn-info ms-1" href="{{ route('roles.edit', $role) }}">
+                            <i class="fa-solid fa-feather"></i> <span class="d-none d-sm-inline ms-1">{{ __('Edit') }}</span>
+                        </a>
+                    @endcan
+                    @can('delete', $role)
+                        <button class="btn btn-danger ms-1" data-bs-toggle="modal" data-bs-target="#delete-confirmation-{{ $role->getKey() }}">
+                            <i class="fa-solid fa-trash"></i> <span class="d-none d-sm-inline ms-1">{{ __('Delete') }}</span>
+                        </button>
+                    @endcan
+                </div>
+            @endif
         </div>
         <div class="table-responsive border-top">
             <table class="table mb-0">

@@ -20,14 +20,20 @@
         <div class="card-body">
             <h5 class="card-title">{{ __('Details') }}</h5>
             <p class="card-text">{{ __('See information about existing user here.') }}</p>
-            <div class="btn-toolbar">
-                <a class="btn btn-info ms-1" href="{{ route('users.edit', $user) }}">
-                    <i class="fa-solid fa-feather"></i> <span class="d-none d-sm-inline ms-1">{{ __('Edit') }}</span>
-                </a>
-                <button class="btn btn-danger ms-1" data-bs-toggle="modal" data-bs-target="#delete-confirmation-{{ $user->getKey() }}">
-                    <i class="fa-solid fa-trash"></i> <span class="d-none d-sm-inline ms-1">{{ __('Delete') }}</span>
-                </button>
-            </div>
+            @if (Gate::allows('update', $user) || Gate::allows('delete', $user))
+                <div class="btn-toolbar">
+                    @can('update', $user)
+                        <a class="btn btn-info ms-1" href="{{ route('users.edit', $user) }}">
+                            <i class="fa-solid fa-feather"></i> <span class="d-none d-sm-inline ms-1">{{ __('Edit') }}</span>
+                        </a>
+                    @endcan
+                    @can('delete', $user)
+                        <button class="btn btn-danger ms-1" data-bs-toggle="modal" data-bs-target="#delete-confirmation-{{ $user->getKey() }}">
+                            <i class="fa-solid fa-trash"></i> <span class="d-none d-sm-inline ms-1">{{ __('Delete') }}</span>
+                        </button>
+                    @endcan
+                </div>
+            @endif
         </div>
         <div class="table-responsive border-top">
             <table class="table mb-0">
@@ -36,7 +42,7 @@
                     <th>{{ __('Photo') }}</th>
                     <td class="w-100">
                         @if ($user->photo)
-                            <img alt="{{ $user->name }}" class="rounded" height="24" src="{{ $user->photo_url }}">
+                            <img alt="{{ $user->name }}" height="24" src="{{ $user->photo_url }}">
                         @else
                             @include('partials.photo-placeholder', ['width' => 24, 'height' => 24])
                         @endif
