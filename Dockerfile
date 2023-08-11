@@ -1,11 +1,9 @@
-FROM ghcr.io/qrstuff/phackage:8.x-fpm
+ARG IMAGE_TAG=8.x-fpm
 
+FROM ghcr.io/qrstuff/phackage:$IMAGE_TAG
+
+ARG FPM_POOL=pool.prod.conf
 ARG PHP_CONFIG=php.prod.ini
-ARG PHP_XDEBUG=0
-ARG NGINX_VHOST=vhost.conf
-
-# install php-xdebug extension (optionally)
-RUN if [ "$PHP_XDEBUG" -eq "1" ]; then pecl install xdebug && docker-php-ext-enable xdebug; fi
 
 # install basic utilities
 RUN apt-get update && \
@@ -19,17 +17,17 @@ RUN apt-get update && \
 RUN apt-get update && \
     apt-get install -y cron supervisor
 
-# override nginx vhost
-COPY .docker/$NGINX_VHOST /etc/nginx/sites-available/default
-
 # override php config
 COPY .docker/$PHP_CONFIG /usr/local/etc/php/conf.d/99-overrides.ini
 
 # override php-fpm pool
-COPY .docker/pool.conf /usr/local/etc/php-fpm.d/www.conf
+COPY .docker/$FPM_POOL /usr/local/etc/php-fpm.d/www.conf
 
 # override supervisord config
 COPY .docker/supervisor.conf /etc/supervisor/supervisord.conf
+
+# override nginx vhost
+COPY .docker/vhost.conf /etc/nginx/sites-available/default
 
 # set consistent uid and gid
 RUN usermod -u 1000 www-data && \

@@ -8,8 +8,16 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ config('app.name') }}</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('roles.index') }}">{{ __('Roles') }}</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('roles.show', $role) }}">{{ $role->name  }}</a></li>
+            @can('viewAny', App\Models\Role::class)
+                <li class="breadcrumb-item"><a href="{{ route('roles.index') }}">{{ __('Roles') }}</a></li>
+            @else
+                <li class="breadcrumb-item active">{{ __('Roles') }}</li>
+            @endcan
+            @can('update', $role)
+                <li class="breadcrumb-item"><a href="{{ route('roles.show', $role) }}">{{ $role->name }}</a></li>
+            @else
+                <li class="breadcrumb-item active">{{ $role->name }}</li>
+            @endcan
             <li class="breadcrumb-item active" aria-current="page">{{ __('Edit')  }}</li>
         </ol>
     </nav>

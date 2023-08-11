@@ -136,8 +136,9 @@ services:
     build:
       context: .
       args:
+        FPM_POOL: pool.conf
+        IMAGE_TAG: 8.x-fpm-debug
         PHP_CONFIG: php.ini
-        PHP_XDEBUG: '1'
     depends_on:
       - mysql
       - redis

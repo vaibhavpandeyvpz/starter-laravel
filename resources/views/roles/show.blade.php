@@ -8,8 +8,12 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ config('app.name') }}</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('roles.index') }}">{{ __('Roles') }}</a></li>
-            <li class="breadcrumb-item active" aria-current="page">{{ $role->name  }}</li>
+            @can('viewAny', App\Models\Role::class)
+                <li class="breadcrumb-item"><a href="{{ route('roles.index') }}">{{ __('Roles') }}</a></li>
+            @else
+                <li class="breadcrumb-item active">{{ __('Roles') }}</li>
+            @endcan
+            <li class="breadcrumb-item active" aria-current="page">{{ $role->name }}</li>
         </ol>
     </nav>
 @endsection
@@ -29,12 +33,12 @@
                     @if (Gate::allows('update', $role) || Gate::allows('delete', $role))
                         <div class="btn-toolbar">
                             @can('update', $role)
-                                <a class="btn btn-info ms-1" href="{{ route('roles.edit', $role) }}">
+                                <a class="btn btn-info me-1" href="{{ route('roles.edit', $role) }}">
                                     <i class="fa-solid fa-feather"></i> <span class="d-none d-sm-inline ms-1">{{ __('Edit') }}</span>
                                 </a>
                             @endcan
                             @can('delete', $role)
-                                <button class="btn btn-danger ms-1" data-bs-toggle="modal" data-bs-target="#delete-confirmation-{{ $role->getKey() }}">
+                                <button class="btn btn-danger me-1" data-bs-toggle="modal" data-bs-target="#delete-confirmation-{{ $role->getKey() }}">
                                     <i class="fa-solid fa-trash"></i> <span class="d-none d-sm-inline ms-1">{{ __('Delete') }}</span>
                                 </button>
                             @endcan
@@ -51,7 +55,7 @@
                         <tr>
                             <th class="align-text-top">{{ __('Permissions') }}</th>
                             <td class="w-100 text-wrap">
-                                @forelse ($role->permissions()->get() as $permission)
+                                @forelse ($role->permissions as $permission)
                                     <span class="badge bg-dark me-1">{{ $permission->name }}</span>
                                 @empty
                                     <span class="text-muted">{{ __('None') }}</span>

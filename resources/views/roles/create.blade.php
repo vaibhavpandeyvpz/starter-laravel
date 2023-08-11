@@ -8,7 +8,11 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ config('app.name') }}</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('roles.index') }}">{{ __('Roles') }}</a></li>
+            @can('viewAny', App\Models\Role::class)
+                <li class="breadcrumb-item"><a href="{{ route('roles.index') }}">{{ __('Roles') }}</a></li>
+            @else
+                <li class="breadcrumb-item active">{{ __('Roles') }}</li>
+            @endcan
             <li class="breadcrumb-item active" aria-current="page">{{ __('New')  }}</li>
         </ol>
     </nav>

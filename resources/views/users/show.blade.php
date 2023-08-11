@@ -8,8 +8,12 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ config('app.name') }}</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('users.index') }}">{{ __('Users') }}</a></li>
-            <li class="breadcrumb-item active" aria-current="page">{{ $user->name  }}</li>
+            @can('viewAny', App\Models\User::class)
+                <li class="breadcrumb-item"><a href="{{ route('users.index') }}">{{ __('Users') }}</a></li>
+            @else
+                <li class="breadcrumb-item">{{ __('Users')  }}</li>
+            @endcan
+            <li class="breadcrumb-item active" aria-current="page">{{ $user->name }}</li>
         </ol>
     </nav>
 @endsection
@@ -29,12 +33,12 @@
                     @if (Gate::allows('update', $user) || Gate::allows('delete', $user))
                         <div class="btn-toolbar">
                             @can('update', $user)
-                                <a class="btn btn-info ms-1" href="{{ route('users.edit', $user) }}">
+                                <a class="btn btn-info me-1" href="{{ route('users.edit', $user) }}">
                                     <i class="fa-solid fa-feather"></i> <span class="d-none d-sm-inline ms-1">{{ __('Edit') }}</span>
                                 </a>
                             @endcan
                             @can('delete', $user)
-                                <button class="btn btn-danger ms-1" data-bs-toggle="modal" data-bs-target="#delete-confirmation-{{ $user->getKey() }}">
+                                <button class="btn btn-danger me-1" data-bs-toggle="modal" data-bs-target="#delete-confirmation-{{ $user->getKey() }}">
                                     <i class="fa-solid fa-trash"></i> <span class="d-none d-sm-inline ms-1">{{ __('Delete') }}</span>
                                 </button>
                             @endcan
