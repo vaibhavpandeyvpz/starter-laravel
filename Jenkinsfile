@@ -22,7 +22,7 @@ pipeline {
     }
     stage('Build and push') {
       steps {
-        sh 'docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_TOKEN .'
+        sh 'docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_TOKEN'
         sh 'docker build -t ${params.DOCKER_IMAGE}:$BUILD_NUMBER .'
         sh 'docker push ${params.DOCKER_IMAGE}:$BUILD_NUMBER'
       }
