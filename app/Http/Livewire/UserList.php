@@ -9,11 +9,25 @@ use Livewire\Component;
 
 class UserList extends Component
 {
-    use WithDataTable;
+    use WithDataTable {
+        filter as applyFilter;
+    }
 
     public string $role = '';
 
     public string $enabled = '';
+
+    public string $fromDate = '';
+
+    public string $toDate = '';
+
+    public function filter(): void
+    {
+        $this->applyFilter();
+        if ($this->filtering) {
+            $this->emit('filteringEnabled');
+        }
+    }
 
     public function render()
     {
@@ -37,6 +51,14 @@ class UserList extends Component
 
         if ($this->enabled !== '') {
             $query = $query->where('enabled', $this->enabled === '1');
+        }
+
+        if ($this->fromDate) {
+            $query = $query->whereDate('created_at', '>=', $this->fromDate);
+        }
+
+        if ($this->toDate) {
+            $query = $query->whereDate('created_at', '<=', $this->toDate);
         }
 
         foreach ($this->order as $column => $direction) {

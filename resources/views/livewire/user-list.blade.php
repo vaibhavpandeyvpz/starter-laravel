@@ -20,13 +20,13 @@
         @if ($filtering)
             <div class="row">
                 <div class="col-sm-6 col-md-4 col-xl-3">
-                    <div class="mb-3 mb-xl-0">
+                    <div class="mb-3">
                         <label class="form-label" for="filter-search">{{ __('Search') }}</label>
                         <input class="form-control" id="filter-search" placeholder="{{ __('Enter name or email') }}&hellip;" wire:model.debounce.500ms="q" value="{{ $q }}">
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-4 col-xl-3">
-                    <div class="mb-3 mb-xl-0">
+                    <div class="mb-3">
                         <label class="form-label" for="filter-role">{{ __('Role') }}</label>
                         <select class="form-select" id="filter-role" wire:model="role">
                             <option value="">{{ __('Any') }}</option>
@@ -38,7 +38,7 @@
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-4 col-xl-3">
-                    <div class="mb-3 mb-sm-0">
+                    <div class="mb-3">
                         <label class="form-label" for="filter-enabled">{{ __('Enabled?') }}</label>
                         <select class="form-select" id="filter-enabled" wire:model="enabled">
                             <option value="">{{ __('Any') }}</option>
@@ -48,13 +48,25 @@
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-4 col-xl-3">
-                    <label class="form-label" for="filter-length">{{ __('Length') }}</label>
-                    <select class="form-select" id="filter-length" wire:model="length">
-                        <option value="10">10</option>
-                        <option value="25">25</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                    </select>
+                    <div class="mb-3 mb-md-0">
+                        <label class="form-label" for="filter-length">{{ __('Length') }}</label>
+                        <select class="form-select" id="filter-length" wire:model="length">
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-4 col-xl-3" wire:ignore>
+                    <div class="mb-3 mb-sm-0">
+                        <label class="form-label" for="filter-from-date">{{ __('Created from') }}</label>
+                        <input class="form-control" id="filter-from-date" value="{{ $fromDate }}">
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-4 col-xl-3" wire:ignore>
+                    <label class="form-label" for="filter-to-date">{{ __('Created up to') }}</label>
+                    <input class="form-control" id="filter-to-date" value="{{ $toDate }}">
                 </div>
             </div>
         @endif
@@ -177,3 +189,30 @@
         {{ __('Showing :from to :to of :total users.', ['from' => $users->firstItem() ?: 0, 'to' => $users->lastItem() ?: 0, 'total' => $users->total()]) }}
     </div>
 </div>
+
+@push('scripts')
+    <script>
+        Livewire.on('filteringEnabled', () => {
+            flatpickr('#filter-from-date', {
+                allowInput: true,
+                altInput: true,
+                altFormat: 'd/m/Y',
+                enableTime: false,
+                dateFormat: 'Y-m-d',
+                onChange(_, date) {
+                    @this.set('fromDate', date);
+                },
+            });
+            flatpickr('#filter-to-date', {
+                allowInput: true,
+                altInput: true,
+                altFormat: 'd/m/Y',
+                enableTime: false,
+                dateFormat: 'Y-m-d',
+                onChange(_, date) {
+                    @this.set('toDate', date);
+                },
+            });
+        });
+    </script>
+@endpush

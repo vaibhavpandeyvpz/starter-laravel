@@ -5,6 +5,8 @@ import select2 from 'select2';
 
 import './bootstrap';
 
+window.flatpickr = flatpickr;
+
 select2($);
 
 ([].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]')))
