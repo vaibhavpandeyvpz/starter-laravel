@@ -28,7 +28,7 @@
                 <div class="col-sm-6 col-md-4 col-xl-3" wire:ignore>
                     <div class="mb-3">
                         <label class="form-label" for="filter-role">{{ __('Role') }}</label>
-                        <select class="form-select" data-widget="select2" id="filter-role" wire:model="role">
+                        <select class="form-select" data-widget="dropdown" id="filter-role" wire:model="role">
                             <option value="">{{ __('Any') }}</option>
                             <option value="0">{{ __('None') }}</option>
                             @foreach($roles as $role)
@@ -192,34 +192,22 @@
 
 @push('scripts')
     <script>
-        Livewire.on('filteringEnabled', () => {
-            $('#filter-role').select2({
-                theme: 'bootstrap-5',
-                width: '100%'
-            }).on('select2:select', (e) => {
-                @this.set('role', e.params.data.id);
-            });
+        document.addEventListener('livewire:load', function () {
+            @this.on('filteringEnabled', function () {
+                $('#filter-role').dropdown()
+                    .on('select2:select', function (e) {
+                        @this.set('role', e.params.data.id);
+                    });
 
-            flatpickr('#filter-from-date', {
-                allowInput: true,
-                altInput: true,
-                altFormat: 'd/m/Y',
-                enableTime: false,
-                dateFormat: 'Y-m-d',
-                onChange(_, date) {
-                    @this.set('fromDate', date);
-                },
-            });
+                $('#filter-from-date').datepicker()
+                    .on('change', function (e) {
+                        @this.set('fromDate', e.target.value);
+                    });
 
-            flatpickr('#filter-to-date', {
-                allowInput: true,
-                altInput: true,
-                altFormat: 'd/m/Y',
-                enableTime: false,
-                dateFormat: 'Y-m-d',
-                onChange(_, date) {
-                    @this.set('toDate', date);
-                },
+                $('#filter-to-date').datepicker()
+                    .on('change', function (e) {
+                        @this.set('toDate', e.target.value);
+                    });
             });
         });
     </script>

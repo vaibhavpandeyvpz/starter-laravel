@@ -3,12 +3,31 @@ import flatpickr from 'flatpickr';
 import $ from 'jquery';
 import select2 from 'select2';
 
+select2(window, $);
+
 import './bootstrap';
 
-window.flatpickr = flatpickr;
-window.$ = window.jQuery = $;
-
-select2($);
+$.fn.extend({
+    datepicker() {
+        return this.each(function() {
+            flatpickr(this, {
+                allowInput: true,
+                altInput: true,
+                altFormat: 'd/m/Y',
+                enableTime: false,
+                dateFormat: 'Y-m-d',
+            });
+        });
+    },
+    dropdown() {
+        return this.each(function() {
+            $(this).select2({
+                theme: 'bootstrap-5',
+                width: '100%',
+            });
+        });
+    },
+});
 
 ([].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]')))
     .forEach((el) => new Tooltip(el));
@@ -45,15 +64,8 @@ $('body')
         }
     });
 
-flatpickr('[data-widget="datepicker"]', {
-    allowInput: true,
-    altInput: true,
-    altFormat: 'd/m/Y',
-    enableTime: false,
-    dateFormat: 'Y-m-d',
-});
+window.$ = window.jQuery = $;
 
-$('[data-widget="select2"]').select2({
-    theme: 'bootstrap-5',
-    width: '100%',
-});
+$('[data-widget="datepicker"]').datepicker();
+
+$('[data-widget="dropdown"]').dropdown();
