@@ -1,11 +1,12 @@
 import { Tooltip } from 'bootstrap';
-import $ from 'jquery';
 import flatpickr from 'flatpickr';
+import $ from 'jquery';
 import select2 from 'select2';
 
 import './bootstrap';
 
 window.flatpickr = flatpickr;
+window.$ = window.jQuery = $;
 
 select2($);
 

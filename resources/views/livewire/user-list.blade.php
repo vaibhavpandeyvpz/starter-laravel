@@ -25,10 +25,10 @@
                         <input class="form-control" id="filter-search" placeholder="{{ __('Enter name or email') }}&hellip;" wire:model.debounce.500ms="q" value="{{ $q }}">
                     </div>
                 </div>
-                <div class="col-sm-6 col-md-4 col-xl-3">
+                <div class="col-sm-6 col-md-4 col-xl-3" wire:ignore>
                     <div class="mb-3">
                         <label class="form-label" for="filter-role">{{ __('Role') }}</label>
-                        <select class="form-select" id="filter-role" wire:model="role">
+                        <select class="form-select" data-widget="select2" id="filter-role" wire:model="role">
                             <option value="">{{ __('Any') }}</option>
                             <option value="0">{{ __('None') }}</option>
                             @foreach($roles as $role)
@@ -193,6 +193,13 @@
 @push('scripts')
     <script>
         Livewire.on('filteringEnabled', () => {
+            $('#filter-role').select2({
+                theme: 'bootstrap-5',
+                width: '100%'
+            }).on('select2:select', (e) => {
+                @this.set('role', e.params.data.id);
+            });
+
             flatpickr('#filter-from-date', {
                 allowInput: true,
                 altInput: true,
@@ -203,6 +210,7 @@
                     @this.set('fromDate', date);
                 },
             });
+
             flatpickr('#filter-to-date', {
                 allowInput: true,
                 altInput: true,
