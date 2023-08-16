@@ -11,7 +11,7 @@
             @endcan
         </div>
         <h5 class="card-title">{{ __('Roles') }}</h5>
-        <p class="card-text" x-bind:class="filtering ? 'mb-3' : 'mb-0'">
+        <p class="card-text" :class="{ 'mb-0': ! filtering }">
             {{ __('List and manage roles here.') }}
             <a href="" @click.prevent="filtering = ! filtering">
                 <span x-show="filtering">{{ __('Hide filters?') }}</span>
