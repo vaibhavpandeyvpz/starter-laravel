@@ -17,10 +17,13 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['name' => 'create role']);
         Permission::create(['name' => 'update role']);
         Permission::create(['name' => 'delete role']);
+
         Permission::create(['name' => 'view all users']);
         Permission::create(['name' => 'view user']);
         Permission::create(['name' => 'create user']);
         Permission::create(['name' => 'update user']);
         Permission::create(['name' => 'delete user']);
+
+        Permission::create(['name' => 'access horizon']);
     }
 }

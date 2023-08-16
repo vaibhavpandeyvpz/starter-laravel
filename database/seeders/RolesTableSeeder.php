@@ -15,6 +15,7 @@ class RolesTableSeeder extends Seeder
         /** @var Role $administrator */
         $administrator = Role::create(['name' => 'Administrator']);
         $administrator->givePermissionTo(
+            'access horizon',
             'view all roles',
             'view role',
             'create role',
