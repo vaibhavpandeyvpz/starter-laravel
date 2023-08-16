@@ -2,10 +2,11 @@ import { Tooltip } from 'bootstrap';
 import flatpickr from 'flatpickr';
 import $ from 'jquery';
 import select2 from 'select2';
+import './bootstrap';
+
+window.$ = window.jQuery = $;
 
 select2(window, $);
-
-import './bootstrap';
 
 $.fn.extend({
     datepicker() {
@@ -28,9 +29,6 @@ $.fn.extend({
         });
     },
 });
-
-([].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]')))
-    .forEach((el) => new Tooltip(el));
 
 $('.alert:not(.alert-important)')
     .delay(5 * 1000)
@@ -64,8 +62,6 @@ $('body')
         }
     });
 
-window.$ = window.jQuery = $;
-
 const opened = document.querySelector('.modal[data-bs-modal-open="true"]');
 if (opened) {
     Modal.getOrCreateInstance(opened).show();
@@ -74,3 +70,6 @@ if (opened) {
 $('[data-widget="datepicker"]').datepicker();
 
 $('[data-widget="dropdown"]').dropdown();
+
+([].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]')))
+    .forEach((el) => new Tooltip(el));
