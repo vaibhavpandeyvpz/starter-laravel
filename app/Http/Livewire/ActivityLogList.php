@@ -14,16 +14,11 @@ class ActivityLogList extends Component
     public int|null $expanded = null;
 
     /**
-     * @var LogsActivity|Model
+     * @var Model|LogsActivity
      */
     public Model $model;
 
     protected $paginationTheme = 'simple-bootstrap';
-
-    public function mount(Model $model): void
-    {
-        $this->model = $model;
-    }
 
     public function render()
     {
