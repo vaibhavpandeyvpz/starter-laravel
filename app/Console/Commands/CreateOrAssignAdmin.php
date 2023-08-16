@@ -39,8 +39,8 @@ class CreateOrAssignAdmin extends Command
         $data['email'] = text(
             'Their email address (new or existing)',
             required: true,
-            validate: fn (string $value) => match (filter_var($value, FILTER_VALIDATE_EMAIL)) {
-                false => 'The email must be a valid email address.',
+            validate: fn (string $value) => match (true) {
+                filter_var($value, FILTER_VALIDATE_EMAIL) === false => 'The email must be a valid email address.',
                 default => null,
             }
         );
@@ -48,8 +48,8 @@ class CreateOrAssignAdmin extends Command
         $password = password(
             'Password as secret as memories',
             required: true,
-            validate: fn(string $value) => match (strlen($value) < 8) {
-                true => 'Password must be at least 8 characters.',
+            validate: fn (string $value) => match (true) {
+                strlen($value) < 8 => 'Password must be at least 8 characters.',
                 default => null,
             }
         );
@@ -57,8 +57,8 @@ class CreateOrAssignAdmin extends Command
         password(
             'The same password once again, just for confirmation',
             required: true,
-            validate: fn(string $value) => match ($value !== $password) {
-                true => 'Password confirmation does not match',
+            validate: fn (string $value) => match (true) {
+                $value !== $password => 'Password confirmation does not match',
                 default => null,
             }
         );
