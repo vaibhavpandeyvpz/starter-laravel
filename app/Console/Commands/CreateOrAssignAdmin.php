@@ -6,6 +6,8 @@ use App\Models\Role;
 use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Hash;
+use function Laravel\Prompts\password;
+use function Laravel\Prompts\text;
 
 class CreateOrAssignAdmin extends Command
 {
@@ -14,7 +16,7 @@ class CreateOrAssignAdmin extends Command
      *
      * @var string
      */
-    protected $signature = 'app:make-admin';
+    protected $signature = 'make:admin';
 
     /**
      * The console command description.
@@ -28,36 +30,40 @@ class CreateOrAssignAdmin extends Command
      */
     public function handle()
     {
-        $data['name'] = $this->ask('Name');
-        while (true) {
-            $email = $this->ask('Email address');
-            if (filter_var($email, FILTER_VALIDATE_EMAIL) !== false) {
-                $data['email'] = $email;
-                break;
+        $data['name'] = text(
+            "User's full name",
+            placeholder: 'E.g. VPZ',
+            required: true
+        );
+
+        $data['email'] = text(
+            'Their email address (new or existing)',
+            required: true,
+            validate: fn (string $value) => match (filter_var($value, FILTER_VALIDATE_EMAIL)) {
+                false => 'The email must be a valid email address.',
+                default => null,
             }
+        );
 
-            $this->error('Please enter a valid email address.');
-        }
-
-        while (true) {
-            $password = $this->secret('Password');
-            if (empty($password) || strlen($password) < 8) {
-                $this->error('Password must be at least 8 characters.');
-
-                continue;
+        $password = password(
+            'Password as secret as memories',
+            required: true,
+            validate: fn(string $value) => match (strlen($value) < 8) {
+                true => 'Password must be at least 8 characters.',
+                default => null,
             }
+        );
 
-            $confirmation = $this->secret('Confirm password');
-            if ($password !== $confirmation) {
-                $this->error('Password confirmation does not match');
-
-                continue;
+        password(
+            'The same password once again, just for confirmation',
+            required: true,
+            validate: fn(string $value) => match ($value !== $password) {
+                true => 'Password confirmation does not match',
+                default => null,
             }
+        );
 
-            $data['password'] = Hash::make($password);
-            break;
-        }
-
+        $data['password'] = Hash::make($password);
         $data['enabled'] = true;
 
         /** @var User $user */
@@ -65,7 +71,7 @@ class CreateOrAssignAdmin extends Command
             ->updateOrCreate(['email' => $data['email']], $data);
         $user->syncRoles(Role::all());
 
-        $this->info('User has been successfully added. You can login at: '.route('login'));
+        $this->info('User has been successfully added. They can now login at: '.route('login'));
         $this->table(
             ['name', 'email address'],
             [

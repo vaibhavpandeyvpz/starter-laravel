@@ -54,7 +54,7 @@ To be able to manage users, roles etc., you must create or assign relevant roles
 You can do so by running below command and providing the user information interactively:
 
 ```shell
-$ php artisan app:make-admin
+$ php artisan make:admin
 ```
 
 ## Extras
