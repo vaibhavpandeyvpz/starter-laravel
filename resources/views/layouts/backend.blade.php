@@ -1,10 +1,9 @@
 @extends('layouts.app', ['body_class' => 'bg-light'])
 
-@section('styles')
-    @parent
+@push('styles')
     @vite('resources/styl/flatpickr.styl')
-    @livewireStyles
-@endsection
+    <livewire:styles />
+@endpush
 
 @section('body')
     <header class="sticky-top shadow-sm mb-3">
@@ -23,7 +22,6 @@
     </footer>
 @endsection
 
-@section('scripts')
-    @livewireScripts
-    @parent
-@endsection
+@prepend('scripts')
+    <livewire:scripts />
+@endprepend

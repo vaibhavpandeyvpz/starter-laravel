@@ -14,5 +14,5 @@
 @endsection
 
 @section('content')
-    @livewire('role-list')
+    <livewire:role-list />
 @endsection

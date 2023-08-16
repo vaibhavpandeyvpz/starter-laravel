@@ -82,7 +82,7 @@
                 </div>
             </div>
             <div class="mb-3 mb-lg-0">
-                @livewire('activity-log-list', ['model' => $role])
+                <livewire:activity-log-list :model="$role" />
             </div>
         </div>
         <div class="col-lg-4 col-xl-3">

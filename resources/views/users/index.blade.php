@@ -14,5 +14,5 @@
 @endsection
 
 @section('content')
-    @livewire('user-list')
+    <livewire:user-list />
 @endsection
