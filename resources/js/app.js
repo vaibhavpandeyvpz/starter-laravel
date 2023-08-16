@@ -66,6 +66,11 @@ $('body')
 
 window.$ = window.jQuery = $;
 
+const opened = document.querySelector('.modal[data-bs-modal-open="true"]');
+if (opened) {
+    Modal.getOrCreateInstance(opened).show();
+}
+
 $('[data-widget="datepicker"]').datepicker();
 
 $('[data-widget="dropdown"]').dropdown();
