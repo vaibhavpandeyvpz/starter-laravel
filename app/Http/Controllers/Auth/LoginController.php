@@ -3,8 +3,14 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Laravel\Socialite\Facades\Socialite;
 
 class LoginController extends Controller
 {
@@ -26,7 +32,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected string $redirectTo = RouteServiceProvider::HOME;
 
     /**
      * Create a new controller instance.
@@ -36,5 +42,27 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    public function socialRedirect(string $provider)
+    {
+        return Socialite::driver($provider)->redirect();
+    }
+
+    public function socialCallback(Request $request, string $provider)
+    {
+        $user = Socialite::driver($provider)->user();
+        $user = User::query()
+            ->firstOrCreate([
+                'email' => $user->getEmail(),
+            ], [
+                'name' => $user->getName(),
+                'password' => Hash::make(Str::random(8)),
+                'enabled' => true,
+            ]);
+        /** @var User $user */
+        Auth::login($user);
+
+        return $this->sendLoginResponse($request);
     }
 }

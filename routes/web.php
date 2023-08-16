@@ -19,6 +19,11 @@ Route::view('/', 'home')->name('home');
 
 Auth::routes(['verify' => true]);
 
+Route::get('login/{provider}', [Controllers\Auth\LoginController::class, 'socialRedirect'])
+    ->whereIn('provider', ['google'])
+    ->name('login.socialite');
+Route::get('login/{provider}/callback', [Controllers\Auth\LoginController::class, 'socialCallback']);
+
 Route::middleware(['auth', 'enabled'])->group(function () {
     Route::view('/dashboard', 'dashboard')->name('dashboard');
 

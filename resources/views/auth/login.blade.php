@@ -45,21 +45,29 @@
                 {{ __('Forgot password?') }} <a href="{{ route('password.request') }}">{{ __('Reset here') }}</a>.
             </small>
         </p>
-        <div class="form-check">
-            <input class="form-check-input" id="login-remember" name="remember" type="checkbox" value="1" @if (old('remember')) checked @endif>
-            <label class="form-check-label" for="login-remember">
-                {{ __('Do not ask again') }}
-            </label>
+        <div class="mb-3">
+            <div class="form-check">
+                <input class="form-check-input" id="login-remember" name="remember" type="checkbox" value="1" @if (old('remember')) checked @endif>
+                <label class="form-check-label" for="login-remember">
+                    {{ __('Do not ask again') }}
+                </label>
+            </div>
         </div>
-        @if (Route::has('register'))
+        @if (config('services.google.client_id'))
             <div class="d-flex align-items-center my-3">
                 <hr class="w-100">
                 <span class="text-uppercase px-3">{{ __('Or') }}</span>
                 <hr class="w-100">
             </div>
-            <p><a href="{{ route('register') }}">Register here</a> if you do not have an account yet.</p>
+            <a class="btn btn-dark btn-lg w-100 mb-3" href="{{ route('login.socialite', ['provider' => 'google']) }}" role="button">
+                <img alt="{{ __('Google') }}" src="{{ asset('images/google-logo.svg') }}" style="height: 1em">
+                {{ __('Login with Google') }}
+            </a>
         @endif
-        <div class="btn-toolbar justify-content-end @if (!Route::has('register')) mt-3 @endif">
+        @if (Route::has('register'))
+            <p><a href="{{ route('register') }}">Register here</a> for <strong>FREE</strong> if you do not have an account with us yet.</p>
+        @endif
+        <div class="btn-toolbar justify-content-end">
             <button class="btn btn-primary btn-lg">
                 {{ __('Login') }} <i class="fa-solid fa-arrow-right ms-1"></i>
             </button>
