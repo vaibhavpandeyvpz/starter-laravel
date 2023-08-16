@@ -28,7 +28,7 @@
                 <div class="col-sm-6 col-md-4 col-xl-3" wire:ignore>
                     <div class="mb-3">
                         <label class="form-label" for="filter-role">{{ __('Role') }}</label>
-                        <select class="form-select" data-widget="dropdown" id="filter-role" wire:model="role">
+                        <select class="form-select" id="filter-role">
                             <option value="">{{ __('Any') }}</option>
                             <option value="0">{{ __('None') }}</option>
                             @foreach($roles as $role)
@@ -37,20 +37,20 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-sm-6 col-md-4 col-xl-3">
+                <div class="col-sm-6 col-md-4 col-xl-3" wire:ignore>
                     <div class="mb-3">
                         <label class="form-label" for="filter-enabled">{{ __('Enabled?') }}</label>
-                        <select class="form-select" id="filter-enabled" wire:model="enabled">
+                        <select class="form-select" id="filter-enabled">
                             <option value="">{{ __('Any') }}</option>
                             <option value="1">{{ __('Yes') }}</option>
                             <option value="0">{{ __('No') }}</option>
                         </select>
                     </div>
                 </div>
-                <div class="col-sm-6 col-md-4 col-xl-3">
+                <div class="col-sm-6 col-md-4 col-xl-3" wire:ignore>
                     <div class="mb-3 mb-md-0">
                         <label class="form-label" for="filter-length">{{ __('Length') }}</label>
-                        <select class="form-select" id="filter-length" wire:model="length">
+                        <select class="form-select" id="filter-length">
                             <option value="10">10</option>
                             <option value="25">25</option>
                             <option value="50">50</option>
@@ -197,6 +197,16 @@
                 $('#filter-role').dropdown()
                     .on('select2:select', function (e) {
                         @this.set('role', e.params.data.id);
+                    });
+
+                $('#filter-enabled').dropdown()
+                    .on('select2:select', function (e) {
+                        @this.set('enabled', e.params.data.id);
+                    });
+
+                $('#filter-length').dropdown()
+                    .on('select2:select', function (e) {
+                        @this.set('length', e.params.data.id);
                     });
 
                 $('#filter-from-date').datepicker()

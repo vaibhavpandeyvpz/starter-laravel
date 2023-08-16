@@ -25,10 +25,10 @@
                         <input class="form-control" id="filter-search" placeholder="{{ __('Enter name') }}&hellip;" wire:model.debounce.500ms="q" value="{{ $q }}">
                     </div>
                 </div>
-                <div class="col-sm-6 col-md-4 col-xl-3">
+                <div class="col-sm-6 col-md-4 col-xl-3" wire:ignore>
                     <div class="mb-3 mb-md-0">
                         <label class="form-label" for="filter-permission">{{ __('Permission') }}</label>
-                        <select class="form-select" id="filter-permission" wire:model="permission">
+                        <select class="form-select" id="filter-permission">
                             <option value="">{{ __('Any') }}</option>
                             @foreach($permissions as $permission)
                                 <option value="{{ $permission->getKey() }}">{{ $permission->name }}</option>
@@ -36,9 +36,9 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-sm-6 col-md-4 col-xl-3 offset-xl-3">
+                <div class="col-sm-6 col-md-4 col-xl-3 offset-xl-3" wire:ignore>
                     <label class="form-label" for="filter-length">{{ __('Length') }}</label>
-                    <select class="form-select" id="filter-length" wire:model="length">
+                    <select class="form-select" data-widget="dropdown" id="filter-length">
                         <option value="10">10</option>
                         <option value="25">25</option>
                         <option value="50">50</option>
@@ -136,3 +136,21 @@
         {{ __('Showing :from to :to of :total roles.', ['from' => $roles->firstItem() ?: 0, 'to' => $roles->lastItem() ?: 0, 'total' => $roles->total()]) }}
     </div>
 </div>
+
+@push('scripts')
+    <script>
+        document.addEventListener('livewire:load', function () {
+            @this.on('filteringEnabled', function () {
+                $('#filter-permission').dropdown()
+                    .on('select2:select', function (e) {
+                        @this.set('length', e.params.data.id);
+                    });
+
+                $('#filter-length').dropdown()
+                    .on('select2:select', function (e) {
+                        @this.set('length', e.params.data.id);
+                    });
+            });
+        });
+    </script>
+@endpush
