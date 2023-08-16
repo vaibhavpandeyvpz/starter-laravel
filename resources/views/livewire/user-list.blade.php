@@ -1,4 +1,4 @@
-<div class="card border-0 shadow">
+<div class="card border-0 shadow" x-data="{ filtering: $persist(false).as('user-list-filtering') }">
     <div class="card-body border-bottom">
         <div class="d-flex align-items-center float-end">
             <div class="spinner-border spinner-border-sm float-end" role="status" wire:loading>
@@ -11,73 +11,72 @@
             @endcan
         </div>
         <h5 class="card-title">{{ __('Users') }}</h5>
-        <p class="card-text">
+        <p class="card-text" x-bind:class="filtering ? 'mb-3' : 'mb-0'">
             {{ __('List and manage users here.') }}
-            <a href="" wire:click.prevent="filter()">
-                {{ __($filtering ? 'Hide filters?' : 'Show filters?') }}
+            <a href="" @click.prevent="filtering = ! filtering">
+                <span x-show="filtering">{{ __('Hide filters?') }}</span>
+                <span x-show="! filtering">{{ __('Show filters?') }}</span>
             </a>
         </p>
-        @if ($filtering)
-            <div class="row">
-                <div class="col-sm-6 col-md-4 col-xl-3">
-                    <div class="mb-3">
-                        <label class="form-label" for="filter-search">{{ __('Search') }}</label>
-                        <input class="form-control" id="filter-search" placeholder="{{ __('Enter name or email') }}&hellip;" wire:model.debounce.500ms="q" value="{{ $q }}">
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-4 col-xl-3" wire:ignore>
-                    <div class="mb-3">
-                        <label class="form-label" for="filter-role">{{ __('Role') }}</label>
-                        <select class="form-select" id="filter-role">
-                            <option value="">{{ __('Any') }}</option>
-                            <option value="0">{{ __('None') }}</option>
-                            @foreach($roles as $role)
-                                <option value="{{ $role->getKey() }}">{{ $role->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-4 col-xl-3" wire:ignore>
-                    <div class="mb-3">
-                        <label class="form-label" for="filter-enabled">{{ __('Enabled?') }}</label>
-                        <select class="form-select" id="filter-enabled">
-                            <option value="">{{ __('Any') }}</option>
-                            <option value="1">{{ __('Yes') }}</option>
-                            <option value="0">{{ __('No') }}</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-4 col-xl-3" wire:ignore>
-                    <div class="mb-3 mb-md-0">
-                        <label class="form-label" for="filter-length">{{ __('Length') }}</label>
-                        <select class="form-select" id="filter-length">
-                            <option value="10">10</option>
-                            <option value="25">25</option>
-                            <option value="50">50</option>
-                            <option value="100">100</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-4 col-xl-3" wire:ignore>
-                    <div class="mb-3 mb-sm-0">
-                        <label class="form-label" for="filter-from-date">{{ __('Created from') }}</label>
-                        <input class="form-control" id="filter-from-date" value="{{ $fromDate }}">
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-4 col-xl-3" wire:ignore>
-                    <label class="form-label" for="filter-to-date">{{ __('Created up to') }}</label>
-                    <input class="form-control" id="filter-to-date" value="{{ $toDate }}">
+        <div class="row" x-show="filtering" x-transition>
+            <div class="col-sm-6 col-md-4 col-xl-3">
+                <div class="mb-3">
+                    <label class="form-label" for="filter-search">{{ __('Search') }}</label>
+                    <input class="form-control" id="filter-search" placeholder="{{ __('Enter name or email') }}&hellip;" wire:model.debounce.500ms="q" value="{{ $q }}">
                 </div>
             </div>
-        @endif
+            <div class="col-sm-6 col-md-4 col-xl-3" wire:ignore>
+                <div class="mb-3">
+                    <label class="form-label" for="filter-role">{{ __('Role') }}</label>
+                    <select class="form-select" data-widget="dropdown" id="filter-role">
+                        <option value="">{{ __('Any') }}</option>
+                        <option value="0">{{ __('None') }}</option>
+                        @foreach($roles as $role)
+                            <option value="{{ $role->getKey() }}">{{ $role->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-4 col-xl-3" wire:ignore>
+                <div class="mb-3">
+                    <label class="form-label" for="filter-enabled">{{ __('Enabled?') }}</label>
+                    <select class="form-select" data-widget="dropdown" id="filter-enabled">
+                        <option value="">{{ __('Any') }}</option>
+                        <option value="1">{{ __('Yes') }}</option>
+                        <option value="0">{{ __('No') }}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-4 col-xl-3" wire:ignore>
+                <div class="mb-3 mb-md-0">
+                    <label class="form-label" for="filter-from-date">{{ __('Created from') }}</label>
+                    <input class="form-control" data-widget="datepicker" id="filter-from-date" value="{{ $fromDate }}">
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-4 col-xl-3" wire:ignore>
+                <div class="mb-3 mb-sm-0">
+                    <label class="form-label" for="filter-to-date">{{ __('Created up to') }}</label>
+                    <input class="form-control" data-widget="datepicker" id="filter-to-date" value="{{ $toDate }}">
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-4 col-xl-3" wire:ignore>
+                <label class="form-label" for="filter-length">{{ __('Length') }}</label>
+                <select class="form-select" data-widget="dropdown" id="filter-length">
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
+            </div>
+        </div>
     </div>
     <div class="table-responsive">
         <table class="table mb-0">
             <thead>
             <tr>
-                <th>#</th>
-                <th></th>
-                <th>
+                <th class="bg-light">#</th>
+                <th class="bg-light"></th>
+                <th class="bg-light">
                     @if (($order['name'] ?? null) === 'asc')
                         <a class="text-body" href="" wire:click.prevent="sort('name', 'desc')">{{ __('Name') }}</a>
                         <i class="fa-solid fa-sort-amount-down-alt ms-1"></i>
@@ -88,10 +87,10 @@
                         <a class="text-body" href="" wire:click.prevent="sort('name', 'asc')">{{ __('Name') }}</a>
                     @endif
                 </th>
-                <th>{{ __('Email address') }}</th>
-                <th>{{ __('Birthday') }}</th>
-                <th>{{ __('Enabled?') }}</th>
-                <th>
+                <th class="bg-light">{{ __('Email address') }}</th>
+                <th class="bg-light">{{ __('Birthday') }}</th>
+                <th class="bg-light">{{ __('Enabled?') }}</th>
+                <th class="bg-light">
                     @if (($order['created_at'] ?? null) === 'asc')
                         <a class="text-body" href="" wire:click.prevent="sort('created_at', 'desc')">{{ __('Created at') }}</a>
                         <i class="fa-solid fa-sort-amount-down-alt ms-1"></i>
@@ -102,7 +101,7 @@
                         <a class="text-body" href="" wire:click.prevent="sort('created_at', 'asc')">{{ __('Created at') }}</a>
                     @endif
                 </th>
-                <th></th>
+                <th class="bg-light"></th>
             </tr>
             </thead>
             <tbody>
@@ -192,32 +191,25 @@
 
 @push('scripts')
     <script>
-        document.addEventListener('livewire:load', function () {
-            @this.on('filteringEnabled', function () {
-                $('#filter-role').dropdown()
-                    .on('select2:select', function (e) {
-                        @this.set('role', e.params.data.id);
-                    });
+        document.addEventListener('DOMContentLoaded', function () {
+            $('#filter-role').on('select2:select', function (e) {
+                @this.role = e.params.data.id;
+            });
 
-                $('#filter-enabled').dropdown()
-                    .on('select2:select', function (e) {
-                        @this.set('enabled', e.params.data.id);
-                    });
+            $('#filter-enabled').on('select2:select', function (e) {
+                @this.enabled = e.params.data.id;
+            });
 
-                $('#filter-length').dropdown()
-                    .on('select2:select', function (e) {
-                        @this.set('length', e.params.data.id);
-                    });
+            $('#filter-length').on('select2:select', function (e) {
+                @this.length = e.params.data.id;
+            });
 
-                $('#filter-from-date').datepicker()
-                    .on('change', function (e) {
-                        @this.set('fromDate', e.target.value);
-                    });
+            $('#filter-from-date').on('change', function (e) {
+                @this.fromDate = e.target.value;
+            });
 
-                $('#filter-to-date').datepicker()
-                    .on('change', function (e) {
-                        @this.set('toDate', e.target.value);
-                    });
+            $('#filter-to-date').on('change', function (e) {
+                @this.toDate = e.target.value;
             });
         });
     </script>

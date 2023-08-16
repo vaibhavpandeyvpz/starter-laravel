@@ -49,11 +49,11 @@
                     <table class="table mb-0">
                         <tbody>
                         <tr>
-                            <th>{{ __('Name') }}</th>
+                            <th class="bg-light">{{ __('Name') }}</th>
                             <td class="w-100">{{ $role->name }}</td>
                         </tr>
                         <tr>
-                            <th class="align-text-top">{{ __('Permissions') }}</th>
+                            <th class="bg-light align-text-top">{{ __('Permissions') }}</th>
                             <td class="w-100 text-wrap">
                                 @forelse ($role->permissions as $permission)
                                     <span class="badge bg-dark me-1">{{ $permission->name }}</span>
@@ -63,7 +63,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <th>{{ __('Users') }}</th>
+                            <th class="bg-light">{{ __('Users') }}</th>
                             <td class="w-100">
                                 @php
                                     $count = $role->users()->count();

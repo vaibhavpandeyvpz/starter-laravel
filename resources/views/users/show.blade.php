@@ -49,7 +49,7 @@
                     <table class="table mb-0">
                         <tbody>
                         <tr>
-                            <th>{{ __('Photo') }}</th>
+                            <th class="bg-light">{{ __('Photo') }}</th>
                             <td class="w-100">
                                 @if ($user->photo)
                                     <img alt="{{ $user->name }}" height="24" src="{{ $user->photo_url }}">
@@ -59,15 +59,15 @@
                             </td>
                         </tr>
                         <tr>
-                            <th>{{ __('Name') }}</th>
+                            <th class="bg-light">{{ __('Name') }}</th>
                             <td class="w-100">{{ $user->name }}</td>
                         </tr>
                         <tr>
-                            <th>{{ __('Email address') }}</th>
+                            <th class="bg-light">{{ __('Email address') }}</th>
                             <td class="w-100">{{ $user->email }}</td>
                         </tr>
                         <tr>
-                            <th>{{ __('Date of birth') }}</th>
+                            <th class="bg-light">{{ __('Date of birth') }}</th>
                             <td class="w-100">
                                 @if ($user->birthday)
                                     {{ $user->birthday->format('d/m/Y') }} <span class="text-muted">({{ __(':count years', ['count' => $user->birthday->diffInYears()]) }})</span>
@@ -77,7 +77,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <th class="align-text-top">{{ __('Roles') }}</th>
+                            <th class="bg-light align-text-top">{{ __('Roles') }}</th>
                             <td class="w-100 text-wrap">
                                 @forelse ($user->roles()->get() as $role)
                                     <span class="badge bg-dark me-1">{{ $role->name }}</span>
@@ -87,7 +87,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <th>{{ __('Enabled?') }}</th>
+                            <th class="bg-light">{{ __('Enabled?') }}</th>
                             <td class="w-100">
                                 @if ($user->enabled)
                                     <span class="text-success">

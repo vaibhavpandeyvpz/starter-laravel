@@ -11,8 +11,6 @@ class ActivityLogList extends Component
 {
     use WithPagination;
 
-    public int|null $expanded = null;
-
     /**
      * @var Model|LogsActivity
      */
@@ -25,14 +23,5 @@ class ActivityLogList extends Component
         $activities = $this->model->activities()->latest()->paginate(10);
 
         return view('livewire.activity-log-list', compact('activities'));
-    }
-
-    public function toggle(?int $id = null): void
-    {
-        if ($this->expanded !== $id) {
-            $this->expanded = $id;
-        } else {
-            $this->expanded = null;
-        }
     }
 }

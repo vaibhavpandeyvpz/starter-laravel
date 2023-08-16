@@ -1,4 +1,4 @@
-<div class="card border-0 shadow">
+<div class="card border-0 shadow" x-data="{ filtering: $persist(false).as('role-list-filtering') }">
     <div class="card-body border-bottom">
         <div class="d-flex align-items-center float-end">
             <div class="spinner-border spinner-border-sm float-end" role="status" wire:loading>
@@ -11,49 +11,48 @@
             @endcan
         </div>
         <h5 class="card-title">{{ __('Roles') }}</h5>
-        <p class="card-text">
+        <p class="card-text" x-bind:class="filtering ? 'mb-3' : 'mb-0'">
             {{ __('List and manage roles here.') }}
-            <a href="" wire:click.prevent="filter()">
-                {{ __($filtering ? 'Hide filters?' : 'Show filters?') }}
+            <a href="" @click.prevent="filtering = ! filtering">
+                <span x-show="filtering">{{ __('Hide filters?') }}</span>
+                <span x-show="! filtering">{{ __('Show filters?') }}</span>
             </a>
         </p>
-        @if ($filtering)
-            <div class="row">
-                <div class="col-sm-6 col-md-4 col-xl-3">
-                    <div class="mb-3 mb-md-0">
-                        <label class="form-label" for="filter-search">{{ __('Search') }}</label>
-                        <input class="form-control" id="filter-search" placeholder="{{ __('Enter name') }}&hellip;" wire:model.debounce.500ms="q" value="{{ $q }}">
-                    </div>
+        <div class="row" x-show="filtering" x-transition>
+            <div class="col-sm-6 col-md-4 col-xl-3">
+                <div class="mb-3 mb-md-0">
+                    <label class="form-label" for="filter-search">{{ __('Search') }}</label>
+                    <input class="form-control" id="filter-search" placeholder="{{ __('Enter name') }}&hellip;" wire:model.debounce.500ms="q" value="{{ $q }}">
                 </div>
-                <div class="col-sm-6 col-md-4 col-xl-3" wire:ignore>
-                    <div class="mb-3 mb-md-0">
-                        <label class="form-label" for="filter-permission">{{ __('Permission') }}</label>
-                        <select class="form-select" id="filter-permission">
-                            <option value="">{{ __('Any') }}</option>
-                            @foreach($permissions as $permission)
-                                <option value="{{ $permission->getKey() }}">{{ $permission->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-4 col-xl-3 offset-xl-3" wire:ignore>
-                    <label class="form-label" for="filter-length">{{ __('Length') }}</label>
-                    <select class="form-select" data-widget="dropdown" id="filter-length">
-                        <option value="10">10</option>
-                        <option value="25">25</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
+            </div>
+            <div class="col-sm-6 col-md-4 col-xl-3" wire:ignore>
+                <div class="mb-3 mb-md-0">
+                    <label class="form-label" for="filter-permission">{{ __('Permission') }}</label>
+                    <select class="form-select" data-widget="dropdown" id="filter-permission">
+                        <option value="">{{ __('Any') }}</option>
+                        @foreach($permissions as $permission)
+                            <option value="{{ $permission->getKey() }}">{{ $permission->name }}</option>
+                        @endforeach
                     </select>
                 </div>
             </div>
-        @endif
+            <div class="col-sm-6 col-md-4 col-xl-3 offset-xl-3" wire:ignore>
+                <label class="form-label" for="filter-length">{{ __('Length') }}</label>
+                <select class="form-select" data-widget="dropdown" id="filter-length">
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
+            </div>
+        </div>
     </div>
     <div class="table-responsive">
         <table class="table mb-0">
             <thead>
             <tr>
-                <th>#</th>
-                <th>
+                <th class="bg-light">#</th>
+                <th class="bg-light">
                     @if (($order['name'] ?? null) === 'asc')
                         <a class="text-body" href="" wire:click.prevent="sort('name', 'desc')">{{ __('Name') }}</a>
                         <i class="fas fa-sort-amount-down-alt ms-1"></i>
@@ -64,9 +63,9 @@
                         <a class="text-body" href="" wire:click.prevent="sort('name', 'asc')">{{ __('Name') }}</a>
                     @endif
                 </th>
-                <th>{{ __('Permissions') }}</th>
-                <th>{{ __('Users') }}</th>
-                <th>
+                <th class="bg-light">{{ __('Permissions') }}</th>
+                <th class="bg-light">{{ __('Users') }}</th>
+                <th class="bg-light">
                     @if (($order['created_at'] ?? null) === 'asc')
                         <a class="text-body" href="" wire:click.prevent="sort('created_at', 'desc')">{{ __('Created at') }}</a>
                         <i class="fas fa-sort-amount-down-alt ms-1"></i>
@@ -77,7 +76,7 @@
                         <a class="text-body" href="" wire:click.prevent="sort('created_at', 'asc')">{{ __('Created at') }}</a>
                     @endif
                 </th>
-                <th></th>
+                <th class="bg-light"></th>
             </tr>
             </thead>
             <tbody>
@@ -139,17 +138,13 @@
 
 @push('scripts')
     <script>
-        document.addEventListener('livewire:load', function () {
-            @this.on('filteringEnabled', function () {
-                $('#filter-permission').dropdown()
-                    .on('select2:select', function (e) {
-                        @this.set('length', e.params.data.id);
-                    });
+        document.addEventListener('DOMContentLoaded', function () {
+            $('#filter-permission').on('select2:select', function (e) {
+                @this.permission = e.params.data.id;
+            });
 
-                $('#filter-length').dropdown()
-                    .on('select2:select', function (e) {
-                        @this.set('length', e.params.data.id);
-                    });
+            $('#filter-length').on('select2:select', function (e) {
+                @this.length = e.params.data.id;
             });
         });
     </script>
