@@ -1,13 +1,20 @@
 import { autocomplete } from '@algolia/autocomplete-js';
+import Alpine from 'alpinejs';
+import collapse from '@alpinejs/collapse';
+import persist from '@alpinejs/persist';
 import { Tooltip } from 'bootstrap';
 import flatpickr from 'flatpickr';
 import $ from 'jquery';
 import select2 from 'select2';
 import './bootstrap';
 
-window.$ = window.jQuery = $;
+Alpine.plugin(collapse);
+Alpine.plugin(persist);
 
 select2(window, $);
+
+window.Alpine = Alpine;
+window.$ = window.jQuery = $;
 
 $.fn.extend({
     datepicker() {
@@ -111,3 +118,5 @@ $('[data-widget="dropdown"]').dropdown();
 
 ([].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]')))
     .forEach((el) => new Tooltip(el));
+
+Alpine.start();

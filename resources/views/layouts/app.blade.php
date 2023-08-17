@@ -30,9 +30,6 @@
 @endif
 @yield('body')
 @section('scripts')
-    <script src="//unpkg.com/@alpinejs/collapse" defer></script>
-    <script src="//unpkg.com/@alpinejs/persist" defer></script>
-    <script src="//unpkg.com/alpinejs" defer></script>
     @vite('resources/js/app.js')
     @stack('scripts')
 @show
