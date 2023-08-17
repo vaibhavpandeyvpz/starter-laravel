@@ -80,6 +80,7 @@ return [
             'emoji' => ':boom:',
             'level' => env('LOG_LEVEL', 'critical'),
             'replace_placeholders' => true,
+            'tap' => [App\Logging\SimpleLoggingForSlack::class],
         ],
 
         'papertrail' => [
