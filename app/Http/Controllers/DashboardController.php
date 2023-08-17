@@ -11,6 +11,7 @@ class DashboardController extends Controller
     public function search(Request $request)
     {
         $matches = User::search($request->q ?: '')->paginate();
+
         return UserResource::collection($matches);
     }
 }
