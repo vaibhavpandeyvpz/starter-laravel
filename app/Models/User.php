@@ -16,10 +16,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasAuditors, HasFactory, HasRoles, LocksVersion, LogsActivity, Notifiable;
-    use Searchable {
-        toSearchableArray as toSearchableArrayViaScout;
-    }
+    use HasApiTokens, HasAuditors, HasFactory, HasRoles, LocksVersion, LogsActivity, Notifiable, Searchable;
 
     /**
      * The attributes that are mass assignable.
@@ -88,7 +85,7 @@ class User extends Authenticatable
      */
     public function toSearchableArray(): array
     {
-        $data = $this->toSearchableArrayViaScout();
+        $data = $this->toArray();
         $data['roles'] = $this->roles()->pluck('name');
 
         return $data;
