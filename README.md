@@ -78,6 +78,7 @@ To do so, add the following lines to your `/etc/hosts` file:
 The [Docker](https://www.docker.com/) setup also include below services to ease local development:
 
 - [MailCatcher](https://mailcatcher.me/) - to catch all outgoing emails, access on [https://mailcatcher.local.dev/](https://mailcatcher.local.dev/)
+- [Meilisearch](https://www.meilisearch.com/) - a full-text search engine, access on [https://meilisearch.local.dev/](https://meilisearch.local.dev/)
 - [MinIO](https://min.io/) - an S3 compatible storage, access on [https://minio.local.dev/](https://minio.local.dev/)
 - [phpMyAdmin](https://www.phpmyadmin.net/) - to manage SQL database, access on [https://phpmyadmin.local.dev/](https://phpmyadmin.local.dev/)
 - [Redis Commander](http://joeferner.github.io/redis-commander/) - to manage Redis data, access on [https://redis-commander.local.dev/](https://redis-commander.local.dev/)
