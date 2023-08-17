@@ -1,3 +1,4 @@
+import { autocomplete } from '@algolia/autocomplete-js';
 import { Tooltip } from 'bootstrap';
 import flatpickr from 'flatpickr';
 import $ from 'jquery';
@@ -25,6 +26,43 @@ $.fn.extend({
             $(this).select2({
                 theme: 'bootstrap-5',
                 width: '100%',
+            });
+        });
+    },
+    search({ placeholder, source, ...templates }) {
+        return this.each(function() {
+            const $this = $(this);
+            autocomplete({
+                container: this,
+                placeholder: placeholder,
+                getSources({ query: q }) {
+                    return [{
+                        getItems() {
+                            return axios.get(source, { params: { q } })
+                                .then(({ data }) => data.data);
+                        },
+                        getItemUrl({ item }) {
+                            return item.url;
+                        },
+                        onSelect({ item }) {
+                            $this.trigger('change', item);
+                        },
+                        sourceId: 'primary',
+                        templates: {
+                            header({ html, items }) {
+                                if (items.length) {
+                                    return html`
+                                        <p class="small text-muted text-center">Showing ${items.length} results.</p>
+                                    `;
+                                }
+                            },
+                            noResults({ html }) {
+                                return html`<p class="small text-muted text-center mb-0">No results found.</p>`;
+                            },
+                            ...templates,
+                        },
+                    }];
+                },
             });
         });
     },

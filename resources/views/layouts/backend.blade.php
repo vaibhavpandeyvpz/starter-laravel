@@ -24,4 +24,5 @@
 
 @prepend('scripts')
     <livewire:scripts />
+    @routes
 @endprepend

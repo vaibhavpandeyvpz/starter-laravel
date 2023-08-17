@@ -26,6 +26,7 @@ Route::get('login/{provider}/callback', [Controllers\Auth\LoginController::class
 
 Route::middleware(['auth', 'enabled'])->group(function () {
     Route::view('/dashboard', 'dashboard')->name('dashboard');
+    Route::get('/search', [Controllers\DashboardController::class, 'search'])->name('dashboard.search');
 
     Route::get('profile', [Controllers\ProfileController::class, 'edit'])->name('profile');
     Route::put('profile', [Controllers\ProfileController::class, 'update']);

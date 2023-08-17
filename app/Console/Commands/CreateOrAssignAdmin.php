@@ -70,6 +70,7 @@ class CreateOrAssignAdmin extends Command
         $user = User::query()
             ->updateOrCreate(['email' => $data['email']], $data);
         $user->syncRoles(Role::all());
+        $user->touch();
 
         $this->info('User has been successfully added. They can now login at: '.route('login'));
         $this->table(

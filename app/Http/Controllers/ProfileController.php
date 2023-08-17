@@ -46,17 +46,22 @@ class ProfileController extends Controller
         }
 
         $user->fill($data);
-        if ($changed = $user->isDirty('email')) {
+        if ($isEmailDirty = $user->isDirty('email')) {
             $user->email_verified_at = null;
         }
 
+        $isDirty = $user->isDirty();
         $user->save();
         if (isset($old_photo)) {
             Storage::delete($old_photo);
         }
 
-        if ($changed && $user instanceof MustVerifyEmail) {
+        if ($isEmailDirty && $user instanceof MustVerifyEmail) {
             $user->sendEmailVerificationNotification();
+        }
+
+        if (! $isDirty) {
+            $user->touch();
         }
 
         flash(__('Your profile details were successfully updated.'))->success();

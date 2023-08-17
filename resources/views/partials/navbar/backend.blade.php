@@ -5,7 +5,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbar-main">
-            <ul class="navbar-nav me-auto">
+            <ul class="navbar-nav me-auto me-lg-3">
                 <li class="nav-item">
                     <a class="nav-link @if (Route::is('dashboard')) active @endif" href="{{ route('dashboard') }}">
                         {{ __('Dashboard') }}
@@ -37,6 +37,9 @@
                     </a>
                 </li>
             </ul>
+            <div class="d-none d-lg-flex me-auto" role="search">
+                <div id="search-navbar" aria-label="{{ __('Search') }}"></div>
+            </div>
             <ul class="navbar-nav d-none d-md-inline-block me-md-3">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="" id="dropdown-account" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -62,3 +65,36 @@
         </div>
     </div>
 </nav>
+
+@push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            $('#search-navbar').search({
+                source: '{{ route('dashboard.search') }}',
+                placeholder: '{{ __('Type name or email...') }}',
+                item({ item, components, html }) {
+                    return html`
+                    <div class="d-flex flex-row gap-2 align-top">
+                        ${item.photo ? (
+                        html`<img alt="${item.name}" src="${item.photo}" width="32" height="32">`
+                    ) : (
+                        html`<svg width="32" height="32" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false">
+                                <rect width="100%" height="100%" fill="#eeeeee"></rect>
+                            </svg>`
+                    )}
+                        <div class="d-flex flex-column gap-1">
+                            <div class="aa-ItemContentTitle">
+                                ${components.Highlight({ hit: item, attribute: 'name' })}
+                            </div>
+                            <div class="aa-ItemContentDescription">
+                                ${components.Snippet({ hit: item, attribute: 'email' })}
+                            </div>
+                        </div>
+                    </div>`;
+                },
+            }).on('change', function (e, user) {
+                location.href = route('users.show', user.id);
+            });
+        });
+    </script>
+@endpush

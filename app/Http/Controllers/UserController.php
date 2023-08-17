@@ -106,11 +106,12 @@ class UserController extends Controller
 
         $data['enabled'] = $data['enabled'] ?? false;
         $user->fill($data);
-        if ($changed = $user->isDirty('email')) {
+        if ($isEmailDirty = $user->isDirty('email')) {
             $user->email_verified_at = null;
         }
 
         $user->fillLockVersion();
+        $isDirty = $user->isDirty();
         try {
             $user->save();
         } catch (LockedVersionMismatchException) {
@@ -122,8 +123,12 @@ class UserController extends Controller
             $user->syncRoles(Role::query()->whereIn('id', $data['roles'] ?? [])->get());
         }
 
-        if ($changed && $user instanceof MustVerifyEmail) {
+        if ($isEmailDirty && $user instanceof MustVerifyEmail) {
             $user->sendEmailVerificationNotification();
+        }
+
+        if (! $isDirty) {
+            $user->touch();
         }
 
         flash()->success(__('User ":name" information has been updated.', ['name' => $user->name]));

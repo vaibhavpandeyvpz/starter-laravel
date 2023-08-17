@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Laravel\Scout\Searchable;
 use Quarks\Laravel\Auditors\HasAuditors;
 use Quarks\Laravel\Locking\LocksVersion;
 use Spatie\Activitylog\LogOptions;
@@ -16,6 +17,9 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable
 {
     use HasApiTokens, HasAuditors, HasFactory, HasRoles, LocksVersion, LogsActivity, Notifiable;
+    use Searchable {
+        toSearchableArray as toSearchableArrayViaScout;
+    }
 
     /**
      * The attributes that are mass assignable.
@@ -75,5 +79,18 @@ class User extends Authenticatable
     public function getPhotoUrlAttribute(): ?string
     {
         return $this->photo ? cdn_url($this->photo) : null;
+    }
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array<string, mixed>
+     */
+    public function toSearchableArray(): array
+    {
+        $data = $this->toSearchableArrayViaScout();
+        $data['roles'] = $this->roles()->pluck('name');
+
+        return $data;
     }
 }

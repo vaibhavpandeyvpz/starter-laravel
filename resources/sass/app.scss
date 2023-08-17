@@ -1,7 +1,51 @@
 @import 'variables';
 @import 'bootstrap/scss/bootstrap';
+@import '@algolia/autocomplete-theme-classic/dist/theme.css';
 @import 'select2/src/scss/core';
 @import 'select2-bootstrap-5-theme/src/include-all';
+
+.aa {
+    &-Autocomplete {
+        color: $body-color;
+    }
+
+    &-Form {
+        @include box-shadow($input-box-shadow);
+        height: $input-height;
+
+        &:focus-within {
+            color: $input-focus-color;
+            background-color: $input-focus-bg;
+            border-color: $input-focus-border-color;
+
+            @if $enable-shadows {
+                @include box-shadow($input-box-shadow, $input-focus-box-shadow);
+            } @else {
+                box-shadow: $input-focus-box-shadow;
+            }
+        }
+    }
+
+    &-Input {
+        border-color: $input-border-color;
+
+        &::placeholder {
+            color: $input-placeholder-color;
+        }
+    }
+
+    &-Item[aria-selected="true"] {
+        background-color: $light;
+    }
+
+    &-Label svg {
+        color: $primary;
+    }
+
+    &-Panel {
+        z-index: 9999;
+    }
+}
 
 .card-body .pagination { margin-bottom: 0 }
 

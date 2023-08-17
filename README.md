@@ -41,6 +41,9 @@ $ php -r "file_exists('.env') || copy('.env.example', '.env');"
 # set application key
 $ php artisan key:generate
 
+# initialize scout indices
+$ php artisan scout:sync-index-settings
+
 # prepare database
 $ php artisan migrate --seed
 
@@ -65,6 +68,7 @@ To do so, add the following lines to your `/etc/hosts` file:
 ```
 127.0.0.1 cdn.local.dev
 127.0.0.1 mailcatcher.local.dev
+127.0.0.1 meilisearch.local.dev
 127.0.0.1 minio.local.dev
 127.0.0.1 phpmyadmin.local.dev
 127.0.0.1 redis-commander.local.dev

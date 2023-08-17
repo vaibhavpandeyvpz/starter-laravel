@@ -30,6 +30,20 @@ services:
       - '1025:1025'
       - '8025:8025'
 
+  meilisearch:
+    image: getmeili/meilisearch
+    environment:
+      MEILI_MASTER_KEY: laraveldev
+    labels:
+      - 'traefik.http.routers.meilisearch.entrypoints=web,websecure'
+      - 'traefik.http.routers.meilisearch.rule=Host(`meilisearch.local.dev`)'
+      - 'traefik.http.routers.meilisearch.tls=true'
+      - 'traefik.http.services.meilisearch-cdn.loadbalancer.server.port=7700'
+    ports:
+      - '7700:7700'
+    volumes:
+      - meilisearch-data:/meili_data
+
   minio:
     image: minio/minio
     command: minio server /data/minio --address ":9091" --console-address ":9092"
@@ -153,6 +167,7 @@ services:
       - .:/var/www/html
 
 volumes:
+  meilisearch-data:
   minio-data:
   mysql-data:
   redis-data:
