@@ -11,6 +11,7 @@
 
     &-Form {
         @include box-shadow($input-box-shadow);
+        border-color: $input-border-color;
         height: $input-height;
 
         &:focus-within {
