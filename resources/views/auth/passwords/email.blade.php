@@ -23,7 +23,7 @@
     <form action="{{ route('password.email') }}" method="post">
         @csrf
         <label class="form-label" for="request-email">
-            {{ __('Email') }} <span class="text-danger">&ast;</span>
+            {{ __('Email address') }} <span class="text-danger">&ast;</span>
         </label>
         <input autofocus class="form-control form-control-lg @error('email') is-invalid @enderror" id="request-email" name="email" required type="email" value="{{ old('email') }}">
         @error('email')

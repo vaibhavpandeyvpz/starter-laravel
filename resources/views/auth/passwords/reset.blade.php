@@ -16,7 +16,7 @@
         <input type="hidden" name="token" value="{{ request('token') }}">
         <div class="mb-3">
             <label class="form-label" for="reset-email">
-                {{ __('Email') }} <span class="text-danger">&ast;</span>
+                {{ __('Email address') }} <span class="text-danger">&ast;</span>
             </label>
             <input autofocus class="form-control form-control-lg @error('email') is-invalid @enderror" id="reset-email" name="email" required type="email" value="{{ old('email', request('email')) }}">
             @error('email')
