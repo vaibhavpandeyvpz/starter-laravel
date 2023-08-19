@@ -38,7 +38,7 @@ services:
       - 'traefik.http.routers.meilisearch.entrypoints=web,websecure'
       - 'traefik.http.routers.meilisearch.rule=Host(`meilisearch.local.dev`)'
       - 'traefik.http.routers.meilisearch.tls=true'
-      - 'traefik.http.services.meilisearch-cdn.loadbalancer.server.port=7700'
+      - 'traefik.http.services.meilisearch.loadbalancer.server.port=7700'
     ports:
       - '7700:7700'
     volumes:
@@ -54,7 +54,7 @@ services:
       - 'traefik.http.routers.minio.entrypoints=web,websecure'
       - 'traefik.http.routers.minio.rule=Host(`minio.local.dev`)'
       - 'traefik.http.routers.minio.tls=true'
-      - 'traefik.http.services.minio-cdn.loadbalancer.server.port=9092'
+      - 'traefik.http.services.minio.loadbalancer.server.port=9092'
     ports:
       - '9091:9091'
       - '9092:9092'
