@@ -31,7 +31,7 @@ $ docker-compose up -d
 $ docker-compose exec web bash
 
 # install dependencies
-$ composer install && yarn install && yarn dev
+$ composer install && yarn install && yarn build
 
 # create sample .env file
 $ php -r "file_exists('.env') || copy('.env.example', '.env');"
