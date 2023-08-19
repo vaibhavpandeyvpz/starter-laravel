@@ -51,7 +51,7 @@
 .card-body .pagination { margin-bottom: 0 }
 
 .list-group-item-activity {
-    border-left: 2px solid !important;
+    border-left-width: 2px !important;
 
     @each $color, $value in $theme-colors {
         &-#{$color} {

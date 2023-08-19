@@ -33,22 +33,19 @@
             <span class="text-danger">&ast;</span>
         @endif
     </label>
-    <div class="col-sm-8">
-        <input class="form-control @error('password') is-invalid @enderror" id="user-password" name="password" type="password" @if (!$user->exists) required @endif>
-        @error('password')
-            <div class="invalid-feedback">{{ $message }}</div>
-        @enderror
+    <div class="col-sm-8 col-md-4">
+        <div class="mb-3 mb-md-0">
+            <input class="form-control @error('password') is-invalid @enderror" id="user-password" name="password" type="password" @if (!$user->exists) required @endif>
+            @error('password')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+            <small class="form-text text-muted">{{ __('Choose a strong and secure one.') }}</small>
+        </div>
     </div>
-</div>
-<div class="row mb-3">
-    <label class="col-sm-4 col-form-label" for="user-password-confirmation">
-        {{ __('Confirm password') }}
-        @if (!$user->exists)
-            <span class="text-danger">&ast;</span>
-        @endif
-    </label>
-    <div class="col-sm-8">
+    <div class="col-sm-8 col-md-4 offset-sm-4 offset-md-0">
+        <!--suppress HtmlFormInputWithoutLabel -->
         <input class="form-control" id="user-password-confirmation" name="password_confirmation" type="password" @if (!$user->exists) required @endif>
+        <small class="form-text text-muted">{{ __('The new password, once more.') }}</small>
     </div>
 </div>
 @can('viewAny', App\Models\Role::class)
