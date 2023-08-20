@@ -12,18 +12,18 @@ class PermissionsTableSeeder extends Seeder
      */
     public function run(): void
     {
-        Permission::create(['name' => 'view all roles']);
-        Permission::create(['name' => 'view role']);
-        Permission::create(['name' => 'create role']);
-        Permission::create(['name' => 'update role']);
-        Permission::create(['name' => 'delete role']);
+        Permission::query()->firstOrCreate(['name' => 'view all roles']);
+        Permission::query()->firstOrCreate(['name' => 'view role']);
+        Permission::query()->firstOrCreate(['name' => 'create role']);
+        Permission::query()->firstOrCreate(['name' => 'update role']);
+        Permission::query()->firstOrCreate(['name' => 'delete role']);
 
-        Permission::create(['name' => 'view all users']);
-        Permission::create(['name' => 'view user']);
-        Permission::create(['name' => 'create user']);
-        Permission::create(['name' => 'update user']);
-        Permission::create(['name' => 'delete user']);
+        Permission::query()->firstOrCreate(['name' => 'view all users']);
+        Permission::query()->firstOrCreate(['name' => 'view user']);
+        Permission::query()->firstOrCreate(['name' => 'create user']);
+        Permission::query()->firstOrCreate(['name' => 'update user']);
+        Permission::query()->firstOrCreate(['name' => 'delete user']);
 
-        Permission::create(['name' => 'access horizon']);
+        Permission::query()->firstOrCreate(['name' => 'access horizon']);
     }
 }

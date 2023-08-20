@@ -13,8 +13,8 @@ class RolesTableSeeder extends Seeder
     public function run(): void
     {
         /** @var Role $administrator */
-        $administrator = Role::create(['name' => 'Administrator']);
-        $administrator->givePermissionTo(
+        $administrator = Role::query()->firstOrCreate(['name' => 'Administrator']);
+        $administrator->syncPermissions(
             'access horizon',
             'view all roles',
             'view role',
@@ -24,8 +24,8 @@ class RolesTableSeeder extends Seeder
             'delete user'
         );
         /** @var Role $staff */
-        $staff = Role::create(['name' => 'Staff']);
-        $staff->givePermissionTo(
+        $staff = Role::query()->firstOrCreate(['name' => 'Staff']);
+        $staff->syncPermissions(
             'view all users',
             'view user',
             'create user',

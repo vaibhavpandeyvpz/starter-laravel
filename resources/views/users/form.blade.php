@@ -62,7 +62,7 @@
         <label class="col-sm-4 col-form-label" for="user-roles">{{ __('Roles') }}</label>
         <div class="col-sm-8">
             <select class="form-select @error('roles') is-valid @enderror" data-widget="dropdown" id="user-roles" multiple name="roles[]">
-                @foreach($roles as $role)
+                @foreach ($roles as $role)
                     <option value="{{ $role->getKey() }}" @if ($old_roles->contains($role->getKey())) selected @endif>
                         {{ $role->name }}
                     </option>
