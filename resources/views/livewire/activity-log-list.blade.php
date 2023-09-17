@@ -116,7 +116,7 @@
         @endforelse
     </div>
     @if ($activities->hasPages())
-        <div class="card-body border-top">
+        <div class="card-body">
             {{ $activities->links() }}
         </div>
     @endif
