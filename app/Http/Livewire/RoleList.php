@@ -9,19 +9,7 @@ use Spatie\Permission\Models\Permission;
 
 class RoleList extends Component
 {
-    use WithDataTable {
-        filter as applyFilter;
-    }
-
     public string $permission = '';
-
-    public function filter(): void
-    {
-        $this->applyFilter();
-        if ($this->filtering) {
-            $this->emit('filteringEnabled');
-        }
-    }
 
     public function render()
     {

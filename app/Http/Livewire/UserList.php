@@ -9,10 +9,6 @@ use Livewire\Component;
 
 class UserList extends Component
 {
-    use WithDataTable {
-        filter as applyFilter;
-    }
-
     public string $role = '';
 
     public string $enabled = '';
@@ -20,14 +16,6 @@ class UserList extends Component
     public string $fromDate = '';
 
     public string $toDate = '';
-
-    public function filter(): void
-    {
-        $this->applyFilter();
-        if ($this->filtering) {
-            $this->emit('filteringEnabled');
-        }
-    }
 
     public function render()
     {

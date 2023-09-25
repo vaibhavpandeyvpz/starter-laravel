@@ -8,8 +8,6 @@ trait WithDataTable
 {
     use WithPagination;
 
-    public $filtering = false;
-
     public $length = '10';
 
     public $order = ['created_at' => 'desc'];
