@@ -9,6 +9,8 @@ use Livewire\Component;
 
 class UserList extends Component
 {
+    use WithDataTable;
+
     public string $role = '';
 
     public string $enabled = '';

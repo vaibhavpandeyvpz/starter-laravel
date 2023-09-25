@@ -9,6 +9,8 @@ use Spatie\Permission\Models\Permission;
 
 class RoleList extends Component
 {
+    use WithDataTable;
+
     public string $permission = '';
 
     public function render()
