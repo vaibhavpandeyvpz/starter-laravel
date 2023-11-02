@@ -118,7 +118,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td class="text-center text-muted" colspan="7">
+                    <td class="text-center text-muted" colspan="6">
                         {{ __('Could not find any roles to show.') }}
                     </td>
                 </tr>
