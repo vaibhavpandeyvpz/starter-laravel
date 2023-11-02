@@ -6,7 +6,7 @@ if (! function_exists('cdn_url')) {
     function cdn_url(string $path, ?string $disk = null): string
     {
         if (empty($disk)) {
-            $disk = config('filesystems.local');
+            $disk = config('filesystems.default');
         }
 
         if ($cdn = config('app.cdn_url')) {
