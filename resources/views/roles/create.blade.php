@@ -22,7 +22,7 @@
     <div class="card border-0 shadow">
         <div class="card-body">
             <h5 class="card-title">{{ __('New') }}</h5>
-            <p class="card-text">{{ __('Create a new role account.') }}</p>
+            <p class="card-text">{{ __('Create a new role.') }}</p>
         </div>
         <div class="card-body border-top">
             <div class="row">
