@@ -2,7 +2,7 @@ import { autocomplete } from '@algolia/autocomplete-js';
 import Alpine from 'alpinejs';
 import collapse from '@alpinejs/collapse';
 import persist from '@alpinejs/persist';
-import { Tooltip } from 'bootstrap';
+import { Modal, Tooltip } from 'bootstrap';
 import flatpickr from 'flatpickr';
 import $ from 'jquery';
 import select2 from 'select2';
