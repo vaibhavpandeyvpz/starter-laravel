@@ -40,4 +40,9 @@ trait WithDataTable
     {
         $this->resetPage();
     }
+
+    public function updatingQ()
+    {
+        $this->resetPage();
+    }
 }
