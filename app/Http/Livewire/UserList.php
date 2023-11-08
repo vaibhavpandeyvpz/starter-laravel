@@ -60,4 +60,24 @@ class UserList extends Component
 
         return view('livewire.user-list', compact('roles', 'users'));
     }
+
+    public function updatingRole()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingEnabled()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingFromDate()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingToDate()
+    {
+        $this->resetPage();
+    }
 }
