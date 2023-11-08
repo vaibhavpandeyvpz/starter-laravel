@@ -39,4 +39,9 @@ class RoleList extends Component
 
         return view('livewire.role-list', compact('permissions', 'roles'));
     }
+
+    public function updatingPermission()
+    {
+        $this->resetPage();
+    }
 }
