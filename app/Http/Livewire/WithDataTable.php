@@ -32,8 +32,6 @@ trait WithDataTable
         } else {
             unset($this->order[$column]);
         }
-
-        $this->resetPage();
     }
 
     public function updatingLength()
