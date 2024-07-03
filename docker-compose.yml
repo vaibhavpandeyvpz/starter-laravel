@@ -1,46 +1,44 @@
-version: '3'
-
 services:
   dockfront:
     image: syncloudsoftech/dockfront
     environment:
       ORIGIN_TYPE: s3
-      S3_ACCESS_KEY_ID: laraveldev
-      S3_BUCKET: laraveldev
+      S3_ACCESS_KEY_ID: laravelapp
+      S3_BUCKET: laravelapp
       S3_ENDPOINT: http://minio:9091
-      S3_PATH_STYLE_ENDPOINT: 'true'
+      S3_PATH_STYLE_ENDPOINT: "true"
       S3_REGION: us-east-1
-      S3_SECRET_ACCESS_KEY: laraveldev
+      S3_SECRET_ACCESS_KEY: laravelapp
     labels:
-      - 'traefik.http.routers.cdn.entrypoints=web,websecure'
-      - 'traefik.http.routers.cdn.rule=Host(`cdn.local.dev`)'
-      - 'traefik.http.routers.cdn.tls=true'
-      - 'traefik.http.services.cdn.loadbalancer.server.port=80'
+      - "traefik.http.routers.cdn.entrypoints=web,websecure"
+      - "traefik.http.routers.cdn.rule=Host(`cdn.local.dev`)"
+      - "traefik.http.routers.cdn.tls=true"
+      - "traefik.http.services.cdn.loadbalancer.server.port=80"
     ports:
-      - '9090:80'
+      - "9090:80"
 
   mailcatcher:
     image: syncloudsoftech/mailcatcher
     labels:
-      - 'traefik.http.routers.mailcatcher.entrypoints=web,websecure'
-      - 'traefik.http.routers.mailcatcher.rule=Host(`mailcatcher.local.dev`)'
-      - 'traefik.http.routers.mailcatcher.tls=true'
-      - 'traefik.http.services.mailcatcher.loadbalancer.server.port=8025'
+      - "traefik.http.routers.mailcatcher.entrypoints=web,websecure"
+      - "traefik.http.routers.mailcatcher.rule=Host(`mailcatcher.local.dev`)"
+      - "traefik.http.routers.mailcatcher.tls=true"
+      - "traefik.http.services.mailcatcher.loadbalancer.server.port=8025"
     ports:
-      - '1025:1025'
-      - '8025:8025'
+      - "1025:1025"
+      - "8025:8025"
 
   meilisearch:
     image: getmeili/meilisearch
     environment:
-      MEILI_MASTER_KEY: laraveldev
+      MEILI_MASTER_KEY: laravelapp
     labels:
-      - 'traefik.http.routers.meilisearch.entrypoints=web,websecure'
-      - 'traefik.http.routers.meilisearch.rule=Host(`meilisearch.local.dev`)'
-      - 'traefik.http.routers.meilisearch.tls=true'
-      - 'traefik.http.services.meilisearch.loadbalancer.server.port=7700'
+      - "traefik.http.routers.meilisearch.entrypoints=web,websecure"
+      - "traefik.http.routers.meilisearch.rule=Host(`meilisearch.local.dev`)"
+      - "traefik.http.routers.meilisearch.tls=true"
+      - "traefik.http.services.meilisearch.loadbalancer.server.port=7700"
     ports:
-      - '7700:7700'
+      - "7700:7700"
     volumes:
       - meilisearch-data:/meili_data
 
@@ -48,31 +46,30 @@ services:
     image: minio/minio
     command: minio server /data/minio --address ":9091" --console-address ":9092"
     environment:
-      MINIO_ROOT_USER: laraveldev
-      MINIO_ROOT_PASSWORD: laraveldev
+      MINIO_ROOT_USER: laravelapp
+      MINIO_ROOT_PASSWORD: laravelapp
     labels:
-      - 'traefik.http.routers.minio.entrypoints=web,websecure'
-      - 'traefik.http.routers.minio.rule=Host(`minio.local.dev`)'
-      - 'traefik.http.routers.minio.tls=true'
-      - 'traefik.http.services.minio.loadbalancer.server.port=9092'
+      - "traefik.http.routers.minio.entrypoints=web,websecure"
+      - "traefik.http.routers.minio.rule=Host(`minio.local.dev`)"
+      - "traefik.http.routers.minio.tls=true"
+      - "traefik.http.services.minio.loadbalancer.server.port=9092"
     ports:
-      - '9091:9091'
-      - '9092:9092'
+      - "9091:9091"
+      - "9092:9092"
     volumes:
       - minio-data:/data/minio
 
   mysql:
     image: mysql:8
-    command: --default-authentication-plugin=mysql_native_password
     environment:
-      MYSQL_DATABASE: laraveldev
-      MYSQL_USER: laraveldev
-      MYSQL_PASSWORD: laraveldev
-      MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
+      MYSQL_DATABASE: laravelapp
+      MYSQL_USER: laravelapp
+      MYSQL_PASSWORD: laravelapp
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
     labels:
-      - 'traefik.enable=false'
+      - "traefik.enable=false"
     ports:
-      - '3306:3306'
+      - "3306:3306"
     volumes:
       - mysql-data:/var/lib/mysql
 
@@ -86,9 +83,9 @@ services:
       - .env
     image: ngrok/ngrok
     labels:
-      - 'traefik.enable=false'
+      - "traefik.enable=false"
     ports:
-      - '4040:4040'
+      - "4040:4040"
     volumes:
       - ./ngrok.yml:/etc/ngrok.yml
 
@@ -98,21 +95,21 @@ services:
       - mysql
     environment:
       PMA_HOST: mysql
-      PMA_USER: laraveldev
-      PMA_PASSWORD: laraveldev
+      PMA_USER: laravelapp
+      PMA_PASSWORD: laravelapp
     labels:
-      - 'traefik.http.routers.phpmyadmin.entrypoints=web,websecure'
-      - 'traefik.http.routers.phpmyadmin.rule=Host(`phpmyadmin.local.dev`)'
-      - 'traefik.http.routers.phpmyadmin.tls=true'
+      - "traefik.http.routers.phpmyadmin.entrypoints=web,websecure"
+      - "traefik.http.routers.phpmyadmin.rule=Host(`phpmyadmin.local.dev`)"
+      - "traefik.http.routers.phpmyadmin.tls=true"
     ports:
-      - '9000:80'
+      - "9000:80"
 
   redis:
     image: redis:5-alpine
     ports:
-      - '6379:6379'
+      - "6379:6379"
     labels:
-      - 'traefik.enable=false'
+      - "traefik.enable=false"
     volumes:
       - redis-data:/data
 
@@ -121,25 +118,25 @@ services:
     environment:
       REDIS_HOSTS: local:redis:6379
     labels:
-      - 'traefik.http.routers.redis-commander.entrypoints=web,websecure'
-      - 'traefik.http.routers.redis-commander.rule=Host(`redis-commander.local.dev`)'
-      - 'traefik.http.routers.redis-commander.tls=true'
-      - 'traefik.http.services.redis-commander.loadbalancer.server.port=8081'
+      - "traefik.http.routers.redis-commander.entrypoints=web,websecure"
+      - "traefik.http.routers.redis-commander.rule=Host(`redis-commander.local.dev`)"
+      - "traefik.http.routers.redis-commander.tls=true"
+      - "traefik.http.services.redis-commander.loadbalancer.server.port=8081"
     ports:
-      - '8081:8081'
+      - "8081:8081"
 
   traefik:
     image: traefik:banon
     command:
-      - '--entrypoints.web.http.redirections.entryPoint.to=websecure'
-      - '--entrypoints.web.http.redirections.entryPoint.scheme=https'
+      - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
     labels:
-      - 'traefik.enable=false'
-      - 'traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=https'
+      - "traefik.enable=false"
+      - "traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=https"
     ports:
-      - '80:80'
-      - '443:443'
-      - '8080:8080'
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - .:/certs:ro
@@ -157,12 +154,12 @@ services:
       - mysql
       - redis
     labels:
-      - 'traefik.http.routers.web.entrypoints=web,websecure'
-      - 'traefik.http.routers.web.rule=Host(`web.local.dev`)'
-      - 'traefik.http.routers.web.tls=true'
-      - 'traefik.http.services.web.loadbalancer.server.port=80'
+      - "traefik.http.routers.web.entrypoints=web,websecure"
+      - "traefik.http.routers.web.rule=Host(`web.local.dev`)"
+      - "traefik.http.routers.web.tls=true"
+      - "traefik.http.services.web.loadbalancer.server.port=80"
     ports:
-      - '8000:80'
+      - "8000:80"
     volumes:
       - .:/var/www/html
 

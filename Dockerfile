@@ -39,7 +39,6 @@ WORKDIR /var/www/html
 
 # install project deps
 COPY composer.json .
-COPY composer.lock .
 COPY package.json .
 COPY yarn.lock .
 
