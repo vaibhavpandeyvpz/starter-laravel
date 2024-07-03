@@ -151,7 +151,7 @@ services:
       context: .
       args:
         FPM_POOL: pool.conf
-        IMAGE_TAG: 8.x-fpm-debug
+        IMAGE_TAG: 8.3-fpm-debug
         PHP_CONFIG: php.ini
     depends_on:
       - mysql

@@ -1,4 +1,4 @@
-ARG IMAGE_TAG=8.x-fpm
+ARG IMAGE_TAG=8.3-fpm
 
 FROM ghcr.io/qrstuff/phackage:$IMAGE_TAG
 
